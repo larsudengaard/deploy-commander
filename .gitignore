@@ -1,0 +1,11 @@
+Src/*/bin
+Src/*/Bin
+Src/*/obj
+Src/*/Obj
+*.user
+*.suo
+*.log
+*.user
+*.chk
+_ReSharper.*
+ReSharper.*
