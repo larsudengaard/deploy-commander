@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>@ViewBag.Message</h2>
+<p>
+    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
+</p>
+<p>
+    @Html.ActionLink("Package", "Package")<br/>
+    @Html.ActionLink("RunExecutable", "RunExecutable")<br/>
+    @Html.ActionLink("Stop", "Stop")<br/>
+    @Html.ActionLink("Start", "Start")
+</p>
+<p>
+    @foreach (var result in ViewBag.Results ?? new object[0])
+    {
+        @result.Message <br/>
+    }
+</p>
