@@ -4,6 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Castle.Windsor;
+using Castle.Windsor.Installer;
+using Deploy.Infrastructure;
+using Deploy.Infrastructure.Installers;
+using Deploy.King.Infrastructure;
+using Deploy.King.Infrastructure.Installers;
 
 namespace Deploy
 {
@@ -12,6 +18,8 @@ namespace Deploy
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        WindsorContainer container;
+
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -26,7 +34,6 @@ namespace Deploy
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
-
         }
 
         protected void Application_Start()
@@ -35,6 +42,17 @@ namespace Deploy
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            container = new WindsorContainer();
+            container.Install(FromAssembly.InThisApplication());
+
+            ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
+            DependencyResolver.SetResolver(container.Resolve, x => (object[])container.ResolveAll(x));
+        }
+
+        protected void Application_End()
+        {
+            container.Dispose();
         }
     }
 }

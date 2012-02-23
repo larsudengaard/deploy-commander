@@ -6,25 +6,27 @@ using System.Text;
 using System.Web;
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Tasks;
+using Deploy.Pawn.Infrastructure;
 using Deploy.Pawn.Server;
+using Deploy.Pawn.Utilities;
 using Newtonsoft.Json;
 
 namespace Deploy.Pawn
 {
     public class ServiceController
     {
-        private readonly ICommandHandlerFactory commandHandlerFactory;
+        private readonly ITaskExecuterFactory taskExecuterFactory;
         private HttpServer server;
         private IDisposable handler;
 
-        public ServiceController(ICommandHandlerFactory commandHandlerFactory)
+        public ServiceController(ITaskExecuterFactory taskExecuterFactory)
         {
-            this.commandHandlerFactory = commandHandlerFactory;
+            this.taskExecuterFactory = taskExecuterFactory;
         }
 
         public void Start()
         {
-            server = new HttpServer("http://*:5555/");
+            server = new HttpServer(string.Format("http://*:{0}/", AppSettings.GetInteger("HttpServerPort")));
             handler = server
                     .Where(ctx => ctx.Request.RawUrl.EndsWith("/service"))
                     .Subscribe(ExecuteHandlers);
@@ -46,8 +48,8 @@ namespace Deploy.Pawn
             IResult result = null;
             try
             {
-                ITaskExecuter taskExecuter = commandHandlerFactory.CreateHandlerFor(task);
-                result = taskExecuter.Handle(task);
+                ITaskExecutor taskExecutor = taskExecuterFactory.CreateExecuterFor(task);
+                result = taskExecutor.Execute(task);
             }
             catch(Exception e)
             {

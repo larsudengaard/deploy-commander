@@ -49,6 +49,7 @@
       <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive">
       <HintPath>..\packages\Rx-Main.1.0.11226\lib\Net4\System.Reactive.dll</HintPath>
@@ -64,17 +65,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handlers\CopyFolderHandler.cs" />
-    <Compile Include="Handlers\DeleteFolderHandler.cs" />
-    <Compile Include="Infrastructure\CommandHandlerFactory.cs" />
-    <Compile Include="Handlers\ChangePsysicalPathOnWebsiteHandler.cs" />
-    <Compile Include="Handlers\PackageHandler.cs" />
-    <Compile Include="Handlers\RunExecutableHandler.cs" />
-    <Compile Include="Handlers\StartWebsiteHandler.cs" />
-    <Compile Include="Handlers\StopWebsiteHandler.cs" />
-    <Compile Include="Infrastructure\ManageWebsiteHandler.cs" />
-    <Compile Include="ITaskExecuter.cs" />
-    <Compile Include="ICommandHandlerFactory.cs" />
+    <Compile Include="Executors\CopyFolderExecutor.cs" />
+    <Compile Include="Executors\DeleteFolderExecutor.cs" />
+    <Compile Include="Infrastructure\TaskExecuterFactory.cs" />
+    <Compile Include="Executors\ChangePhysicalPathOnWebsiteExecutor.cs" />
+    <Compile Include="Executors\PackageExecutor.cs" />
+    <Compile Include="Executors\RunExecutableExecutor.cs" />
+    <Compile Include="Executors\StartWebsiteExecutor.cs" />
+    <Compile Include="Executors\StopWebsiteExecutor.cs" />
+    <Compile Include="Infrastructure\Executers\ManageWebsiteExecutor.cs" />
+    <Compile Include="Infrastructure\ITaskExecutor.cs" />
+    <Compile Include="Infrastructure\ITaskExecuterFactory.cs" />
     <Compile Include="ServiceController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Server\Response.cs" />
     <Compile Include="Server\StreamExtensions.cs" />
     <Compile Include="Server\StringResponse.cs" />
+    <Compile Include="Utilities\AppSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -97,6 +99,7 @@
       <Name>Deploy.Pawn.Api</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

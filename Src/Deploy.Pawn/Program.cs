@@ -14,7 +14,7 @@ namespace Deploy.Pawn
                 x.Service<ServiceController>(s =>
                 {
                     s.SetServiceName("deploypawn");
-                    s.ConstructUsing(() => new ServiceController(new CommandHandlerFactory()));
+                    s.ConstructUsing(() => new ServiceController(new TaskExecuterFactory()));
                     s.WhenStarted(app => app.Start());
                     s.WhenStopped(app => app.Stop());
                 });

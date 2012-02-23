@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="IResponse.cs" />
     <Compile Include="IResult.cs" />
-    <Compile Include="Tasks\ChangePsysicalPathOnWebsite.cs" />
+    <Compile Include="Tasks\ChangePhysicalPathOnWebsite.cs" />
     <Compile Include="Tasks\CopyFolder.cs" />
     <Compile Include="Tasks\DeleteFolder.cs" />
     <Compile Include="Tasks\Package.cs" />
