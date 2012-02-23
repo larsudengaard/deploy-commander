@@ -2,26 +2,26 @@
 using System.Reactive.Subjects;
 using System.Security;
 using Deploy.Pawn.Api;
-using Deploy.Pawn.Api.Commands;
 using System.Reactive.Linq;
+using Deploy.Pawn.Api.Tasks;
 
 namespace Deploy.Pawn.Handlers
 {
-    public class RunExecutableHandler : CommandHandler<RunExecutable>
+    public class RunExecutableExecuter : TaskExecuter<RunExecutable, Result>
     {
         readonly AsyncSubject<Result> processSync;
 
-        public RunExecutableHandler()
+        public RunExecutableExecuter()
         {
             processSync = new AsyncSubject<Result>();
         }
 
-        protected override Result Handle(RunExecutable command)
+        protected override Result Handle(RunExecutable task)
         {
             var process = new Process();
-            process.StartInfo.Arguments = command.Arguments;
+            process.StartInfo.Arguments = task.Arguments;
             process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.FileName = command.ExecutablePath;
+            process.StartInfo.FileName = task.ExecutablePath;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             

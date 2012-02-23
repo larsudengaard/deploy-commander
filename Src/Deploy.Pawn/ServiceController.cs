@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Web;
 using Deploy.Pawn.Api;
-using Deploy.Pawn.Api.Commands;
+using Deploy.Pawn.Api.Tasks;
 using Deploy.Pawn.Server;
 using Newtonsoft.Json;
 
@@ -39,18 +39,32 @@ namespace Deploy.Pawn
 
             var serializer = new JsonSerializer();
             serializer.TypeNameHandling = TypeNameHandling.All;
-            var commands = serializer.Deserialize<ICommand[]>(new JsonTextReader(new StringReader(inputString)));
-            
-            var results = new List<Result>();
-            foreach (var command in commands)
+            var task = serializer.Deserialize<ITask>(new JsonTextReader(new StringReader(inputString)));
+
+            bool successful = true;
+            string errorMessage = null;
+            IResult result = null;
+            try
             {
-                ICommandHandler commandHandler = commandHandlerFactory.CreateHandlerFor(command);
-                results.Add(commandHandler.Handle(command));
+                ITaskExecuter taskExecuter = commandHandlerFactory.CreateHandlerFor(task);
+                result = taskExecuter.Handle(task);
+            }
+            catch(Exception e)
+            {
+                successful = false;
+                errorMessage = e.Message;
             }
 
             var sb = new StringBuilder();
-            serializer.Serialize(new StringWriter(sb), results.ToArray());
+            var response = CreateResponse(result, successful, errorMessage);
+            serializer.Serialize(new StringWriter(sb), response);
             requestContext.Respond(new StringResponse(sb.ToString()));
+        }
+
+        IResponse CreateResponse(IResult result, bool successful, string errorMessage)
+        {
+            Type responseType = typeof (Response<>).MakeGenericType(result.GetType());
+            return (IResponse) Activator.CreateInstance(responseType, result, successful, errorMessage);
         }
 
         public void Stop()

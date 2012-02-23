@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Deploy.Pawn.Api;
-using Deploy.Pawn.Api.Commands;
+using Deploy.Pawn.Api.Tasks;
 
 namespace Deploy.King
 {
@@ -16,37 +16,40 @@ namespace Deploy.King
 
         public void DoIt()
         {
-            var result = client.ExecuteCommands(new Package
+            var migratorPackageResponse = client.ExecuteTask(new Package
             {
                 FileData = File.ReadAllBytes(@"C:\packages\Energy10.Migrator.zip"), PackageName = "Energy10.Migrator." + DateTime.Now.ToString("ddMMyyyy.hhmmss")
-            })[0];
+            });
 
-            Result migrationCheckResult = client.ExecuteCommands(new RunExecutable
+            var migrationCheckResponse = client.ExecuteTask(new RunExecutable
             {
-                ExecutablePath = result.Message + @"\Energy10.Migrator.exe", 
+                ExecutablePath = migratorPackageResponse.Result.PackagePath + @"\Energy10.Migrator.exe", 
                 Arguments = "-listMissingMigrations"
-            })[0];
+            });
 
-            if (!migrationCheckResult.Message.Contains("None"))
-                throw new Exception("Migrations not to be run: " + migrationCheckResult);
+            if (!migrationCheckResponse.Result.Message.Contains("None"))
+                throw new Exception("Migrations not to be run: " + migrationCheckResponse.Result.Message);
 
             string webVersion = DateTime.Now.ToString("ddMMyyyy.hhmmss");
-            Result webPackageResult = client.ExecuteCommands(new Package
+            var webPackageResponse = client.ExecuteTask(new Package
             {
                 FileData = File.ReadAllBytes(@"C:\packages\Energy10.Web.zip"), PackageName = "Energy10.Web." + webVersion
-            })[0];
+            });
 
-            Result[] results = client.ExecuteCommands(new CopyFolder
+            var copyFolderResponse = client.ExecuteTask(new CopyFolder
             {
-                SourcePath = webPackageResult.Message, DestinationPath = @"C:\Websites\www.energy10.dk\wwwroot_" + webVersion
-            }, new ChangePsysicalPathOnWebsite
+                SourcePath = webPackageResponse.Result.PackagePath,
+                DestinationPath = @"C:\Websites\www.energy10.dk\wwwroot_" + webVersion
+            });
+
+            var changePhysicalPathResponse = client.ExecuteTask(new ChangePsysicalPathOnWebsite
             {
                 NewPath = @"C:\Websites\www.energy10.dk\wwwroot_" + webVersion, WebsiteName = "energy10"
             });
 
             client.ExecuteCommands(new DeleteFolder
             {
-                Path = results[1].Message
+                Path = changePhysicalPathResponse.Result.OldPath
             });
         }
     }

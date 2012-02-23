@@ -1,4 +1,4 @@
-﻿namespace Deploy.Pawn.Api.Commands
+﻿namespace Deploy.Pawn.Api.Tasks
 {
     public class PublishWebsite
     {

@@ -1,6 +1,6 @@
-﻿namespace Deploy.Pawn.Api.Commands
+﻿namespace Deploy.Pawn.Api.Tasks
 {
-    public class RunExecutable : ICommand
+    public class RunExecutable : ITask<Result>
     {
         public string ExecutablePath { get; set; }
         public string Arguments { get; set; }

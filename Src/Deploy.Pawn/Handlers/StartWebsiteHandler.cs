@@ -1,27 +1,22 @@
-using Deploy.Pawn.Api;
-using Deploy.Pawn.Api.Commands;
+using System;
+using Deploy.Pawn.Api.Tasks;
 using Deploy.Pawn.Infrastructure;
 using Microsoft.Web.Administration;
 
 namespace Deploy.Pawn.Handlers
 {
-    public class StartWebsiteHandler : ManageWebsiteHandler<StartWebsite>
+    public class StartWebsiteExecuter : ManageWebsiteExecuter<StartWebsite, StartWebsite.Result>
     {
-        protected override Result ManageWebsite(StartWebsite command, Site website)
+        protected override StartWebsite.Result ManageWebsite(StartWebsite command, Site website)
         {
             website.Start();
             if (website.State != ObjectState.Started)
             {
-                return new Result
-                {
-                    Success = false,
-                    Message = string.Format("Website '{0}' cannot be started.", command.WebsiteName)
-                };
+                throw new InvalidOperationException(string.Format("Website '{0}' cannot be started.", command.WebsiteName));
             }
 
-            return new Result
+            return new StartWebsite.Result
             {
-                Success = true,
                 Message = string.Format("Website '{0}' was started.", command.WebsiteName)
             };
         }

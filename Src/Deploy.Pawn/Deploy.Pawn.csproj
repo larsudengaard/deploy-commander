@@ -73,7 +73,7 @@
     <Compile Include="Handlers\StartWebsiteHandler.cs" />
     <Compile Include="Handlers\StopWebsiteHandler.cs" />
     <Compile Include="Infrastructure\ManageWebsiteHandler.cs" />
-    <Compile Include="ICommandHandler.cs" />
+    <Compile Include="ITaskExecuter.cs" />
     <Compile Include="ICommandHandlerFactory.cs" />
     <Compile Include="ServiceController.cs" />
     <Compile Include="Program.cs" />

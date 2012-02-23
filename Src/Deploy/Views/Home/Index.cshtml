@@ -14,8 +14,12 @@
     @Html.ActionLink("Start", "Start")
 </p>
 <p>
-    @foreach (var result in ViewBag.Results ?? new object[0])
+    @if (ViewBag.Result != null)
     {
-        @result.Message <br/>
+        <p>
+            Success: @(ViewBag.Result.Success ? "Yes" : "No") <br/>
+            ErrorMessage:<br/>
+            @ViewBag.Result.ErrorMessage
+        </p>
     }
 </p>

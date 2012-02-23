@@ -44,19 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\ChangePsysicalPathOnWebsite.cs" />
-    <Compile Include="Commands\CopyFolder.cs" />
-    <Compile Include="Commands\DeleteFolder.cs" />
-    <Compile Include="Commands\Package.cs" />
-    <Compile Include="Commands\RunExecutable.cs" />
-    <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Commands\PublishConsoleApplication.cs" />
-    <Compile Include="Commands\PublishWebsite.cs" />
-    <Compile Include="Commands\ManageWebsiteCommand.cs" />
+    <Compile Include="IResponse.cs" />
+    <Compile Include="IResult.cs" />
+    <Compile Include="Tasks\ChangePsysicalPathOnWebsite.cs" />
+    <Compile Include="Tasks\CopyFolder.cs" />
+    <Compile Include="Tasks\DeleteFolder.cs" />
+    <Compile Include="Tasks\Package.cs" />
+    <Compile Include="Tasks\RunExecutable.cs" />
+    <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\PublishConsoleApplication.cs" />
+    <Compile Include="Tasks\PublishWebsite.cs" />
+    <Compile Include="Tasks\ManageWebsiteTask.cs" />
     <Compile Include="PawnClient.cs" />
+    <Compile Include="Response.cs" />
     <Compile Include="Result.cs" />
-    <Compile Include="Commands\StartWebsite.cs" />
-    <Compile Include="Commands\StopWebsite.cs" />
+    <Compile Include="Tasks\StartWebsite.cs" />
+    <Compile Include="Tasks\StopWebsite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

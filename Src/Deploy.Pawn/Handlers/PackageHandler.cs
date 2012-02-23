@@ -1,27 +1,26 @@
 using System;
 using System.IO;
 using Deploy.Pawn.Api;
-using Deploy.Pawn.Api.Commands;
+using Deploy.Pawn.Api.Tasks;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace Deploy.Pawn.Handlers
 {
-    public class PackageHandler : CommandHandler<Package>
+    public class PackageExecuter : TaskExecuter<Package, Package.Result>
     {
-        protected override Result Handle(Package command)
+        protected override Package.Result Handle(Package task)
         {
-            var packagePath = string.Format(@"C:\temp\packages\{0}\", command.PackageName);
+            var packagePath = string.Format(@"C:\temp\packages\{0}\", task.PackageName);
             
-            using (var memoryStream = new MemoryStream(command.FileData))
+            using (var memoryStream = new MemoryStream(task.FileData))
             {
                 ExtractZipFile(memoryStream, packagePath);
             }
 
-            return new Result
+            return new Package.Result
             {
-                Success = true,
-                Message = packagePath,
+                PackagePath = packagePath,
             };
         }
 

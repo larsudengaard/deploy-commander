@@ -1,25 +1,25 @@
 using System;
 using System.IO;
 using Deploy.Pawn.Api;
-using Deploy.Pawn.Api.Commands;
+using Deploy.Pawn.Api.Tasks;
 
 namespace Deploy.Pawn.Handlers
 {
-    public class DeleteFolderHandler : CommandHandler<DeleteFolder>
+    public class DeleteFolderExecuter : TaskExecuter<DeleteFolder, Result>
     {
-        protected override Result Handle(DeleteFolder command)
+        protected override Result Handle(DeleteFolder task)
         {
-            if (command.Path.Length <= 3)
+            if (task.Path.Length <= 3)
                 throw new InvalidOperationException("WTF?! Trying to delete drive?");
 
-            if (command.Path.ToLower().Contains("Windows"))
+            if (task.Path.ToLower().Contains("Windows"))
                 throw new InvalidOperationException("WTF?! Trying to delete windows installation?");
 
-            Directory.Delete(command.Path, true);
+            Directory.Delete(task.Path, true);
             return new Result
             {
                 Success = true,
-                Message = "Deleted folder: " + command.Path
+                Message = "Deleted folder: " + task.Path
             };
         }
     }

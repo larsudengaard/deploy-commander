@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
 using Deploy.Pawn.Api;
-using Deploy.Pawn.Api.Commands;
+using Deploy.Pawn.Api.Tasks;
 
 namespace Deploy.Pawn.Handlers
 {
-    public class CopyFolderHandler : CommandHandler<CopyFolder>
+    public class CopyFolderExecuter : TaskExecuter<CopyFolder, Result>
     {
-        protected override Result Handle(CopyFolder command)
+        protected override Result Handle(CopyFolder task)
         {
-            var sourceDirectory = new DirectoryInfo(command.SourcePath);
+            var sourceDirectory = new DirectoryInfo(task.SourcePath);
             if (!sourceDirectory.Exists)
             {
                 return new Result
@@ -19,7 +19,7 @@ namespace Deploy.Pawn.Handlers
                 };
             }
 
-            var destinationDirectory = new DirectoryInfo(command.DestinationPath);
+            var destinationDirectory = new DirectoryInfo(task.DestinationPath);
             if (destinationDirectory.Exists)
             {
                 if (destinationDirectory.GetFiles().Length > 0)

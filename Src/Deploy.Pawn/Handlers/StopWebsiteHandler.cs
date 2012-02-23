@@ -1,27 +1,23 @@
+using System;
 using Deploy.Pawn.Api;
-using Deploy.Pawn.Api.Commands;
+using Deploy.Pawn.Api.Tasks;
 using Deploy.Pawn.Infrastructure;
 using Microsoft.Web.Administration;
 
 namespace Deploy.Pawn.Handlers
 {
-    public class StopWebsiteHandler : ManageWebsiteHandler<StopWebsite>
+    public class StopWebsiteExecuter : ManageWebsiteExecuter<StopWebsite, StopWebsite.Result>
     {
-        protected override Result ManageWebsite(StopWebsite command, Site website)
+        protected override StopWebsite.Result ManageWebsite(StopWebsite command, Site website)
         {
             website.Stop();
             if (website.State != ObjectState.Stopped)
             {
-                return new Result
-                {
-                    Success = false,
-                    Message = string.Format("Website '{0}' cannot be stopped.", website.Name)
-                };
+                throw new InvalidOperationException(string.Format("Website '{0}' cannot be stopped.", website.Name));
             }
 
-            return new Result
+            return new StopWebsite.Result
             {
-                Success = true,
                 Message = string.Format("Website '{0}' was stopped.", website.Name)
             };
         }

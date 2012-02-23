@@ -1,9 +1,9 @@
-using Deploy.Pawn.Api.Commands;
+using Deploy.Pawn.Api.Tasks;
 
 namespace Deploy.Pawn
 {
     public interface ICommandHandlerFactory
     {
-        ICommandHandler CreateHandlerFor(ICommand command);
+        ITaskExecuter CreateHandlerFor(ITask task);
     }
 }

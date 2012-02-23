@@ -1,6 +1,6 @@
-﻿namespace Deploy.Pawn.Api.Commands
+﻿namespace Deploy.Pawn.Api.Tasks
 {
-    public class CopyFolder : ICommand
+    public class CopyFolder : ITask<Result>
     {
         public string SourcePath { get; set; }
         public string DestinationPath { get; set; }
