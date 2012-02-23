@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reactive.Subjects;
+using System.Security;
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Commands;
 using System.Reactive.Linq;
@@ -23,6 +24,7 @@ namespace Deploy.Pawn.Handlers
             process.StartInfo.FileName = command.ExecutablePath;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
+            
             process.EnableRaisingEvents = true;
             process.Exited += (sender, args) =>
             {

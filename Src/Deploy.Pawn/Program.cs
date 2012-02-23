@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using Deploy.Pawn.Api.Commands;
-using Deploy.Pawn.Handlers;
+using Deploy.Pawn.Infrastructure;
 using Topshelf;
 
 namespace Deploy.Pawn
@@ -27,16 +24,6 @@ namespace Deploy.Pawn
                 x.SetDisplayName("Deploy Pawn Checker");
                 x.SetServiceName("Deploy Pawn Checker");
             });
-        }
-    }
-
-    internal class CommandHandlerFactory : ICommandHandlerFactory
-    {
-        public ICommandHandler CreateHandlerFor(ICommand command)
-        {
-            Type genericCommandHandler = typeof (ICommandHandler<>).MakeGenericType(command.GetType());
-            var type = typeof(StopWebsiteHandler).Assembly.GetTypes().Single(genericCommandHandler.IsAssignableFrom);
-            return (ICommandHandler)Activator.CreateInstance(type);
         }
     }
 }

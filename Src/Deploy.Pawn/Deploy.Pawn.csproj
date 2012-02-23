@@ -64,12 +64,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\CopyFolderHandler.cs" />
+    <Compile Include="Handlers\DeleteFolderHandler.cs" />
+    <Compile Include="Infrastructure\CommandHandlerFactory.cs" />
     <Compile Include="Handlers\ChangePsysicalPathOnWebsiteHandler.cs" />
-    <Compile Include="Handlers\PackageCommandHandler.cs" />
+    <Compile Include="Handlers\PackageHandler.cs" />
     <Compile Include="Handlers\RunExecutableHandler.cs" />
     <Compile Include="Handlers\StartWebsiteHandler.cs" />
     <Compile Include="Handlers\StopWebsiteHandler.cs" />
-    <Compile Include="Handlers\ManageWebsiteHandler.cs" />
+    <Compile Include="Infrastructure\ManageWebsiteHandler.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="ICommandHandlerFactory.cs" />
     <Compile Include="ServiceController.cs" />

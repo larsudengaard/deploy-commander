@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ChangePsysicalPathOnWebsite.cs" />
+    <Compile Include="Commands\CopyFolder.cs" />
+    <Compile Include="Commands\DeleteFolder.cs" />
     <Compile Include="Commands\Package.cs" />
     <Compile Include="Commands\RunExecutable.cs" />
     <Compile Include="Commands\ICommand.cs" />

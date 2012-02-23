@@ -34,9 +34,7 @@ namespace Deploy.Pawn
         {
             Request request = requestContext.Request;
 
-            var buffer = new byte[request.ContentLength];
-            request.InputStream.Read(buffer, 0, request.ContentLength);
-            string inputString = Encoding.UTF8.GetString(buffer);
+            string inputString = new StreamReader(request.InputStream).ReadToEnd();
             inputString = HttpUtility.UrlDecode(inputString);
 
             var serializer = new JsonSerializer();

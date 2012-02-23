@@ -11,12 +11,11 @@ namespace Deploy.Pawn.Handlers
     {
         protected override Result Handle(Package command)
         {
-            var packageName = Path.GetFileNameWithoutExtension(command.PackageName);
-            var packagePath = string.Format(@"C:\temp\packages\{0}\", packageName);
+            var packagePath = string.Format(@"C:\temp\packages\{0}\", command.PackageName);
             
             using (var memoryStream = new MemoryStream(command.FileData))
             {
-                ExtractZipFile(memoryStream, packagePath + command.PackageName);
+                ExtractZipFile(memoryStream, packagePath);
             }
 
             return new Result
@@ -31,7 +30,6 @@ namespace Deploy.Pawn.Handlers
             ZipFile zipFile = null;
             try
             {
-                
                 zipFile = new ZipFile(fileStream);
                 foreach (ZipEntry zipEntry in zipFile)
                 {

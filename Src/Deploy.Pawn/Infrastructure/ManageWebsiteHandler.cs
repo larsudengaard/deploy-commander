@@ -3,7 +3,7 @@ using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Commands;
 using Microsoft.Web.Administration;
 
-namespace Deploy.Pawn.Handlers
+namespace Deploy.Pawn.Infrastructure
 {
     public abstract class ManageWebsiteHandler<T> : CommandHandler<T> where T : ManageWebsiteCommand
     {

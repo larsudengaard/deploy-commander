@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Deploy.King;
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Commands;
 
@@ -27,6 +28,14 @@ namespace Deploy.Controllers
             });
 
             ViewBag.Results = results;
+            return View("Index");
+        }
+
+        public ActionResult Test()
+        {
+            var test = new Test();
+            test.DoIt();
+
             return View("Index");
         }
 

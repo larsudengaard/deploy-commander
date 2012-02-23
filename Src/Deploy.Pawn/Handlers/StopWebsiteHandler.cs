@@ -1,5 +1,6 @@
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Commands;
+using Deploy.Pawn.Infrastructure;
 using Microsoft.Web.Administration;
 
 namespace Deploy.Pawn.Handlers
