@@ -9,8 +9,8 @@ namespace Deploy.King.Infrastructure.Installers
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(AllTypes.FromAssemblyContaining(typeof (IDeployProcedure<>))
-                                   .BasedOn(typeof (IDeployProcedure<>))
+            container.Register(AllTypes.FromAssemblyContaining(typeof (IDeployProcedure))
+                                   .BasedOn(typeof (IDeployProcedure))
                                    .WithService.Base()
                                    .LifestyleTransient());
         }

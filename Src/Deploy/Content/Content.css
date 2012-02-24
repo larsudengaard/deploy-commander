@@ -1,0 +1,15 @@
+﻿.projectItem {
+    float: left;
+    width: 100%;
+}
+
+.projectItem .value
+{
+    float: left;
+    display: inline;
+    margin-right: 15px;
+}
+
+.projectItem.link {
+    float: left;
+}

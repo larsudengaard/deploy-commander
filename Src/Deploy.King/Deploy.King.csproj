@@ -70,11 +70,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\Installers\PersistenceFacility.cs" />
+    <Compile Include="IDeployProcedureFactory.cs" />
     <Compile Include="Infrastructure\Installers\PersistenceInstaller.cs" />
     <Compile Include="Infrastructure\Installers\ProceduresInstaller.cs" />
+    <Compile Include="Procedures\Arguments\ArgumentsForDeployEnergy10WithoutMigrations.cs" />
     <Compile Include="Procedures\DeployEnergy10WithoutMigrations.cs" />
     <Compile Include="Procedures\IDeployProcedure.cs" />
+    <Compile Include="Procedures\Arguments\IProcedureArguments.cs" />
+    <Compile Include="Projects\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

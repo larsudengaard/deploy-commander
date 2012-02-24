@@ -1,12 +1,14 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using Deploy.King.Procedures.Arguments;
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Tasks;
 
 namespace Deploy.King.Procedures
 {
-    public class DeployEnergy10WithoutMigrations : IDeployProcedure<DeployEnergy10WithoutMigrations.Arguments>
+    public class DeployEnergy10WithoutMigrations : DeployProcedure<ArgumentsForDeployEnergy10WithoutMigrations>
     {
-        public bool Perform(DeployPackage package, Arguments arguments)
+        public override bool Perform(DeployPackage package, ArgumentsForDeployEnergy10WithoutMigrations arguments)
         {
             var migratorPackage = package.GetChildPackage("Energy10.Migrator");
             if (!IsMigrationsMigrationsRun(migratorPackage, arguments))
@@ -25,7 +27,7 @@ namespace Deploy.King.Procedures
             return true;
         }
 
-        void DeployWebServer(string webServerClientUrl, ChildPackage webPackage, Arguments arguments)
+        void DeployWebServer(string webServerClientUrl, ChildPackage webPackage, ArgumentsForDeployEnergy10WithoutMigrations arguments)
         {
             var client = new PawnClient(webServerClientUrl);
             var webPackageResponse = client.ExecuteTask(new Package
@@ -53,7 +55,7 @@ namespace Deploy.King.Procedures
             });
         }
 
-        bool IsMigrationsMigrationsRun(ChildPackage migratorPackage, Arguments arguments)
+        bool IsMigrationsMigrationsRun(ChildPackage migratorPackage, ArgumentsForDeployEnergy10WithoutMigrations arguments)
         {
             var client = new PawnClient(arguments.RavenDBPawnHostname);
             var migratorPackageResponse = client.ExecuteTask(new Package
@@ -69,18 +71,6 @@ namespace Deploy.King.Procedures
             });
 
             return migrationCheckResponse.Result.Message.Contains("None");
-        }
-
-        public class Arguments
-        {
-            public string Web1PawnHostname { get; set; }
-            public string WebsitePhysicalPath { get; set; }
-            public string WebsiteName { get; set; }
-
-            public bool DeployWeb2 { get; set; }
-            public string Web2PawnHostname { get; set; }
-
-            public string RavenDBPawnHostname { get; set; }
         }
     }
 }

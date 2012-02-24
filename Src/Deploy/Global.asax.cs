@@ -28,7 +28,7 @@ namespace Deploy
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
@@ -44,7 +44,7 @@ namespace Deploy
             RegisterRoutes(RouteTable.Routes);
 
             container = new WindsorContainer();
-            container.Install(FromAssembly.InThisApplication());
+            container.Install(FromAssembly.This(), FromAssembly.Containing<PersistenceInstaller>());
 
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
             DependencyResolver.SetResolver(container.Resolve, x => (object[])container.ResolveAll(x));

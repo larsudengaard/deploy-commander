@@ -1,8 +1,25 @@
+using System.Collections.Generic;
+using Deploy.King.Procedures.Arguments;
+
 namespace Deploy.King.Procedures
 {
-    public interface IDeployProcedure<in TArguments>
+    public abstract class DeployProcedure<TArguments> : IDeployProcedure<TArguments> where TArguments : IProcedureArguments
     {
-        bool Perform(DeployPackage package, TArguments arguments);
+        public abstract bool Perform(DeployPackage package, TArguments arguments);
+
+        public bool Perform(DeployPackage package, IProcedureArguments arguments)
+        {
+            return Perform(package, (TArguments) arguments);
+        }
+    }
+
+    public interface IDeployProcedure<TArguments> : IDeployProcedure where TArguments : IProcedureArguments
+    {
+    }
+
+    public interface IDeployProcedure
+    {
+        bool Perform(DeployPackage package, IProcedureArguments arguments);
     }
 
     public class DeployPackage
