@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Castle.Facilities.TypedFactory;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Deploy.Infrastructure;
@@ -31,7 +32,7 @@ namespace Deploy
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
             routes.MapRoute(
                 "Default", // Route name
-                "{controller}/{action}/{id}", // URL with parameters
+                "{controller}/{action}/{*id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
         }
@@ -44,6 +45,7 @@ namespace Deploy
             RegisterRoutes(RouteTable.Routes);
 
             container = new WindsorContainer();
+            container.AddFacility<TypedFactoryFacility>();
             container.Install(FromAssembly.This(), FromAssembly.Containing<PersistenceInstaller>());
 
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));

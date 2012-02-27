@@ -17,7 +17,7 @@ namespace Deploy.Models.Project
 
         public SelectProcedureType()
         {
-            procedureTypes = typeof(DeployEnergy10WithoutMigrations).Assembly.GetTypes().Where(x => !x.IsAbstract && x.IsClass && typeof(IDeployProcedure).IsAssignableFrom(x)).ToList();
+            procedureTypes = typeof(DeployEnergy10WithoutMigrations).Assembly.GetTypes().Where(x => !x.IsAbstract && x.IsClass && typeof(IProcedure).IsAssignableFrom(x)).ToList();
         }
 
         [DisplayName("Procedure")]

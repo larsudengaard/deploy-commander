@@ -6,17 +6,17 @@ using Deploy.Pawn.Api.Tasks;
 
 namespace Deploy.King.Procedures
 {
-    public class DeployEnergy10WithoutMigrations : DeployProcedure<ArgumentsForDeployEnergy10WithoutMigrations>
+    public class DeployEnergy10WithoutMigrations : Procedure<ArgumentsForDeployEnergy10WithoutMigrations>
     {
-        public override bool Perform(DeployPackage package, ArgumentsForDeployEnergy10WithoutMigrations arguments)
+        public override bool Perform(Build build, ArgumentsForDeployEnergy10WithoutMigrations arguments)
         {
-            var migratorPackage = package.GetChildPackage("Energy10.Migrator");
+            var migratorPackage = build.GetPackage("Energy10.Migrator");
             if (!IsMigrationsMigrationsRun(migratorPackage, arguments))
             {
                 return false;
             }
 
-            var webPackage = package.GetChildPackage("Energy10.Web");
+            var webPackage = build.GetPackage("Energy10.Web");
             DeployWebServer(arguments.Web1PawnHostname, webPackage, arguments);
 
             if (arguments.DeployWeb2)
@@ -27,10 +27,10 @@ namespace Deploy.King.Procedures
             return true;
         }
 
-        void DeployWebServer(string webServerClientUrl, ChildPackage webPackage, ArgumentsForDeployEnergy10WithoutMigrations arguments)
+        void DeployWebServer(string webServerClientUrl, Package webPackage, ArgumentsForDeployEnergy10WithoutMigrations arguments)
         {
             var client = new PawnClient(webServerClientUrl);
-            var webPackageResponse = client.ExecuteTask(new Package
+            var webPackageResponse = client.ExecuteTask(new Pawn.Api.Tasks.Package
             {
                 FileData = File.ReadAllBytes(webPackage.Path),
                 PackageName = webPackage.Fullname
@@ -55,10 +55,10 @@ namespace Deploy.King.Procedures
             });
         }
 
-        bool IsMigrationsMigrationsRun(ChildPackage migratorPackage, ArgumentsForDeployEnergy10WithoutMigrations arguments)
+        bool IsMigrationsMigrationsRun(Package migratorPackage, ArgumentsForDeployEnergy10WithoutMigrations arguments)
         {
             var client = new PawnClient(arguments.RavenDBPawnHostname);
-            var migratorPackageResponse = client.ExecuteTask(new Package
+            var migratorPackageResponse = client.ExecuteTask(new Pawn.Api.Tasks.Package
             {
                 FileData = File.ReadAllBytes(migratorPackage.Path),
                 PackageName = migratorPackage.Fullname

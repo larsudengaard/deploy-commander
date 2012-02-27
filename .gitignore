@@ -9,3 +9,6 @@ Src/*/Obj
 *.chk
 _ReSharper.*
 ReSharper.*
+
+Libs/RavenDB/Server/Data/*
+Libs/RavenDB/Server/Raven.Server.log.*

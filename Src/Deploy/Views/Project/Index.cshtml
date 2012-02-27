@@ -1,0 +1,39 @@
+﻿@model List<Deploy.Models.Project.ListModel>
+@{
+    ViewBag.Title = "Home Page";
+}
+<p>
+    @Html.ActionLink("Create", "Create")
+</p>
+@foreach(var project in Model)
+{
+    <table class="project" width="500">
+        <tr>
+            <th colspan="2">@Html.ActionLink(project.Name, "Edit", new { project.Id })</th>
+        </tr>
+        <tr>
+            <td width="100">Procedure type</td>
+            <td>@project.ProcedureType</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table width="100%">
+                    <tr>
+                        <th>Build</th>
+                        <th>Date</th>
+                        <th></th>
+                    </tr>
+                    @foreach(var build in project.Builds)
+                    {
+                        <tr>
+                            <td>@build.Id</td>
+                            <td>@build.Received</td>
+                            <td>@Html.ActionLink("Deploy", "Deploy", new { projectId = project.Id, buildId = build.Id })</td>
+                        </tr>
+                    }
+                </table>
+            </td>
+        </tr>
+    </table>
+}
+    

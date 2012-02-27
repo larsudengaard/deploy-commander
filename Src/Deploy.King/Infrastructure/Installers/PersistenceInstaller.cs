@@ -19,11 +19,11 @@ namespace Deploy.King.Infrastructure.Installers
         {
             var store = CreateDocumentStore();
             
-            store.Conventions.CustomizeJsonSerializer = serializer =>
-            {
-                serializer.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
-                serializer.TypeNameHandling = TypeNameHandling.All;
-            };
+            //store.Conventions.CustomizeJsonSerializer = serializer =>
+            //{
+            //    serializer.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
+            //    serializer.TypeNameHandling = TypeNameHandling.All;
+            //};
             store.Initialize();
             return store;
         }
