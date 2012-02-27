@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Castle.Facilities.TypedFactory;
-using Deploy.King.Utilities;
+using Deploy.Utilities;
 
 namespace Deploy.King.Infrastructure.Factories
 {

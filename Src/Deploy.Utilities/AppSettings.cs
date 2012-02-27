@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace Deploy.Pawn.Utilities
+namespace Deploy.Utilities
 {
     public class AppSettings
     {

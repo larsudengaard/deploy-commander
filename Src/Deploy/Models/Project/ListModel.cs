@@ -27,7 +27,7 @@ namespace Deploy.Models.Project
 
         public class Build
         {
-            public Build(King.Procedures.Build build)
+            public Build(King.Builds.Build build)
             {
                 Id = build.Id;
                 Received = build.Received;

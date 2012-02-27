@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Deploy.King.Utilities
+namespace Deploy.Utilities
 {
     public static class TypeExtensions
     {

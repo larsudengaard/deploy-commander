@@ -82,21 +82,33 @@
     <Compile Include="Infrastructure\Installers\ProceduresInstaller.cs" />
     <Compile Include="Infrastructure\Installers\WindsorInstaller.cs" />
     <Compile Include="Procedures\Arguments\ArgumentsForDeployEnergy10WithoutMigrations.cs" />
+    <Compile Include="Builds\Build.cs" />
     <Compile Include="Procedures\DeployEnergy10WithoutMigrations.cs" />
     <Compile Include="Procedures\IProcedure.cs" />
     <Compile Include="Procedures\Arguments\IProcedureArguments.cs" />
+    <Compile Include="Builds\Package.cs" />
+    <Compile Include="Procedures\Procedure.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deploy.Pawn.Api\Deploy.Pawn.Api.csproj">
       <Project>{1BEAE701-EAC5-4599-AB9F-432911E32C64}</Project>
       <Name>Deploy.Pawn.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deploy.Utilities\Deploy.Utilities.csproj">
+      <Project>{78537912-C586-4A60-8118-8E578FEEE0AD}</Project>
+      <Name>Deploy.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

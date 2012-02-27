@@ -10,5 +10,7 @@ namespace Deploy.King.Procedures.Arguments
         public string Web2PawnHostname { get; set; }
 
         public string RavenDBPawnHostname { get; set; }
+        
+        public string TeamcityBuildType { get; set; }
     }
 }

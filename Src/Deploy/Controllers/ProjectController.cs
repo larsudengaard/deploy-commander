@@ -37,7 +37,7 @@ namespace Deploy.Controllers
             foreach (var project in projects)
             {
                 var procedure = procedureFactory.CreateFor(project.Arguments);
-                var builds = buildRepository.GetBuildsFor(procedure);
+                var builds = buildRepository.GetBuildsFor(project.Arguments);
                 models.Add(new ListModel(project, procedure.GetType().Name, builds.Select(x => new ListModel.Build(x)).ToList()));
             }
 
@@ -64,7 +64,7 @@ namespace Deploy.Controllers
         {
             using (var session = store.OpenSession())
             {
-                if (id == null)
+                if (string.IsNullOrWhiteSpace(id))
                 {
                     session.Store(new Project(name, arguments));
                 }

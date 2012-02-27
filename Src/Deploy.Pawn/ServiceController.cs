@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reactive.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Tasks;
 using Deploy.Pawn.Infrastructure;
 using Deploy.Pawn.Server;
-using Deploy.Pawn.Utilities;
+using Deploy.Utilities;
 using Newtonsoft.Json;
 
 namespace Deploy.Pawn
