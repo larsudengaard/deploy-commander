@@ -10,6 +10,6 @@ namespace Deploy.King.Builds
     {
         Build GetBuild(string id);
         IEnumerable<Build> GetBuildsFor(IProcedureArguments arguments);
-        byte[] GetPackage(Build build);
+        string GetPackage(Build build);
     }
 }

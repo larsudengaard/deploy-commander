@@ -58,10 +58,12 @@ namespace Deploy.King.Builds
             return builds.OrderBy(x => x.StartDate);
         }
 
-        public byte[] GetPackage(Build build)
+        public string GetPackage(Build build)
         {
             var packageUrl = string.Format("{0}downloadArtifacts.html?buildId={1}", teamcityUrl, build.Id);
-            return webClient.DownloadData(packageUrl);
+            string fileName = AppSettings.GetPath("PackagePath") + build.Id + ".zip";
+            webClient.DownloadFile(packageUrl, fileName);
+            return fileName;
         }
 
         public static DateTime Date(string s)

@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Net;
 using Deploy.Utilities;
 
 namespace Deploy.King.Builds
@@ -19,11 +18,12 @@ namespace Deploy.King.Builds
 
         public Package GetPackage(string packageName)
         {
-            string packagesPath = AppSettings.GetPath("packagesPath") + "\\" + Id;
+            string packagesPath = AppSettings.GetPath("PackagePath") + Id;
             if (!Directory.Exists(packagesPath))
             {
-                byte[] package = buildRepository.GetPackage(this);
-                Zip.Extract(new MemoryStream(package), packagesPath);
+                Directory.CreateDirectory(packagesPath);
+                var packageFilename = buildRepository.GetPackage(this);
+                Zip.Extract(File.Open(packageFilename, FileMode.Open), packagesPath);
             }
 
             string childPackageFilename = packagesPath + "\\" + packageName + ".zip";
