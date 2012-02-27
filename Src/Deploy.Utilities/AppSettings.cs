@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 
 namespace Deploy.Utilities
 {
@@ -18,6 +19,13 @@ namespace Deploy.Utilities
                 throw new AppSettingsException(key, "Must be an boolean value (true/false)");
 
             return defaultsTo;
+        }
+
+        public static string GetPath(string key, bool isRequired = true, string defaultsTo = "")
+        {
+            string path = GetString(key, isRequired, defaultsTo);
+            path += path.Last() != '\\' ? "\\" : "";
+            return path;
         }
 
         public static string GetString(string key, bool isRequired = true, string defaultsTo = "")

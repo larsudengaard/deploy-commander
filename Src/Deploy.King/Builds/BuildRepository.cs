@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Xml.Linq;
 using Deploy.King.Procedures.Arguments;
@@ -31,29 +32,36 @@ namespace Deploy.King.Builds
                 return null;
 
             var document = XDocument.Parse(build);
-            return new Build
+            return new Build(this)
             {
                 Id = id,
-                Received = Date(document.Root.Element("startDate").Value),
-                PackageUrl = string.Format("{0}downloadArtifacts.html?buildId={1}", teamcityUrl, id)
+                StartDate = Date(document.Root.Element("startDate").Value),
             };
         }
 
         public IEnumerable<Build> GetBuildsFor(IProcedureArguments arguments)
         {
-            var builds = webClient.DownloadString(string.Format("{0}httpAuth/app/rest/buildTypes/id:{1}/builds", teamcityUrl, arguments.TeamcityBuildType));
-            var document = XDocument.Parse(builds);
+            var buildsXml = webClient.DownloadString(string.Format("{0}httpAuth/app/rest/buildTypes/id:{1}/builds?status=success", teamcityUrl, arguments.TeamcityBuildType));
+            var document = XDocument.Parse(buildsXml);
 
+            var builds = new List<Build>();
             foreach (var build in document.Root.Elements())
             {
                 var id = build.Attribute("id").Value;
-                yield return new Build
+                builds.Add(new Build(this)
                 {
                     Id = id,
-                    Received = Date(build.Attribute("startDate").Value),
-                    PackageUrl = string.Format("{0}downloadArtifacts.html?buildId={1}", teamcityUrl, id)
-                };
+                    StartDate = Date(build.Attribute("startDate").Value)
+                });
             }
+
+            return builds.OrderBy(x => x.StartDate);
+        }
+
+        public byte[] GetPackage(Build build)
+        {
+            var packageUrl = string.Format("{0}downloadArtifacts.html?buildId={1}", teamcityUrl, build.Id);
+            return webClient.DownloadData(packageUrl);
         }
 
         public static DateTime Date(string s)

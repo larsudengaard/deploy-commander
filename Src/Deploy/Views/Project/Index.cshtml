@@ -27,8 +27,8 @@
                     {
                         <tr>
                             <td>@build.Id</td>
-                            <td>@build.Received</td>
-                            <td>@Html.ActionLink("Deploy", "Deploy", new { projectId = project.Id, buildId = build.Id })</td>
+                            <td>@build.StartDate</td>
+                            <td>@Html.ActionLink("Deploy", "Deploy", "Build", new { projectId = project.Id, buildId = build.Id }, null)</td>
                         </tr>
                     }
                 </table>
