@@ -49,7 +49,7 @@
     <Compile Include="Tasks\ChangePhysicalPathOnWebsite.cs" />
     <Compile Include="Tasks\CopyFolder.cs" />
     <Compile Include="Tasks\DeleteFolder.cs" />
-    <Compile Include="Tasks\Package.cs" />
+    <Compile Include="Tasks\Unpack.cs" />
     <Compile Include="Tasks\RunExecutable.cs" />
     <Compile Include="Tasks\ITask.cs" />
     <Compile Include="Tasks\PublishConsoleApplication.cs" />

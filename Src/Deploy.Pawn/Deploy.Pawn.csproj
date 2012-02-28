@@ -69,7 +69,7 @@
     <Compile Include="Executors\DeleteFolderExecutor.cs" />
     <Compile Include="Infrastructure\TaskExecuterFactory.cs" />
     <Compile Include="Executors\ChangePhysicalPathOnWebsiteExecutor.cs" />
-    <Compile Include="Executors\PackageExecutor.cs" />
+    <Compile Include="Executors\UnpackExecutor.cs" />
     <Compile Include="Executors\RunExecutableExecutor.cs" />
     <Compile Include="Executors\StartWebsiteExecutor.cs" />
     <Compile Include="Executors\StopWebsiteExecutor.cs" />

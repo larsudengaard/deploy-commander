@@ -19,6 +19,7 @@
             <td colspan="2">
                 <table width="100%">
                     <tr>
+                        <th>Id</th>
                         <th>Build</th>
                         <th>Date</th>
                         <th></th>
@@ -27,6 +28,7 @@
                     {
                         <tr>
                             <td>@build.Id</td>
+                            <td>#@build.Number</td>
                             <td>@build.StartDate</td>
                             <td>@Html.ActionLink("Deploy", "Deploy", "Build", new { projectId = project.Id, buildId = build.Id }, null)</td>
                         </tr>

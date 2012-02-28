@@ -13,7 +13,8 @@ namespace Deploy.Pawn.Api
 
         public PawnClient(string clientUrl)
         {
-            this.clientUrl = clientUrl;
+            clientUrl = clientUrl.EndsWith("/") ? clientUrl.Remove(clientUrl.Length - 1) : clientUrl;
+            this.clientUrl = !clientUrl.EndsWith("/service") ? clientUrl + "/service" : "";
         }
 
         public Response<TResult> ExecuteTask<TResult>(ITask<TResult> task) where TResult : IResult

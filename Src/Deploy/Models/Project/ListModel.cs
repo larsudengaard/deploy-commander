@@ -22,7 +22,7 @@ namespace Deploy.Models.Project
 
         public IEnumerable<Build> Builds
         {
-            get { return builds.OrderBy(x => x.StartDate); }
+            get { return builds; }
         }
 
         public class Build
@@ -30,10 +30,12 @@ namespace Deploy.Models.Project
             public Build(King.Builds.Build build)
             {
                 Id = build.Id;
+                Number = build.Number;
                 StartDate = build.StartDate;
             }
 
             public string Id { get; set; }
+            public int Number { get; set; }
             public DateTime StartDate { get; set; }
         }
     }

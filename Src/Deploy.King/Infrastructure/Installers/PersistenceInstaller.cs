@@ -8,7 +8,8 @@ using Raven.Client.Document;
 
 namespace Deploy.King.Infrastructure.Installers
 {
-    public class PersistenceInstaller : IWindsorInstaller
+    public class 
+        PersistenceInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {

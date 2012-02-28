@@ -14,6 +14,7 @@ namespace Deploy.King.Builds
         }
 
         public string Id { get; set; }
+        public int Number { get; set; }
         public DateTime StartDate { get; set; }
 
         public Package GetPackage(string packageName)
@@ -31,10 +32,10 @@ namespace Deploy.King.Builds
                 return null;
 
             return new Package
-                       {
-                           Name = packageName,
-                           Path = childPackageFilename
-                       };
+            {
+                Name = packageName,
+                Path = childPackageFilename
+            };
         }
     }
 }

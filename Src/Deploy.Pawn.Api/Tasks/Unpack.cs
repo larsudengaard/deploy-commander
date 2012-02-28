@@ -1,6 +1,6 @@
 namespace Deploy.Pawn.Api.Tasks
 {
-    public class Package : ITask<Package.Result>
+    public class Unpack : ITask<Unpack.Result>
     {
         public class Result : IResult
         {

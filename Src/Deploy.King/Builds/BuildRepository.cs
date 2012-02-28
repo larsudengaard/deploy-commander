@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Xml.Linq;
 using Deploy.King.Procedures.Arguments;
 using Deploy.Utilities;
@@ -35,6 +36,7 @@ namespace Deploy.King.Builds
             return new Build(this)
             {
                 Id = id,
+                Number = int.Parse(document.Root.Attribute("number").Value),
                 StartDate = Date(document.Root.Element("startDate").Value),
             };
         }
@@ -51,18 +53,51 @@ namespace Deploy.King.Builds
                 builds.Add(new Build(this)
                 {
                     Id = id,
+                    Number = int.Parse(build.Attribute("number").Value),
                     StartDate = Date(build.Attribute("startDate").Value)
                 });
             }
 
-            return builds.OrderBy(x => x.StartDate);
+            return builds.OrderByDescending(x => int.Parse(x.Id));
         }
 
         public string GetPackage(Build build)
         {
             var packageUrl = string.Format("{0}downloadArtifacts.html?buildId={1}", teamcityUrl, build.Id);
+            var request = WebRequest.Create(packageUrl);
+            string authInfo = "larsudengaard:MetteP83";
+            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
+            request.Headers["Authorization"] = "Basic " + authInfo;
+
+            request.Credentials = new NetworkCredential("larsudengaard", "MetteP83");
+
+            WebResponse response;
+            try
+            {
+                response = request.GetResponse();
+            }
+            catch (WebException e)
+            {
+                return null;
+            }
+
+            var responseStream = response.GetResponseStream();
+            if (response.ContentLength == 0 || responseStream == null)
+                return null;
+
             string fileName = AppSettings.GetPath("PackagePath") + build.Id + ".zip";
-            webClient.DownloadFile(packageUrl, fileName);
+            using(var outputFileStream = File.Open(fileName, FileMode.CreateNew))
+            using (responseStream)
+            {
+                var buffer = new byte[1024];
+                int bytesRead;
+                do
+                {
+                    bytesRead = responseStream.Read(buffer, 0, 1024);
+                    outputFileStream.Write(buffer, 0, bytesRead);
+                } while (bytesRead > 0);
+            }
+
             return fileName;
         }
 
