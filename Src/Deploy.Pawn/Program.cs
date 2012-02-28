@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using Deploy.Pawn.Infrastructure;
+﻿using Deploy.Pawn.Infrastructure;
 using Topshelf;
 
 namespace Deploy.Pawn

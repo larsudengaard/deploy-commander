@@ -25,6 +25,17 @@ namespace Deploy.Controllers
             this.buildRepository = buildRepository;
         }
 
+        public ActionResult Open(string id)
+        {
+            Project project;
+            using (var session = store.OpenSession())
+            {
+                project = session.Load<Project>(id);
+            }
+
+            return View(GetModelFromProject(project));
+        }
+
         public ActionResult Index()
         {
             List<Project> projects;
@@ -36,12 +47,18 @@ namespace Deploy.Controllers
             var models = new List<ListModel>();
             foreach (var project in projects)
             {
-                var procedure = procedureFactory.CreateFor(project.Arguments);
-                var builds = buildRepository.GetBuildsFor(project.Arguments);
-                models.Add(new ListModel(project, procedure.GetType().Name, builds.Select(x => new ListModel.Build(x)).ToList()));
+                models.Add(GetModelFromProject(project));
             }
 
             return View(models);
+        }
+
+        ListModel GetModelFromProject(Project project)
+        {
+            var procedure = procedureFactory.CreateFor(project.Arguments);
+            var builds = buildRepository.GetBuildsFor(project.Arguments);
+            var model = new ListModel(project, procedure.GetType().Name, builds.Select(x => new ListModel.Build(x)).ToList());
+            return model;
         }
 
         public ActionResult Create()
@@ -60,7 +77,20 @@ namespace Deploy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Completed(string id, string name, ArgumentsForDeployEnergy10WithoutMigrations arguments)
+        public ActionResult Completed(string id, string name, ArgumentsForDeployEnergy10 arguments)
+        {
+            CreateOrEditProject(id, name, arguments);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Completed(string id, string name, ArgumentsForDeployEnergy10WithMigrations arguments)
+        {
+            CreateOrEditProject(id, name, arguments);
+            return RedirectToAction("Index");
+        }
+
+        void CreateOrEditProject(string id, string name, IProcedureArguments arguments)
         {
             using (var session = store.OpenSession())
             {
@@ -77,8 +107,6 @@ namespace Deploy.Controllers
 
                 session.SaveChanges();
             }
-
-            return RedirectToAction("Index");
         }
 
         public ActionResult Edit(string id)

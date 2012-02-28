@@ -81,9 +81,11 @@
     <Compile Include="Infrastructure\Installers\PersistenceInstaller.cs" />
     <Compile Include="Infrastructure\Installers\ProceduresInstaller.cs" />
     <Compile Include="Infrastructure\Installers\WindsorInstaller.cs" />
-    <Compile Include="Procedures\Arguments\ArgumentsForDeployEnergy10WithoutMigrations.cs" />
+    <Compile Include="Procedures\Arguments\ArgumentsForDeployEnergy10.cs" />
     <Compile Include="Builds\Build.cs" />
-    <Compile Include="Procedures\DeployEnergy10WithoutMigrations.cs" />
+    <Compile Include="Procedures\Arguments\ArgumentsForDeployEnergy10WithMigrations.cs" />
+    <Compile Include="Procedures\DeployEnergy10WithMigrations.cs" />
+    <Compile Include="Procedures\DeployEnergy10.cs" />
     <Compile Include="Procedures\IProcedure.cs" />
     <Compile Include="Procedures\Arguments\IProcedureArguments.cs" />
     <Compile Include="Builds\Package.cs" />

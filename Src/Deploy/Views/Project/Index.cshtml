@@ -9,7 +9,7 @@
 {
     <table class="project" width="500">
         <tr>
-            <th colspan="2">@Html.ActionLink(project.Name, "Edit", new { project.Id })</th>
+            <th colspan="2">@Html.ActionLink(project.Name, "Open", new { project.Id })</th>
         </tr>
         <tr>
             <td width="100">Procedure type</td>
@@ -24,7 +24,7 @@
                         <th>Date</th>
                         <th></th>
                     </tr>
-                    @foreach(var build in project.Builds)
+                    @foreach(var build in project.Builds.Take(4))
                     {
                         <tr>
                             <td>@build.Id</td>

@@ -33,6 +33,7 @@ namespace Deploy.Pawn
 
         private void ExecuteHandlers(RequestContext requestContext)
         {
+            Console.WriteLine(string.Format("{0}: Received task", DateTime.Now));
             Request request = requestContext.Request;
 
             string inputString = new StreamReader(request.InputStream).ReadToEnd();
@@ -48,10 +49,12 @@ namespace Deploy.Pawn
             try
             {
                 ITaskExecutor taskExecutor = taskExecuterFactory.CreateExecuterFor(task);
+                Console.WriteLine(string.Format("{0}: Executing {1}", DateTime.Now, task.GetType().Name));
                 result = taskExecutor.Execute(task);
             }
             catch(Exception e)
             {
+                Console.WriteLine(string.Format("{0}: Error in {1}, {2} ({3})", DateTime.Now, task.GetType().Name, e.GetType().Name, e.Message));
                 successful = false;
                 errorMessage = e.Message;
             }
@@ -60,6 +63,7 @@ namespace Deploy.Pawn
             var response = CreateResponse(result, successful, errorMessage);
             serializer.Serialize(new StringWriter(sb), response);
             requestContext.Respond(new StringResponse(sb.ToString()));
+            Console.WriteLine(string.Format("{0}: Task complete", DateTime.Now));
         }
 
         IResponse CreateResponse(IResult result, bool successful, string errorMessage)
