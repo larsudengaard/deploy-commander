@@ -8,5 +8,6 @@ namespace Deploy.King.Builds
         Build GetBuild(string id);
         IEnumerable<Build> GetBuildsFor(IProcedureArguments arguments);
         string GetPackage(Build build);
+        BuildInformation GetBuildInformation(string build);
     }
 }

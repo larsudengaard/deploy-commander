@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builds\BuildInformation.cs" />
     <Compile Include="Builds\BuildRepository.cs" />
     <Compile Include="Builds\IBuildRepository.cs" />
     <Compile Include="IProcedureFactory.cs" />

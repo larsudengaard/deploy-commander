@@ -11,5 +11,10 @@ namespace Deploy.King.Procedures
         {
             return Perform(build, (TArguments) arguments);
         }
+
+        public string Name
+        {
+            get { return GetType().Name; }
+        }
     }
 }

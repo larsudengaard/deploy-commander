@@ -57,7 +57,7 @@ namespace Deploy.Controllers
         {
             var procedure = procedureFactory.CreateFor(project.Arguments);
             var builds = buildRepository.GetBuildsFor(project.Arguments);
-            var model = new ListModel(project, procedure.GetType().Name, builds.Select(x => new ListModel.Build(x)).ToList());
+            var model = new ListModel(project, procedure.Name, builds.Select(x => new ListModel.Build(x)).ToList());
             return model;
         }
 
@@ -77,14 +77,14 @@ namespace Deploy.Controllers
         }
 
         [HttpPost]
-        public ActionResult Completed(string id, string name, ArgumentsForDeployEnergy10 arguments)
+        public ActionResult ArgumentsForDeployEnergy10(string id, string name, ArgumentsForDeployEnergy10 arguments)
         {
             CreateOrEditProject(id, name, arguments);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public ActionResult Completed(string id, string name, ArgumentsForDeployEnergy10WithMigrations arguments)
+        public ActionResult ArgumentsForDeployEnergy10WithMigrations(string id, string name, ArgumentsForDeployEnergy10WithMigrations arguments)
         {
             CreateOrEditProject(id, name, arguments);
             return RedirectToAction("Index");

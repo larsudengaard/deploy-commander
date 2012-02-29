@@ -1,0 +1,38 @@
+﻿@model Deploy.Controllers.BuildController.Model
+
+<table class="project">
+    <tr>
+        <th colspan="2">
+            <span>Build: #@Model.BuildInformation.Build.Number - @Model.Project.Name</span>
+            <span style="float: right">@Html.ActionLink("Deploy", "Deploy", new { projectId = Model.Project.Id, buildId = Model.BuildInformation.Build.Id })</span>
+        </th>
+    </tr>
+    <tr>
+        <td width="100">Procedure type</td>
+        <td>@Model.Project.ProcedureType</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            @if(Model.BuildInformation.Changes.Count > 0)
+            {
+                <table width="100%">
+                    <tr>
+                        <th width="200">Username</th>
+                        <th>Comment</th>
+                    </tr>
+                    @foreach (var change in Model.BuildInformation.Changes)
+                    {
+                        <tr>
+                            <td width="200">@change.Username</td>
+                            <td>@change.Comment</td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>No changes in build.</p>
+            }
+        </td>
+    </tr>
+</table>

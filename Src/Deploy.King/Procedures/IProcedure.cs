@@ -10,5 +10,6 @@ namespace Deploy.King.Procedures
     public interface IProcedure
     {
         bool Perform(Build build, IProcedureArguments arguments);
+        string Name { get; }
     }
 }

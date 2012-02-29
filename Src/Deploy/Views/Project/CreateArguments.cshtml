@@ -1,6 +1,6 @@
 ﻿@model dynamic
 
-@using (Html.BeginForm("Completed", "Project"))
+@using (Html.BeginForm((string)@Model.GetType().Name, "Project"))
 {
     @Html.Hidden("Id")
     @Html.Label("Name", "Project name")<br/>

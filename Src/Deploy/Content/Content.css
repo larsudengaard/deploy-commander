@@ -1,3 +1,13 @@
-﻿.project {
+﻿.project 
+{
+    width: 700px;
     margin-bottom: 20px;
+}
+
+.project table {
+    table-layout: fixed;
+}
+
+.project table td {
+    overflow: hidden;
 }

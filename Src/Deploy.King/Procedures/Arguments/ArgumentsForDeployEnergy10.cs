@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Deploy.King.Procedures.Arguments
 {
     public class ArgumentsForDeployEnergy10 : IProcedureArguments

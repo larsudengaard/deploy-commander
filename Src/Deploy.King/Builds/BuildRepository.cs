@@ -2,20 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Xml.Linq;
 using Deploy.King.Procedures.Arguments;
 using Deploy.Utilities;
-using System.Linq;
-using Raven.Abstractions;
 
 namespace Deploy.King.Builds
 {
     public class BuildRepository : IBuildRepository
     {
-        readonly WebClient webClient;
         readonly string teamcityUrl;
+        readonly WebClient webClient;
 
         public BuildRepository()
         {
@@ -23,39 +22,44 @@ namespace Deploy.King.Builds
             webClient.Credentials = new NetworkCredential("larsudengaard", "MetteP83");
 
             teamcityUrl = AppSettings.GetString("TeamcityUrl");
-            teamcityUrl += teamcityUrl.Last() != '/' ? "/" : "";
+            teamcityUrl = teamcityUrl.Last() == '/' ? teamcityUrl.Substring(0, teamcityUrl.Length-1) : teamcityUrl;
         }
 
         public Build GetBuild(string id)
         {
-            var build = webClient.DownloadString(string.Format("{0}httpAuth/app/rest/builds/id:{1}", teamcityUrl, id));
-            if (build.StartsWith("Error has occurred during request processing (Not Found)."))
+            XDocument document = Query("/httpAuth/app/rest/builds/id:{1}", id);
+            if (document == null)
                 return null;
 
-            var document = XDocument.Parse(build);
+            return GetBuildFromElement(document.Root);
+        }
+
+        Build GetBuildFromElement(XElement element)
+        {
+            string startDate;
+            if (element.Element("startDate") != null)
+                startDate = element.Element("startDate").Value;
+            else
+                startDate = element.Attribute("startDate").Value;
+
             return new Build(this)
             {
-                Id = id,
-                Number = int.Parse(document.Root.Attribute("number").Value),
-                StartDate = Date(document.Root.Element("startDate").Value),
+                Id = element.Attribute("id").Value,
+                Number = int.Parse(element.Attribute("number").Value),
+                StartDate = Date(startDate),
             };
         }
 
         public IEnumerable<Build> GetBuildsFor(IProcedureArguments arguments)
         {
-            var buildsXml = webClient.DownloadString(string.Format("{0}httpAuth/app/rest/buildTypes/id:{1}/builds?status=success", teamcityUrl, arguments.TeamcityBuildType));
-            var document = XDocument.Parse(buildsXml);
+            XDocument document = Query("/httpAuth/app/rest/buildTypes/id:{1}/builds?status=success", arguments.TeamcityBuildType);
+            if (document == null)
+                return Enumerable.Empty<Build>();
 
             var builds = new List<Build>();
-            foreach (var build in document.Root.Elements())
+            foreach (XElement build in document.Root.Elements())
             {
-                var id = build.Attribute("id").Value;
-                builds.Add(new Build(this)
-                {
-                    Id = id,
-                    Number = int.Parse(build.Attribute("number").Value),
-                    StartDate = Date(build.Attribute("startDate").Value)
-                });
+                builds.Add(GetBuildFromElement(build));
             }
 
             return builds.OrderByDescending(x => int.Parse(x.Id));
@@ -63,8 +67,8 @@ namespace Deploy.King.Builds
 
         public string GetPackage(Build build)
         {
-            var packageUrl = string.Format("{0}downloadArtifacts.html?buildId={1}", teamcityUrl, build.Id);
-            var request = WebRequest.Create(packageUrl);
+            string packageUrl = string.Format("{0}/downloadArtifacts.html?buildId={1}", teamcityUrl, build.Id);
+            WebRequest request = WebRequest.Create(packageUrl);
             string authInfo = "larsudengaard:MetteP83";
             authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
             request.Headers["Authorization"] = "Basic " + authInfo;
@@ -81,12 +85,12 @@ namespace Deploy.King.Builds
                 return null;
             }
 
-            var responseStream = response.GetResponseStream();
+            Stream responseStream = response.GetResponseStream();
             if (response.ContentLength == 0 || responseStream == null)
                 return null;
 
             string fileName = AppSettings.GetPath("PackagePath") + build.Id + ".zip";
-            using(var outputFileStream = File.Open(fileName, FileMode.CreateNew))
+            using (FileStream outputFileStream = File.Open(fileName, FileMode.CreateNew))
             using (responseStream)
             {
                 var buffer = new byte[1024];
@@ -99,6 +103,55 @@ namespace Deploy.King.Builds
             }
 
             return fileName;
+        }
+
+        public BuildInformation GetBuildInformation(string buildId)
+        {
+            XDocument buildDocument = Query("/httpAuth/app/rest/builds/id:{1}", buildId);
+            if (buildDocument == null)
+                return null;
+
+            XDocument changesDocument = Query(buildDocument.Root.Element("changes").Attribute("href").Value);
+            if (changesDocument == null)
+                return null;
+
+            var buildInformation = new BuildInformation
+            {
+                Build = GetBuildFromElement(buildDocument.Root),
+                TeamcityLink = buildDocument.Root.Attribute("webUrl").Value
+            };
+            foreach (XElement changeReferenceDocument in changesDocument.Root.Elements())
+            {
+                XDocument changeDocument = Query(changeReferenceDocument.Attribute("href").Value);
+                buildInformation.Changes.Add(new BuildInformation.Change
+                {
+                    Comment = changeDocument.Root.Element("comment").Value,
+                    Username = changeDocument.Root.Attribute("username").Value
+                });
+            }
+
+            return buildInformation;
+        }
+
+        XDocument Query(string apiUrl, params object[] args)
+        {
+            var objects = new List<object>(args);
+            objects.Insert(0, teamcityUrl);
+
+            string result;
+            try
+            {
+                result = webClient.DownloadString(string.Format("{0}" + apiUrl, objects.ToArray()));
+            }
+            catch (WebException e)
+            {
+                return null;
+            }
+
+            if (result.StartsWith("Error has occurred during request processing (Not Found)."))
+                return null;
+
+            return XDocument.Parse(result);
         }
 
         public static DateTime Date(string s)

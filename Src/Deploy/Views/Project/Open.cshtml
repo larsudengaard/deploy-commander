@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Home Page";
 }
-<table class="project" width="500">
+<table class="project">
     <tr>
         <th colspan="2">@Html.ActionLink(Model.Name, "Edit", new { Model.Id })</th>
     </tr>
@@ -14,18 +14,16 @@
         <td colspan="2">
             <table width="100%">
                 <tr>
-                    <th>Id</th>
                     <th>Build</th>
+                    <th>Id</th>
                     <th>Date</th>
-                    <th></th>
                 </tr>
-                @foreach(var build in Model.Builds)
+                @foreach(var build in Model.Builds.Take(4))
                 {
                     <tr>
+                        <td>@Html.ActionLink("#" + @build.Number, "Index", "Build", new { projectId = Model.Id, buildId = build.Id }, null)</td>
                         <td>@build.Id</td>
-                        <td>#@build.Number</td>
                         <td>@build.StartDate</td>
-                        <td>@Html.ActionLink("Deploy", "Deploy", "Build", new { projectId = Model.Id, buildId = build.Id }, null)</td>
                     </tr>
                 }
             </table>
