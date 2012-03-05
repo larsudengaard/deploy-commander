@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Deploy.Pawn.Api.Tasks;
 using Deploy.Pawn.Infrastructure;
@@ -9,6 +10,7 @@ namespace Deploy.Pawn.Executors
     {
         protected override Unpack.Result Execute(Unpack task)
         {
+            throw new NotImplementedException("WHAAT");
             var packagePath = string.Format(@"C:\temp\packages\{0}\", task.PackageName);
             
             using (var memoryStream = new MemoryStream(task.FileData))

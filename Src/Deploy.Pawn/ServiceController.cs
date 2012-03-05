@@ -9,6 +9,7 @@ using Deploy.Pawn.Infrastructure;
 using Deploy.Pawn.Server;
 using Deploy.Utilities;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Deploy.Pawn
 {
@@ -44,7 +45,7 @@ namespace Deploy.Pawn
             var task = serializer.Deserialize<ITask>(new JsonTextReader(new StringReader(inputString)));
 
             bool successful = true;
-            string errorMessage = null;
+            Exception exception = null;
             IResult result = null;
             try
             {
@@ -56,20 +57,22 @@ namespace Deploy.Pawn
             {
                 Console.WriteLine(string.Format("{0}: Error in {1}, {2} ({3})", DateTime.Now, task.GetType().Name, e.GetType().Name, e.Message));
                 successful = false;
-                errorMessage = e.Message;
+                exception = e;
             }
 
+            var resultType = task.GetType().GetInterfaces().Single(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof (ITask<>)).GetGenericArguments()[0];
+
             var sb = new StringBuilder();
-            var response = CreateResponse(result, successful, errorMessage);
+            var response = CreateResponse(resultType, result, successful, exception);
             serializer.Serialize(new StringWriter(sb), response);
             requestContext.Respond(new StringResponse(sb.ToString()));
             Console.WriteLine(string.Format("{0}: Task complete", DateTime.Now));
         }
 
-        IResponse CreateResponse(IResult result, bool successful, string errorMessage)
+        IResponse CreateResponse(Type resultType, IResult result, bool successful, Exception e)
         {
-            Type responseType = typeof (Response<>).MakeGenericType(result.GetType());
-            return (IResponse) Activator.CreateInstance(responseType, result, successful, errorMessage);
+            Type responseType = typeof(Response<>).MakeGenericType(resultType);
+            return (IResponse) Activator.CreateInstance(responseType, result, successful, e.Message, e.StackTrace);
         }
 
         public void Stop()

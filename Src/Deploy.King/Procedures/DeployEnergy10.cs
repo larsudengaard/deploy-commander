@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Deploy.King.Builds;
+using Deploy.King.Messaging;
 using Deploy.King.Procedures.Arguments;
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Tasks;
@@ -11,18 +12,22 @@ namespace Deploy.King.Procedures
 {
     public class DeployEnergy10 : Procedure<ArgumentsForDeployEnergy10>
     {
+        public DeployEnergy10(IMessenger messenger) : base(messenger)
+        {
+        }
+
         public override bool Perform(Build build, ArgumentsForDeployEnergy10 arguments)
         {
             if (arguments.DeployWeb2)
                 throw new NotImplementedException();
 
-            var migratorPackage = build.GetPackage("Energy10.Migrator");
+            var migratorPackage = GetPackage(build, "Energy10.Migrator");
             if (!IsMigrationsMigrationsRun(migratorPackage, arguments))
             {
                 return false;
             }
 
-            var webPackage = build.GetPackage("Energy10.Web");
+            var webPackage = GetPackage(build, "Energy10.Web");
             DeployWebServer(arguments.Web1PawnHostname, build, webPackage, arguments);
 
             return true;
@@ -31,47 +36,50 @@ namespace Deploy.King.Procedures
         void DeployWebServer(string webServerClientUrl, Build build, Package webPackage, ArgumentsForDeployEnergy10 arguments)
         {
             var client = new PawnClient(webServerClientUrl);
-            var webPackageResponse = client.ExecuteTask(new Unpack
+            var webPackageResult = ExecuteTask(client, new Unpack
             {
                 FileData = File.ReadAllBytes(webPackage.Path),
                 PackageName = webPackage.Name
             });
 
             string webPhysicalPath = arguments.WebsitePhysicalPath + "wwwroot_" + build.Number;
-            var copyFolderResponse = client.ExecuteTask(new CopyFolder
+            ExecuteTask(client, new CopyFolder
             {
-                SourcePath = webPackageResponse.Result.PackagePath,
+                SourcePath = webPackageResult.PackagePath,
                 DestinationPath = webPhysicalPath
             });
+            Messenger.Publish(string.Format("Copied folder from {0} to {1}", webPackageResult.PackagePath, webPhysicalPath));
 
-            var changePhysicalPathResponse = client.ExecuteTask(new ChangePhysicalPathOnWebsite
+            var changePhysicalPathResult = ExecuteTask(client, new ChangePhysicalPathOnWebsite
             {
                 NewPath = webPhysicalPath,
                 WebsiteName = arguments.WebsiteName
             });
+            Messenger.Publish(string.Format("Changed physicalPath from {0} to {1} on website {2}", webPhysicalPath, changePhysicalPathResult.OldPath, arguments.WebsiteName));
 
-            client.ExecuteTask(new DeleteFolder
+            ExecuteTask(client, new DeleteFolder
             {
-                Path = changePhysicalPathResponse.Result.OldPath
+                Path = changePhysicalPathResult.OldPath
             });
+            Messenger.Publish(string.Format("Deleted folder {0}", changePhysicalPathResult.OldPath));
         }
 
         bool IsMigrationsMigrationsRun(Package migratorPackage, ArgumentsForDeployEnergy10 arguments)
         {
             var client = new PawnClient(arguments.RavenDBPawnHostname);
-            var migratorPackageResponse = client.ExecuteTask(new Unpack
+            var migratorPackageResult = ExecuteTask(client, new Unpack
             {
                 FileData = File.ReadAllBytes(migratorPackage.Path),
                 PackageName = migratorPackage.Name
             });
 
-            var migrationCheckResponse = client.ExecuteTask(new RunExecutable
+            var migrationCheckResult = ExecuteTask(client, new RunExecutable
             {
-                ExecutablePath = migratorPackageResponse.Result.PackagePath + @"\Energy10.Migrator.exe",
+                ExecutablePath = migratorPackageResult.PackagePath + @"\Energy10.Migrator.exe",
                 Arguments = "-listMissingMigrations"
             });
 
-            return migrationCheckResponse.Result.Message.StartsWith("None");
+            return migrationCheckResult.Message.StartsWith("None");
         }
     }
 }

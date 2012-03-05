@@ -3,12 +3,9 @@ namespace Deploy.Pawn.Api
     public class Response<T> : IResponse 
         where T : IResult
     {
-        protected Response()
+        public Response(T result, bool success, string errorMessage, string stacktrace)
         {
-        }
-
-        public Response(T result, bool success, string errorMessage)
-        {
+            Stacktrace = stacktrace;
             Result = result;
             Success = success;
             ErrorMessage = errorMessage;
@@ -16,6 +13,7 @@ namespace Deploy.Pawn.Api
 
         public bool Success { get; private set; }
         public string ErrorMessage { get; private set; }
+        public string Stacktrace { get; private set; }
         public T Result { get; private set; }
 
         IResult IResponse.Result

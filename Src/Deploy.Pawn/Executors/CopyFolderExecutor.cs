@@ -5,14 +5,14 @@ using Deploy.Pawn.Infrastructure;
 
 namespace Deploy.Pawn.Executors
 {
-    public class CopyFolderExecutor : TaskExecutor<CopyFolder, Result>
+    public class CopyFolderExecutor : TaskExecutor<CopyFolder, CopyFolder.Result>
     {
-        protected override Result Execute(CopyFolder task)
+        protected override CopyFolder.Result Execute(CopyFolder task)
         {
             var sourceDirectory = new DirectoryInfo(task.SourcePath);
             if (!sourceDirectory.Exists)
             {
-                return new Result
+                return new CopyFolder.Result
                 {
                     Success = false,
                     Message = "SourcePath does not exists."
@@ -24,7 +24,7 @@ namespace Deploy.Pawn.Executors
             {
                 if (destinationDirectory.GetFiles().Length > 0)
                 {
-                    return new Result
+                    return new CopyFolder.Result
                     {
                         Success = false,
                         Message = "DestinationPath is not empty."
@@ -37,7 +37,7 @@ namespace Deploy.Pawn.Executors
             }
 
             Copy(sourceDirectory, destinationDirectory);
-            return new Result
+            return new CopyFolder.Result
             {
                 Success = true,
                 Message = "Files copied successfully",

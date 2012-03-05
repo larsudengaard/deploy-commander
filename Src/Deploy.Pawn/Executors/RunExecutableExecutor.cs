@@ -8,9 +8,9 @@ using Deploy.Pawn.Infrastructure;
 
 namespace Deploy.Pawn.Executors
 {
-    public class RunExecutableExecutor : TaskExecutor<RunExecutable, Result>
+    public class RunExecutableExecutor : TaskExecutor<RunExecutable, RunExecutable.Result>
     {
-        protected override Result Execute(RunExecutable task)
+        protected override RunExecutable.Result Execute(RunExecutable task)
         {
             var process = new Process();
             process.StartInfo.Arguments = task.Arguments;
@@ -24,7 +24,7 @@ namespace Deploy.Pawn.Executors
             var message = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
 
-            return new Result
+            return new RunExecutable.Result
             {
                 Success = process.ExitCode == 0,
                 Message = message

@@ -42,6 +42,7 @@
       <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -69,6 +70,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BuildController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PollController.cs" />
+    <Compile Include="Infrastructure\JsonNetResult.cs" />
     <Compile Include="Models\Account\LogOnModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Models\Project\SelectProcedureType.cs" />
@@ -80,11 +83,16 @@
     <Compile Include="Infrastructure\Installers\MvcInstaller.cs" />
     <Compile Include="Infrastructure\Installers\WindsorControllerFactory.cs" />
     <Compile Include="Models\Account\ChangePasswordModel.cs" />
+    <Compile Include="Infrastructure\Poll\Bus.cs" />
+    <Compile Include="Infrastructure\Poll\Connection.cs" />
+    <Compile Include="Infrastructure\Poll\Message.cs" />
+    <Compile Include="Infrastructure\Poll\Subscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Content.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\pollr.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

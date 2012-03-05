@@ -6,9 +6,9 @@ using Deploy.Pawn.Infrastructure;
 
 namespace Deploy.Pawn.Executors
 {
-    public class DeleteFolderExecutor : TaskExecutor<DeleteFolder, Result>
+    public class DeleteFolderExecutor : TaskExecutor<DeleteFolder, DeleteFolder.Result>
     {
-        protected override Result Execute(DeleteFolder task)
+        protected override DeleteFolder.Result Execute(DeleteFolder task)
         {
             if (task.Path.Length <= 3)
                 throw new InvalidOperationException("WTF?! Trying to delete drive?");
@@ -17,11 +17,7 @@ namespace Deploy.Pawn.Executors
                 throw new InvalidOperationException("WTF?! Trying to delete windows installation?");
 
             Directory.Delete(task.Path, true);
-            return new Result
-            {
-                Success = true,
-                Message = "Deleted folder: " + task.Path
-            };
+            return new DeleteFolder.Result();
         }
     }
 }

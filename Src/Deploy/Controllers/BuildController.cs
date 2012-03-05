@@ -1,22 +1,31 @@
+using System.Diagnostics;
 using System.Web.Mvc;
+using Deploy.Infrastructure;
+using Deploy.Infrastructure.Poll;
 using Deploy.King;
 using Deploy.King.Builds;
+using Deploy.King.Messaging;
 using Deploy.King.Projects;
 using Raven.Client;
+using Message = Deploy.King.Messaging.Message;
 
 namespace Deploy.Controllers
 {
-    public class BuildController : Controller
+    public class BuildController : AsyncController, IMessageListener
     {
         readonly IDocumentStore store;
         readonly IProcedureFactory procedureFactory;
         readonly IBuildRepository buildRepository;
+        readonly IMessageSubscriber messageSubscriber;
+        string listeningToProjectId;
+        string listeningToBuildId;
 
-        public BuildController(IDocumentStore store, IProcedureFactory procedureFactory, IBuildRepository buildRepository)
+        public BuildController(IDocumentStore store, IProcedureFactory procedureFactory, IBuildRepository buildRepository, IMessageSubscriber messageSubscriber)
         {
             this.store = store;
             this.procedureFactory = procedureFactory;
             this.buildRepository = buildRepository;
+            this.messageSubscriber = messageSubscriber;
         }
 
         public ActionResult Index(string projectId, string buildId)
@@ -26,6 +35,7 @@ namespace Deploy.Controllers
             {
                 project = session.Load<Project>(projectId);
             }
+
             var buildInformation = buildRepository.GetBuildInformation(buildId);
             return View(new Model
             {
@@ -44,9 +54,28 @@ namespace Deploy.Controllers
 
             var build = buildRepository.GetBuild(buildId);
             var procedure = procedureFactory.CreateFor(project.Arguments);
-            procedure.Perform(build, project.Arguments);
 
-            return RedirectToAction("Index", "Project");
+            listeningToProjectId = projectId;
+            listeningToBuildId = buildId;
+            messageSubscriber.AddListener(this);
+            var stopwatch = Stopwatch.StartNew();
+            var success = procedure.Perform(build, project.Arguments);
+            stopwatch.Stop();
+            messageSubscriber.RemoveListener(this);
+
+            return new JsonNetResult
+            {
+                Data = new
+                {
+                    Success = success,
+                    Time = stopwatch.Elapsed.ToString()
+                }
+            };
+        }
+
+        public void HandleMessage(Message message)
+        {
+            Bus.Publish(new Infrastructure.Poll.Message(listeningToProjectId, listeningToBuildId, message));
         }
 
         public class Model

@@ -77,11 +77,16 @@
     <Compile Include="Builds\BuildInformation.cs" />
     <Compile Include="Builds\BuildRepository.cs" />
     <Compile Include="Builds\IBuildRepository.cs" />
+    <Compile Include="Infrastructure\Installers\MessagingInstaller.cs" />
     <Compile Include="IProcedureFactory.cs" />
     <Compile Include="Infrastructure\Factories\CreateGenericVersionOfInterfaceByArgumentsTypeSelector.cs" />
     <Compile Include="Infrastructure\Installers\PersistenceInstaller.cs" />
     <Compile Include="Infrastructure\Installers\ProceduresInstaller.cs" />
     <Compile Include="Infrastructure\Installers\WindsorInstaller.cs" />
+    <Compile Include="Messaging\IMessageListener.cs" />
+    <Compile Include="Messaging\IMessageSubscriber.cs" />
+    <Compile Include="Messaging\IMessenger.cs" />
+    <Compile Include="Messaging\Messenger.cs" />
     <Compile Include="Procedures\Arguments\ArgumentsForDeployEnergy10.cs" />
     <Compile Include="Builds\Build.cs" />
     <Compile Include="Procedures\Arguments\ArgumentsForDeployEnergy10WithMigrations.cs" />
@@ -110,9 +115,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
