@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Deploy.King.Procedures.Energy10;
 
 namespace Deploy.King.Procedures.Arguments
 {
-    public class ArgumentsForDeployEnergy10 : IProcedureArguments
+    public class ArgumentsForDeployEnergy10 : IProcedureArguments, IDeployEnergy10BaseArguments
     {
         public string Web1PawnHostname { get; set; }
         public string WebsitePhysicalPath { get; set; }

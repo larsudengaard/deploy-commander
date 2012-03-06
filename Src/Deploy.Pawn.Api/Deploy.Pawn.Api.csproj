@@ -49,11 +49,11 @@
     <Compile Include="Tasks\ChangePhysicalPathOnWebsite.cs" />
     <Compile Include="Tasks\CopyFolder.cs" />
     <Compile Include="Tasks\DeleteFolder.cs" />
+    <Compile Include="Tasks\RemoveFromLoadBalancer.cs" />
+    <Compile Include="Tasks\AddToLoadBalancer.cs" />
     <Compile Include="Tasks\Unpack.cs" />
     <Compile Include="Tasks\RunExecutable.cs" />
     <Compile Include="Tasks\ITask.cs" />
-    <Compile Include="Tasks\PublishConsoleApplication.cs" />
-    <Compile Include="Tasks\PublishWebsite.cs" />
     <Compile Include="Tasks\ManageWebsiteTask.cs" />
     <Compile Include="PawnClient.cs" />
     <Compile Include="Response.cs" />

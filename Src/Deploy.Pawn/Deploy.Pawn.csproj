@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="Executors\CopyFolderExecutor.cs" />
     <Compile Include="Executors\DeleteFolderExecutor.cs" />
+    <Compile Include="Executors\RemoveFromLoadBalancerExecutor.cs" />
+    <Compile Include="Executors\AddToLoadBalancerExecutor.cs" />
     <Compile Include="Infrastructure\TaskExecuterFactory.cs" />
     <Compile Include="Executors\ChangePhysicalPathOnWebsiteExecutor.cs" />
     <Compile Include="Executors\UnpackExecutor.cs" />

@@ -51,13 +51,14 @@ namespace Deploy.King.Procedures
             get { return messenger; }
         }
 
+        // TODO: Make DI pawnclient factory, and make pawnclient print for it self, removeing the need for this method:
         protected TResult ExecuteTask<TResult>(PawnClient client, ITask<TResult> task) where TResult : IResult
         {
             Messenger.Publish(String.Format("{0}: Task {1}", client.ClientUrl, task.GetType().Name));
             var response = client.ExecuteTask(task);
             if (!response.Success)
             {
-                Messenger.Publish(String.Format("Task not successfull: {0}\n{1}", response.ErrorMessage, response.Stacktrace));
+                Messenger.Publish(String.Format("Task error: {0}\n{1}", response.ErrorMessage, response.StackTrace));
                 throw new TaskFailedException();
             }
 

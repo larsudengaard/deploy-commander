@@ -45,8 +45,8 @@
         }
         
         function failure() {
-            var status = $('#status')[0];
-            status.innerHTML = "Failure";
+            var status = $('#status');
+            status[0].innerHTML = "Failure";
             status.css('color', 'red');
             status.css('display', 'inline');
         }
@@ -57,14 +57,16 @@
                 $('#deployButton').css('visibility', 'hidden');
                 $('#messagesContainer').css('visibility', 'visible');
 
-                var messages = $('#messages')[0];
                 $.endpoint.start();
                 $.endpoint.subscribe('@Model.Project.Id', '@Model.BuildInformation.Build.Id', function (message) {
-                    console.log(message);
                     var date = parseJsonDate(message.data.Time);
                     var dateStr = formatDate(date);
 
-                    messages.innerHTML += dateStr + ' ' + message.data.Data + '<br />';
+                    var trClass = '';
+                    if (message.data.Data.toLowerCase().indexOf('error') != -1 || message.data.Data.toLowerCase().indexOf('fail') != -1)
+                        trClass = ' class="failure"';
+
+                    $('#messagesContainer > tbody:last').append('<tr'+trClass+'><td class="date">' + dateStr + '</td><td>' + message.data.Data + '</td></tr>');
                 });
 
                 $.ajax('@Url.Action("Deploy", "Build")',
@@ -81,7 +83,7 @@
                                 failure();
                         },
                         error: function () {
-                            messages.innerHTML = '<span style="color: red;">Error happened when calling service.</span>';
+                            $('#messagesContainer > tbody:last').append('<tr><td style="color: red;" colspan="2">Error connecting to service.</td></tr>');
                             failure();
                         }
                     });
@@ -128,12 +130,8 @@
             }
             <table id="messagesContainer" style="visibility: hidden" width="100%">
                 <tr>
-                    <th>Messages</th>
-                </tr>   
-                <tr>
-                    <td>
-                        <div id="messages"></div>
-                    </td>
+                    <th class="date">Messages</th>
+                    <th></th>
                 </tr>
             </table>
         </td>

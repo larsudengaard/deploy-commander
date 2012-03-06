@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web.Mvc;
 using Deploy.King.Procedures;
+using Deploy.King.Procedures.Energy10;
 
 namespace Deploy.Models.Project
 {
@@ -17,7 +18,7 @@ namespace Deploy.Models.Project
 
         public SelectProcedureType()
         {
-            procedureTypes = typeof(DeployEnergy10).Assembly.GetTypes().Where(x => !x.IsAbstract && x.IsClass && typeof(IProcedure).IsAssignableFrom(x)).ToList();
+            procedureTypes = typeof(DeployWithoutMigrations).Assembly.GetTypes().Where(x => !x.IsAbstract && x.IsClass && typeof(IProcedure).IsAssignableFrom(x)).ToList();
         }
 
         [DisplayName("Procedure")]
