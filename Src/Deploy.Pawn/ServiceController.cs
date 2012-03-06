@@ -72,7 +72,7 @@ namespace Deploy.Pawn
         IResponse CreateResponse(Type resultType, IResult result, bool successful, Exception e)
         {
             Type responseType = typeof(Response<>).MakeGenericType(resultType);
-            return (IResponse) Activator.CreateInstance(responseType, result, successful, e.Message, e.StackTrace);
+            return (IResponse) Activator.CreateInstance(responseType, result, successful, e);
         }
 
         public void Stop()

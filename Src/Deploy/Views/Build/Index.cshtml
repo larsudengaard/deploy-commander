@@ -4,6 +4,28 @@
 {
     <script src="@Url.Content("~/Scripts/pollr.js")" type="text/javascript"></script>
     <script type="text/javascript">
+        function formatDate(d, format) {
+            var p;
+            if (format == null) format = 'datetime';
+            p = function (number) {
+                if (number < 10) {
+                    return "0" + number;
+                } else {
+                    return number;
+                }
+            };
+            switch (format.toLowerCase()) {
+                case 'date':
+                    return "" + (p(d.getDate())) + "-" + (p(d.getMonth() + 1)) + "-" + (d.getFullYear());
+                case 'time':
+                    return "" + (p(d.getHours())) + ":" + (p(d.getMinutes())) + ":" + (p(d.getSeconds()));
+                case 'datetime':
+                    return formatDate(d, 'date') + ' ' + formatDate(d, 'time');
+                default:
+                    throw new Error("Uknown date format '" + format + "'");
+            }
+        };
+
         function parseJsonDate(jsonDate) {
             var match, myregexp;
             myregexp = /\/Date\((-?\d+)(\+\d{4})?\)\//i;
@@ -15,17 +37,34 @@
             }
         }
 
-        $(document).ready(function() {
+        function succesfull() {
+            var status = $('#status');
+            status[0].innerHTML = "Succesfull";
+            status.css('color', 'green');
+            status.css('display', 'inline');
+        }
+        
+        function failure() {
+            var status = $('#status')[0];
+            status.innerHTML = "Failure";
+            status.css('color', 'red');
+            status.css('display', 'inline');
+        }
 
-            $('#deployButton').click(function() {
+        $(document).ready(function () {
+
+            $('#deployButton').click(function () {
                 $('#deployButton').css('visibility', 'hidden');
                 $('#messagesContainer').css('visibility', 'visible');
 
+                var messages = $('#messages')[0];
                 $.endpoint.start();
-                $.endpoint.subscribe('@Model.Project.Id', '@Model.BuildInformation.Build.Id', function(message) {
+                $.endpoint.subscribe('@Model.Project.Id', '@Model.BuildInformation.Build.Id', function (message) {
                     console.log(message);
-                    var messages = $('#messages')[0];
-                    messages.innerHTML += parseJsonDate(message.data.Time) + ': ' + message.data.Data + '<br />';
+                    var date = parseJsonDate(message.data.Time);
+                    var dateStr = formatDate(date);
+
+                    messages.innerHTML += dateStr + ' ' + message.data.Data + '<br />';
                 });
 
                 $.ajax('@Url.Action("Deploy", "Build")',
@@ -35,10 +74,15 @@
                             projectId: '@Model.Project.Id',
                             buildId: '@Model.BuildInformation.Build.Id'
                         },
-                        success: function() {
+                        success: function (message) {
+                            if (message.Success)
+                                succesfull();
+                            else
+                                failure();
                         },
-                        error: function() {
-                            $('#messages').innerHTML = '<span style="color: red;">Error happened when calling service.</span>';
+                        error: function () {
+                            messages.innerHTML = '<span style="color: red;">Error happened when calling service.</span>';
+                            failure();
                         }
                     });
             });
@@ -52,7 +96,7 @@
             <span>Build: #@Model.BuildInformation.Build.Number - @Model.Project.Name</span>
             <span style="float: right">
                 <a id="deployButton" href="#">Deploy</a>
-                @*@Html.ActionLink("Deploy", "Deploy", new { projectId = Model.Project.Id, buildId = Model.BuildInformation.Build.Id })*@
+                <span id="status" style="display: none;"></span>
             </span>
         </th>
     </tr>

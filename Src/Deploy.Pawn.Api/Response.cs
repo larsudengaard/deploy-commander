@@ -1,14 +1,20 @@
+using System;
+
 namespace Deploy.Pawn.Api
 {
     public class Response<T> : IResponse 
         where T : IResult
     {
-        public Response(T result, bool success, string errorMessage, string stacktrace)
+        public Response(T result, bool success, Exception exception)
         {
-            Stacktrace = stacktrace;
             Result = result;
             Success = success;
-            ErrorMessage = errorMessage;
+
+            if (exception != null)
+            {
+                ErrorMessage = exception.Message;
+                Stacktrace = exception.StackTrace;
+            }
         }
 
         public bool Success { get; private set; }
