@@ -14,7 +14,7 @@ namespace Deploy.Pawn.Executors
             var virtualRoot = applicationRoot.VirtualDirectories.Single(v => v.Path == "/");
             string physicalPath = virtualRoot.PhysicalPath;
 
-            File.Create(physicalPath + task.WatchdogFilename);
+            using (File.Create(physicalPath + "\\" + task.WatchdogFilename));
             return new AddToLoadBalancer.Result();
         }
     }

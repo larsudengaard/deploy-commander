@@ -14,7 +14,7 @@ namespace Deploy.Pawn.Executors
             var virtualRoot = applicationRoot.VirtualDirectories.Single(v => v.Path == "/");
             string physicalPath = virtualRoot.PhysicalPath;
 
-            File.Delete(physicalPath + task.WatchdogFilename);
+            File.Delete(physicalPath + "\\" + task.WatchdogFilename);
             return new RemoveFromLoadBalancer.Result();
         }
     }

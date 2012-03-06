@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using Deploy.King.Builds;
 using Deploy.King.Messaging;
 using Deploy.King.Procedures.Arguments;
@@ -16,9 +17,6 @@ namespace Deploy.King.Procedures.Energy10
 
         public override bool Perform(Build build, ArgumentsForDeployEnergy10WithMigrations arguments)
         {
-            if (arguments.DeployWeb2)
-                throw new NotImplementedException();
-
             var ravendbClient = new PawnClient(arguments.RavenDBPawnHostname);
             string migratorExecutablePath;
             var missingMigrations = GetMissingMigrations(ravendbClient, build, arguments, out migratorExecutablePath);
@@ -29,11 +27,27 @@ namespace Deploy.King.Procedures.Energy10
                 return false;
             }
 
-            var webClient = new PawnClient(arguments.Web1PawnHostname);
-            ExecuteTask(webClient, new StopWebsite
+            PawnClient web1Client = new PawnClient(arguments.Web1PawnHostname);
+            PawnClient web2Client = null;
+            if (arguments.DeployWeb2)
+                web2Client = new PawnClient(arguments.Web2PawnHostname);
+
+            ExecuteTask(web1Client, new RemoveFromLoadBalancer
             {
+                WatchdogFilename = "loadbalancer",
                 WebsiteName = arguments.WebsiteName
             });
+
+            if (arguments.DeployWeb2)
+                ExecuteTask(web2Client, new RemoveFromLoadBalancer
+                {
+                    WatchdogFilename = "loadbalancer",
+                    WebsiteName = arguments.WebsiteName
+                });
+
+            // Give loadbalancer time to see sites are remove from balancing
+            Messenger.Publish("Waiting 3 seconds for loadbalancer to react");
+            Thread.Sleep(3000);
 
             Messenger.Publish("Migrations which will be run: " + missingMigrations);
             var migrationResult = ExecuteTask(ravendbClient, new RunExecutable
@@ -41,6 +55,7 @@ namespace Deploy.King.Procedures.Energy10
                 ExecutablePath = migratorExecutablePath,
                 Arguments = "-migrate"
             });
+
             Messenger.Publish(migrationResult.Message);
             if (!migrationResult.Success)
             {
@@ -48,9 +63,22 @@ namespace Deploy.King.Procedures.Energy10
                 return false;
             }
 
-            DeployWebServer(webClient, build, arguments);
+            DeployWebServer(web1Client, build, arguments);
+            if (arguments.DeployWeb2)
+                DeployWebServer(web2Client, build, arguments);
 
-            ExecuteTask(webClient, new StartWebsite { WebsiteName = arguments.WebsiteName });
+            ExecuteTask(web1Client, new AddToLoadBalancer
+            {
+                WatchdogFilename = "loadbalancer", 
+                WebsiteName = arguments.WebsiteName
+            });
+
+            if (arguments.DeployWeb2)
+                ExecuteTask(web1Client, new AddToLoadBalancer
+                {
+                    WatchdogFilename = "loadbalancer",
+                    WebsiteName = arguments.WebsiteName
+                });
 
             return true;
         }
