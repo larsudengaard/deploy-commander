@@ -2,21 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B41CDA3D-5812-4D27-AD57-A2BA574948EA}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{E248765E-A75D-4829-B149-36E3B34BE830}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Deploy.Pawn</RootNamespace>
     <AssemblyName>Deploy.Pawn</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.1.2.11\lib\net40-client\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libs\Microsoft.Web.Administration.dll</HintPath>
@@ -49,49 +39,32 @@
       <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Reactive">
-      <HintPath>..\packages\Rx-Main.1.0.11226\lib\Net4\System.Reactive.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Topshelf">
-      <HintPath>..\packages\Topshelf.2.2.3.0\lib\NET40\Topshelf.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Executors\AddToLoadBalancerExecutor.cs" />
+    <Compile Include="Executors\ChangePhysicalPathOnWebsiteExecutor.cs" />
     <Compile Include="Executors\CopyFolderExecutor.cs" />
     <Compile Include="Executors\DeleteFolderExecutor.cs" />
     <Compile Include="Executors\RemoveFromLoadBalancerExecutor.cs" />
-    <Compile Include="Executors\AddToLoadBalancerExecutor.cs" />
-    <Compile Include="Infrastructure\TaskExecuterFactory.cs" />
-    <Compile Include="Executors\ChangePhysicalPathOnWebsiteExecutor.cs" />
-    <Compile Include="Executors\UnpackExecutor.cs" />
     <Compile Include="Executors\RunExecutableExecutor.cs" />
     <Compile Include="Executors\StartWebsiteExecutor.cs" />
     <Compile Include="Executors\StopWebsiteExecutor.cs" />
+    <Compile Include="Executors\UnpackExecutor.cs" />
     <Compile Include="Infrastructure\Executers\ManageWebsiteExecutor.cs" />
-    <Compile Include="Infrastructure\ITaskExecutor.cs" />
     <Compile Include="Infrastructure\ITaskExecuterFactory.cs" />
-    <Compile Include="ServiceController.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Infrastructure\ITaskExecutor.cs" />
+    <Compile Include="Infrastructure\TaskExecuterFactory.cs" />
+    <Compile Include="IPawnService.cs" />
+    <Compile Include="PawnService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\CollectionExtensions.cs" />
-    <Compile Include="Server\EmptyResponse.cs" />
-    <Compile Include="Server\HttpServer.cs" />
-    <Compile Include="Server\Request.cs" />
-    <Compile Include="Server\RequestContext.cs" />
-    <Compile Include="Server\Response.cs" />
-    <Compile Include="Server\StreamExtensions.cs" />
-    <Compile Include="Server\StringResponse.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -104,7 +77,6 @@
       <Name>Deploy.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
