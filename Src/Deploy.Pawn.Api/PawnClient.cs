@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Text;
-using System.Web;
 using Deploy.Pawn.Api.Tasks;
+using Deploy.Utilities;
 using Newtonsoft.Json;
 
 namespace Deploy.Pawn.Api
@@ -11,6 +10,7 @@ namespace Deploy.Pawn.Api
     public class PawnClient
     {
         readonly string clientUrl;
+        public const string AuthenticationKeyHeaderName = "pawnKey";
 
         public PawnClient(string clientUrl)
         {
@@ -33,7 +33,9 @@ namespace Deploy.Pawn.Api
             serializer.Serialize(new StringWriter(sb), task);
             byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());//HttpUtility.UrlEncode(sb.ToString())
 
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true; // Allow all certficates
             WebRequest request = WebRequest.Create(ClientUrl);
+            request.Headers.Add(AuthenticationKeyHeaderName, AppSettings.GetString("AuthenticationSecretKey"));
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
             request.ContentLength = bytes.Length;

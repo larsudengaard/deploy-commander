@@ -75,8 +75,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\AuthorizeWithSecretKeyAttribute.cs" />
     <Compile Include="Infrastructure\Installers\MvcInstaller.cs" />
-    <Compile Include="Infrastructure\Installers\PawnInstaller.cs" />
+    <Compile Include="Infrastructure\Installers\PawnServiceInstaller.cs" />
     <Compile Include="Infrastructure\WindsorControllerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -132,12 +133,10 @@
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>5560</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl>http://localhost/Deploy.Pawn.Host</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <CustomServerUrl>http://localhost:55660/</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

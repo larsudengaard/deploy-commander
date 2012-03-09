@@ -1,8 +1,6 @@
-using Deploy.King.Procedures.Energy10;
-
 namespace Deploy.King.Procedures.Arguments
 {
-    public class ArgumentsForDeployEnergy10WithMigrations : IDeployEnergy10BaseArguments
+    public class ArgumentsForEnergy10WithMigrations : IEnergy10BaseArguments
     {
         public string Web1PawnHostname { get; set; }
         public string WebsitePhysicalPath { get; set; }

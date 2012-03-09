@@ -2,6 +2,7 @@
 using System.Text;
 using System.Web.Mvc;
 using Deploy.Pawn.Api.Tasks;
+using Deploy.Pawn.Host.Infrastructure;
 using Newtonsoft.Json;
 
 namespace Deploy.Pawn.Host.Controllers
@@ -15,6 +16,7 @@ namespace Deploy.Pawn.Host.Controllers
             this.pawnService = pawnService;
         }
 
+        [AuthorizeWithSecretKey]
         public ActionResult Index()
         {
             var serializer = new JsonSerializer();

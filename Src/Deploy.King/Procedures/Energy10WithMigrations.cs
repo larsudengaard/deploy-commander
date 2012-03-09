@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Threading;
 using Deploy.King.Builds;
 using Deploy.King.Messaging;
@@ -7,15 +5,15 @@ using Deploy.King.Procedures.Arguments;
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Tasks;
 
-namespace Deploy.King.Procedures.Energy10
+namespace Deploy.King.Procedures
 {
-    public class DeployWithMigrations : DeployBase<ArgumentsForDeployEnergy10WithMigrations>
+    public class Energy10WithMigrations : Energy10Base<ArgumentsForEnergy10WithMigrations>
     {
-        public DeployWithMigrations(IMessenger messenger) : base(messenger)
+        public Energy10WithMigrations(IMessenger messenger) : base(messenger)
         {
         }
 
-        public override bool Perform(Build build, ArgumentsForDeployEnergy10WithMigrations arguments)
+        public override bool Perform(Build build, ArgumentsForEnergy10WithMigrations arguments)
         {
             var ravendbClient = new PawnClient(arguments.RavenDBPawnHostname);
             string migratorExecutablePath;

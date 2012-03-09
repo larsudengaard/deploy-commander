@@ -5,7 +5,7 @@ using Deploy.Pawn.Infrastructure;
 
 namespace Deploy.Pawn.Host.Infrastructure.Installers
 {
-    public class PawnInstaller : IWindsorInstaller
+    public class PawnServiceInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {

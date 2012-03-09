@@ -1,20 +1,17 @@
-﻿using System;
-using System.IO;
-using Deploy.King.Builds;
+﻿using Deploy.King.Builds;
 using Deploy.King.Messaging;
 using Deploy.King.Procedures.Arguments;
 using Deploy.Pawn.Api;
-using Deploy.Pawn.Api.Tasks;
 
-namespace Deploy.King.Procedures.Energy10
+namespace Deploy.King.Procedures
 {
-    public class DeployWithoutMigrations : DeployBase<ArgumentsForDeployEnergy10>
+    public class Energy10WithoutMigrations : Energy10Base<ArgumentsForEnergy10WithoutMigrations>
     {
-        public DeployWithoutMigrations(IMessenger messenger) : base(messenger)
+        public Energy10WithoutMigrations(IMessenger messenger) : base(messenger)
         {
         }
 
-        public override bool Perform(Build build, ArgumentsForDeployEnergy10 arguments)
+        public override bool Perform(Build build, ArgumentsForEnergy10WithoutMigrations arguments)
         {
             string migratorExecutablePath;
             string missingMigrations = GetMissingMigrations(new PawnClient(arguments.RavenDBPawnHostname), build, arguments, out migratorExecutablePath);

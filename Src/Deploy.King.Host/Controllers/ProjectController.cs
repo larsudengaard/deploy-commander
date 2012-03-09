@@ -76,14 +76,14 @@ namespace Deploy.King.Host.Controllers
         }
 
         [HttpPost]
-        public ActionResult ArgumentsForDeployEnergy10(string id, string name, ArgumentsForDeployEnergy10 arguments)
+        public ActionResult ArgumentsForEnergy10WithoutMigrations(string id, string name, ArgumentsForEnergy10WithoutMigrations arguments)
         {
             CreateOrEditProject(id, name, arguments);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public ActionResult ArgumentsForDeployEnergy10WithMigrations(string id, string name, ArgumentsForDeployEnergy10WithMigrations arguments)
+        public ActionResult ArgumentsForEnergy10WithMigrations(string id, string name, ArgumentsForEnergy10WithMigrations arguments)
         {
             CreateOrEditProject(id, name, arguments);
             return RedirectToAction("Index");

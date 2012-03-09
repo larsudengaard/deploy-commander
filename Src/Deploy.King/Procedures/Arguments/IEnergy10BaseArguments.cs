@@ -1,6 +1,6 @@
 namespace Deploy.King.Procedures.Arguments
 {
-    public interface IDeployEnergy10BaseArguments : IProcedureArguments
+    public interface IEnergy10BaseArguments : IProcedureArguments
     {
         string WebsiteName { get; }
         string WebsitePhysicalPath { get; }
