@@ -31,15 +31,17 @@ namespace Deploy.Pawn.Api
             };
             var sb = new StringBuilder();
             serializer.Serialize(new StringWriter(sb), task);
-            byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());//HttpUtility.UrlEncode(sb.ToString())
+            byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());
 
-            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true; // Allow all certficates
             WebRequest request = WebRequest.Create(ClientUrl);
             request.Headers.Add(AuthenticationKeyHeaderName, AppSettings.GetString("AuthenticationSecretKey"));
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
             request.ContentLength = bytes.Length;
             
+            if (AppSettings.GetBoolean("AllowNonTrustedPawnCertificate", false))
+                ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true;
+
             using (Stream requestStream = request.GetRequestStream())
             {
                 requestStream.Write(bytes, 0, bytes.Length);
