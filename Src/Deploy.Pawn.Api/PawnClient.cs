@@ -31,13 +31,13 @@ namespace Deploy.Pawn.Api
             };
             var sb = new StringBuilder();
             serializer.Serialize(new StringWriter(sb), task);
-            byte[] bytes = Encoding.UTF8.GetBytes(HttpUtility.UrlEncode(sb.ToString()));
+            byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());//HttpUtility.UrlEncode(sb.ToString())
 
             WebRequest request = WebRequest.Create(ClientUrl);
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
             request.ContentLength = bytes.Length;
-
+            
             using (Stream requestStream = request.GetRequestStream())
             {
                 requestStream.Write(bytes, 0, bytes.Length);

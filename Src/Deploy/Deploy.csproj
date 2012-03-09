@@ -71,7 +71,9 @@
     <Compile Include="Controllers\BuildController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PollController.cs" />
+    <Compile Include="Infrastructure\Installers\MvcInstaller.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
+    <Compile Include="Infrastructure\WindsorControllerFactory.cs" />
     <Compile Include="Models\Account\LogOnModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Models\Project\SelectProcedureType.cs" />
@@ -80,8 +82,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Installers\MvcInstaller.cs" />
-    <Compile Include="Infrastructure\Installers\WindsorControllerFactory.cs" />
     <Compile Include="Models\Account\ChangePasswordModel.cs" />
     <Compile Include="Infrastructure\Poll\Bus.cs" />
     <Compile Include="Infrastructure\Poll\Connection.cs" />
@@ -136,6 +136,10 @@
     <ProjectReference Include="..\Deploy.Pawn.Api\Deploy.Pawn.Api.csproj">
       <Project>{1BEAE701-EAC5-4599-AB9F-432911E32C64}</Project>
       <Name>Deploy.Pawn.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deploy.Utilities\Deploy.Utilities.csproj">
+      <Project>{78537912-C586-4A60-8118-8E578FEEE0AD}</Project>
+      <Name>Deploy.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

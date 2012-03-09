@@ -6,7 +6,7 @@ using Deploy.Pawn.Executors;
 
 namespace Deploy.Pawn.Infrastructure
 {
-    internal class TaskExecuterFactory : ITaskExecuterFactory
+    public class TaskExecuterFactory : ITaskExecuterFactory
     {
         public ITaskExecutor CreateExecuterFor(ITask task)
         {

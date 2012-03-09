@@ -15,19 +15,17 @@ namespace Deploy.Pawn.Host.Controllers
             this.pawnService = pawnService;
         }
 
-        public ActionResult Service(string data)
+        public ActionResult Index()
         {
             var serializer = new JsonSerializer();
             serializer.TypeNameHandling = TypeNameHandling.All;
-            var task = serializer.Deserialize<ITask>(new JsonTextReader(new StringReader(data)));
+            var task = serializer.Deserialize<ITask>(new JsonTextReader(new StreamReader(Request.InputStream)));
 
             var response = pawnService.Execute(task);
 
             var sb = new StringBuilder();
             serializer.Serialize(new StringWriter(sb), response);
             
-            //Console.WriteLine(string.Format("{0}: Task complete", DateTime.Now));
-
             return new ContentResult
             {
                 ContentType = "application/json",

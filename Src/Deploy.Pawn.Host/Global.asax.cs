@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
+using Castle.Facilities.TypedFactory;
+using Castle.Windsor;
+using Castle.Windsor.Installer;
+using Deploy.Pawn.Host.Infrastructure;
+using Deploy.Pawn.Host.Infrastructure.Installers;
 
 namespace Deploy.Pawn.Host
 {
@@ -12,6 +13,8 @@ namespace Deploy.Pawn.Host
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        WindsorContainer container;
+
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -20,13 +23,12 @@ namespace Deploy.Pawn.Host
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Service", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
-
         }
 
         protected void Application_Start()
@@ -35,6 +37,13 @@ namespace Deploy.Pawn.Host
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            container = new WindsorContainer();
+            container.AddFacility<TypedFactoryFacility>();
+            container.Install(FromAssembly.This());
+
+            ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
+            DependencyResolver.SetResolver(container.Resolve, x => (object[])container.ResolveAll(x));
         }
     }
 }
