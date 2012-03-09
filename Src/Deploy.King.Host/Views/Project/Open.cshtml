@@ -1,0 +1,32 @@
+﻿@model Deploy.King.Host.Models.Project.ListModel
+@{
+    ViewBag.Title = "Home Page";
+}
+<table class="project">
+    <tr>
+        <th colspan="2">@Html.ActionLink(Model.Name, "Edit", new { Model.Id })</th>
+    </tr>
+    <tr>
+        <td width="100">Procedure type</td>
+        <td>@Model.ProcedureType</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table width="100%">
+                <tr>
+                    <th>Build</th>
+                    <th>Id</th>
+                    <th>Date</th>
+                </tr>
+                @foreach(var build in Model.Builds.Take(4))
+                {
+                    <tr>
+                        <td>@Html.ActionLink("#" + @build.Number, "Index", "Build", new { projectId = Model.Id, buildId = build.Id }, null)</td>
+                        <td>@build.Id</td>
+                        <td>@build.StartDate</td>
+                    </tr>
+                }
+            </table>
+        </td>
+    </tr>
+</table>

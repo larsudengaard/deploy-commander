@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deploy.King", "Deploy.King\Deploy.King.csproj", "{8C6B8208-B73B-4AF6-A5C9-BA89FD932683}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deploy", "Deploy\Deploy.csproj", "{022BB8D5-7CBC-4547-96B7-64D51E3C1CCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deploy.King.Host", "Deploy.King.Host\Deploy.King.Host.csproj", "{022BB8D5-7CBC-4547-96B7-64D51E3C1CCB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deploy.Pawn.Api", "Deploy.Pawn.Api\Deploy.Pawn.Api.csproj", "{1BEAE701-EAC5-4599-AB9F-432911E32C64}"
 EndProject
