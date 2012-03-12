@@ -10,6 +10,7 @@ using Message = Deploy.King.Messaging.Message;
 
 namespace Deploy.King.Host.Controllers
 {
+    [Authorize]
     public class BuildController : AsyncController, IMessageListener
     {
         readonly IDocumentStore store;

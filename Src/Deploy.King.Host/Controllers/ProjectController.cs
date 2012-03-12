@@ -11,6 +11,7 @@ using Raven.Client;
 
 namespace Deploy.King.Host.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
         readonly IDocumentStore store;

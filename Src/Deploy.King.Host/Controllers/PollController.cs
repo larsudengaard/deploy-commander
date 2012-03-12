@@ -8,6 +8,7 @@ using Deploy.King.Host.Infrastructure.Poll;
 
 namespace Deploy.King.Host.Controllers
 {
+    [Authorize]
     public class PollController : AsyncController
     {
         public JsonResult Negotiate()
