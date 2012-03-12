@@ -68,20 +68,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BuildController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PollController.cs" />
     <Compile Include="Infrastructure\Installers\MvcInstaller.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
     <Compile Include="Infrastructure\WindsorControllerFactory.cs" />
-    <Compile Include="Models\Account\LogOnModel.cs" />
-    <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Models\Project\SelectProcedureType.cs" />
-    <Compile Include="Models\Project\ListModel.cs" />
+    <Compile Include="Models\Project\ProjectWithBuilds.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Account\ChangePasswordModel.cs" />
     <Compile Include="Infrastructure\Poll\Bus.cs" />
     <Compile Include="Infrastructure\Poll\Connection.cs" />
     <Compile Include="Infrastructure\Poll\Message.cs" />
@@ -113,10 +109,7 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>

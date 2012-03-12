@@ -1,10 +1,10 @@
-﻿@model Deploy.King.Host.Models.Project.ListModel
+﻿@model Deploy.King.Host.Models.Project.ProjectWithBuilds
 @{
     ViewBag.Title = "Home Page";
 }
 <table class="project">
     <tr>
-        <th colspan="2">@Html.ActionLink(Model.Name, "Edit", new { Model.Id })</th>
+        <th colspan="2">@Html.ActionLink(Model.Project.Name, "Edit", new { Model.Project.Id })</th>
     </tr>
     <tr>
         <td width="100">Procedure type</td>
@@ -21,7 +21,7 @@
                 @foreach(var build in Model.Builds.Take(4))
                 {
                     <tr>
-                        <td>@Html.ActionLink("#" + @build.Number, "Index", "Build", new { projectId = Model.Id, buildId = build.Id }, null)</td>
+                        <td>@Html.ActionLink("#" + @build.Number, "Index", "Build", new { projectId = Model.Project.Id, buildId = build.Id }, null)</td>
                         <td>@build.Id</td>
                         <td>@build.StartDate</td>
                     </tr>

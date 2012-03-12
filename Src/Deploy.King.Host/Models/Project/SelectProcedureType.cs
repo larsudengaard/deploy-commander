@@ -7,10 +7,6 @@ using Deploy.King.Procedures;
 
 namespace Deploy.King.Host.Models.Project
 {
-    public class AddArguments
-    {
-        
-    }
     public class SelectProcedureType
     {
         readonly List<Type> procedureTypes;

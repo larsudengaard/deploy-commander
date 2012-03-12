@@ -25,6 +25,18 @@ namespace Deploy.King.Host.Controllers
             this.buildRepository = buildRepository;
         }
 
+        public ActionResult Index()
+        {
+            List<Project> projects;
+            using (var session = store.OpenSession())
+            {
+                projects = session.Query<Project>().ToList();
+            }
+
+            var models = projects.OrderBy(x => x.Id).Select(GetModelFromProject);
+            return View(models.ToList());
+        }
+
         public ActionResult Open(string id)
         {
             Project project;
@@ -36,28 +48,11 @@ namespace Deploy.King.Host.Controllers
             return View(GetModelFromProject(project));
         }
 
-        public ActionResult Index()
-        {
-            List<Project> projects;
-            using (var session = store.OpenSession())
-            {
-                projects = session.Query<Project>().ToList();
-            }
-
-            var models = new List<ListModel>();
-            foreach (var project in projects)
-            {
-                models.Add(GetModelFromProject(project));
-            }
-
-            return View(models);
-        }
-
-        ListModel GetModelFromProject(Project project)
+        ProjectWithBuilds GetModelFromProject(Project project)
         {
             var procedure = procedureFactory.CreateFor(project.Arguments);
             var builds = buildRepository.GetBuildsFor(project.Arguments);
-            var model = new ListModel(project, procedure.Name, builds.Select(x => new ListModel.Build(x)).ToList());
+            var model = new ProjectWithBuilds(project, builds.ToList(), procedure.Name);
             return model;
         }
 

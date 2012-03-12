@@ -11,16 +11,14 @@
     <div class="page">
         <div id="header">
             <div id="title">
-                <h1>My MVC Application</h1>
+                <h1>Deploy - King Server</h1>
             </div>
             <div id="logindisplay">
-                @Html.Partial("_LogOnPartial")
+                Welcome <strong>@User.Identity.Name</strong>!
             </div>
             <div id="menucontainer">
                 <ul id="menu">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Projects", "Index", "Project")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
             </div>
         </div>
