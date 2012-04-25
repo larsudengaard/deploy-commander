@@ -1,12 +1,11 @@
 using System;
-using Deploy.King.Builds;
-using Deploy.King.Infrastructure;
-using Deploy.King.Messaging;
-using Deploy.King.Procedures.Arguments;
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Tasks;
+using Deploy.Procedures.Arguments;
+using Deploy.Procedures.Builds;
+using Deploy.Procedures.Messaging;
 
-namespace Deploy.King.Procedures
+namespace Deploy.Procedures
 {
     public abstract class Procedure<TArguments> : IProcedure<TArguments> where TArguments : IProcedureArguments
     {
@@ -72,7 +71,7 @@ namespace Deploy.King.Procedures
             return build.GetPackage(packageName);
         }
 
-        internal class TaskFailedException : Exception
+        public class TaskFailedException : Exception
         {
         }
     }

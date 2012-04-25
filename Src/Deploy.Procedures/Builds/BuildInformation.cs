@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Deploy.King.Builds
+namespace Deploy.Procedures.Builds
 {
     public class BuildInformation
     {
@@ -10,7 +10,7 @@ namespace Deploy.King.Builds
         }
 
         public Build Build { get; set; }
-        public string TeamcityLink { get; set; }
+        public string Link { get; set; }
         public List<Change> Changes { get; set; }
 
         public class Change

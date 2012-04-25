@@ -1,7 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Deploy.King.Messaging;
+using Deploy.Procedures.Messaging;
 
 namespace Deploy.King.Infrastructure.Installers
 {

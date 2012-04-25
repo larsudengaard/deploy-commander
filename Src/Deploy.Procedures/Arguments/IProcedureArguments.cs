@@ -1,4 +1,4 @@
-namespace Deploy.King.Procedures.Arguments
+namespace Deploy.Procedures.Arguments
 {
     public interface IProcedureArguments
     {

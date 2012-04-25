@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web.Mvc;
-using Deploy.King.Procedures;
+using Deploy.Procedures;
+using Deploy.Procedures.Examples;
 
 namespace Deploy.King.Host.Models.Project
 {

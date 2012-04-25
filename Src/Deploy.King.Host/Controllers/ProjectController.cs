@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Deploy.King.Builds;
 using Deploy.King.Host.Models.Project;
-using Deploy.King.Procedures;
-using Deploy.King.Procedures.Arguments;
 using Deploy.King.Projects;
 using System.Linq;
+using Deploy.Procedures;
+using Deploy.Procedures.Arguments;
+using Deploy.Procedures.Builds;
+using Deploy.Procedures.Examples.Arguments;
 using Raven.Client;
 
 namespace Deploy.King.Host.Controllers

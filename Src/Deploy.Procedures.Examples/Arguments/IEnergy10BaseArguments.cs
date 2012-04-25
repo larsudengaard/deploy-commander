@@ -1,4 +1,6 @@
-namespace Deploy.King.Procedures.Arguments
+using Deploy.Procedures.Arguments;
+
+namespace Deploy.Procedures.Examples.Arguments
 {
     public interface IEnergy10BaseArguments : IProcedureArguments
     {

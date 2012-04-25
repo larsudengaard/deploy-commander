@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using Deploy.Utilities;
 
-namespace Deploy.King.Builds
+namespace Deploy.Procedures.Builds
 {
     public class Build
     {

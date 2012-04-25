@@ -1,4 +1,4 @@
-namespace Deploy.King.Procedures.Arguments
+namespace Deploy.Procedures.Examples.Arguments
 {
     public class ArgumentsForEnergy10WithMigrations : IEnergy10BaseArguments
     {

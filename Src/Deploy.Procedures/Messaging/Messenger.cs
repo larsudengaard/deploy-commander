@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Deploy.King.Messaging
+namespace Deploy.Procedures.Messaging
 {
     public class Messenger : IMessenger, IMessageSubscriber
     {

@@ -3,10 +3,11 @@ using System.Web.Mvc;
 using Deploy.King.Builds;
 using Deploy.King.Host.Infrastructure;
 using Deploy.King.Host.Infrastructure.Poll;
-using Deploy.King.Messaging;
 using Deploy.King.Projects;
+using Deploy.Procedures.Builds;
+using Deploy.Procedures.Messaging;
 using Raven.Client;
-using Message = Deploy.King.Messaging.Message;
+using Message = Deploy.Procedures.Messaging.Message;
 
 namespace Deploy.King.Host.Controllers
 {

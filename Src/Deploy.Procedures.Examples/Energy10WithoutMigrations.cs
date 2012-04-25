@@ -1,9 +1,9 @@
-﻿using Deploy.King.Builds;
-using Deploy.King.Messaging;
-using Deploy.King.Procedures.Arguments;
-using Deploy.Pawn.Api;
+﻿using Deploy.Pawn.Api;
+using Deploy.Procedures.Builds;
+using Deploy.Procedures.Examples.Arguments;
+using Deploy.Procedures.Messaging;
 
-namespace Deploy.King.Procedures
+namespace Deploy.Procedures.Examples
 {
     public class Energy10WithoutMigrations : Energy10Base<ArgumentsForEnergy10WithoutMigrations>
     {

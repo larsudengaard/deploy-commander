@@ -1,7 +1,7 @@
-using Deploy.King.Builds;
-using Deploy.King.Procedures.Arguments;
+using Deploy.Procedures.Arguments;
+using Deploy.Procedures.Builds;
 
-namespace Deploy.King.Procedures
+namespace Deploy.Procedures
 {
     public interface IProcedure<TArguments> : IProcedure where TArguments : IProcedureArguments
     {

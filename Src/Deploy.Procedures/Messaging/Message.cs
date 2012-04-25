@@ -1,6 +1,6 @@
 using System;
 
-namespace Deploy.King.Messaging
+namespace Deploy.Procedures.Messaging
 {
     public class Message
     {

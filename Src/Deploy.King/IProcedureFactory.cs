@@ -1,5 +1,5 @@
-﻿using Deploy.King.Procedures;
-using Deploy.King.Procedures.Arguments;
+﻿using Deploy.Procedures;
+using Deploy.Procedures.Arguments;
 
 namespace Deploy.King
 {

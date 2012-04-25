@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Deploy.King.Builds;
+using Deploy.Procedures.Builds;
 
 namespace Deploy.King.Host.Models.Project
 {

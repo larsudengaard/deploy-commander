@@ -1,12 +1,13 @@
 using System.IO;
 using System.Threading;
 using Deploy.King.Builds;
-using Deploy.King.Messaging;
-using Deploy.King.Procedures.Arguments;
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Tasks;
+using Deploy.Procedures.Builds;
+using Deploy.Procedures.Examples.Arguments;
+using Deploy.Procedures.Messaging;
 
-namespace Deploy.King.Procedures
+namespace Deploy.Procedures.Examples
 {
     public abstract class Energy10Base<TArguments> : Procedure<TArguments> where TArguments : IEnergy10BaseArguments
     {

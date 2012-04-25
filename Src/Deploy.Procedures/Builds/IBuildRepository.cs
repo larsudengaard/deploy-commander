@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Deploy.King.Procedures.Arguments;
+using Deploy.Procedures.Arguments;
 
-namespace Deploy.King.Builds
+namespace Deploy.Procedures.Builds
 {
     public interface IBuildRepository
     {

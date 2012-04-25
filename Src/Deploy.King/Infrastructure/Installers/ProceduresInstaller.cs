@@ -3,8 +3,9 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Deploy.King.Builds;
 using Deploy.King.Infrastructure.Factories;
-using Deploy.King.Procedures;
 using Castle.Facilities.TypedFactory;
+using Deploy.Procedures;
+using Deploy.Procedures.Builds;
 
 namespace Deploy.King.Infrastructure.Installers
 {
@@ -17,7 +18,7 @@ namespace Deploy.King.Infrastructure.Installers
                                    .WithService.AllInterfaces()
                                    .LifestyleTransient());
 
-            container.Register(Component.For<IBuildRepository>().ImplementedBy<BuildRepository>().LifeStyle.Transient);
+            container.Register(Component.For<IBuildRepository>().ImplementedBy<TeamcityBuildRepository>().LifeStyle.Transient);
             container.Register(Component.For<IProcedureFactory>().AsFactory(x => x.SelectedWith<CreateGenericVersionOfInterfaceByArgumentsTypeSelector>()).LifeStyle.Transient);
         }
     }

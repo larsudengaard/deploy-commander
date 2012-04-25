@@ -1,4 +1,4 @@
-﻿using Deploy.King.Procedures.Arguments;
+﻿using Deploy.Procedures.Arguments;
 
 namespace Deploy.King.Projects
 {

@@ -1,4 +1,4 @@
-namespace Deploy.King.Builds
+namespace Deploy.Procedures.Builds
 {
     public class Package
     {

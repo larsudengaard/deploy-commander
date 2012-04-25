@@ -74,31 +74,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builds\BuildInformation.cs" />
-    <Compile Include="Builds\BuildRepository.cs" />
-    <Compile Include="Builds\IBuildRepository.cs" />
+    <Compile Include="Builds\TeamcityBuildRepository.cs" />
     <Compile Include="Infrastructure\Installers\MessagingInstaller.cs" />
     <Compile Include="IProcedureFactory.cs" />
     <Compile Include="Infrastructure\Factories\CreateGenericVersionOfInterfaceByArgumentsTypeSelector.cs" />
     <Compile Include="Infrastructure\Installers\PersistenceInstaller.cs" />
     <Compile Include="Infrastructure\Installers\ProceduresInstaller.cs" />
     <Compile Include="Infrastructure\Installers\WindsorInstaller.cs" />
-    <Compile Include="Messaging\IMessageListener.cs" />
-    <Compile Include="Messaging\IMessageSubscriber.cs" />
-    <Compile Include="Messaging\IMessenger.cs" />
-    <Compile Include="Messaging\Message.cs" />
-    <Compile Include="Messaging\Messenger.cs" />
-    <Compile Include="Procedures\Arguments\ArgumentsForEnergy10WithoutMigrations.cs" />
-    <Compile Include="Builds\Build.cs" />
-    <Compile Include="Procedures\Arguments\ArgumentsForEnergy10WithMigrations.cs" />
-    <Compile Include="Procedures\Energy10Base.cs" />
-    <Compile Include="Procedures\Energy10WithMigrations.cs" />
-    <Compile Include="Procedures\Energy10WithoutMigrations.cs" />
-    <Compile Include="Procedures\Arguments\IEnergy10BaseArguments.cs" />
-    <Compile Include="Procedures\IProcedure.cs" />
-    <Compile Include="Procedures\Arguments\IProcedureArguments.cs" />
-    <Compile Include="Builds\Package.cs" />
-    <Compile Include="Procedures\Procedure.cs" />
+    <Compile Include="ProcedureExecutor.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -106,6 +89,10 @@
     <ProjectReference Include="..\Deploy.Pawn.Api\Deploy.Pawn.Api.csproj">
       <Project>{1BEAE701-EAC5-4599-AB9F-432911E32C64}</Project>
       <Name>Deploy.Pawn.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deploy.Procedures\Deploy.Procedures.csproj">
+      <Project>{9F0E3B8A-8E1A-4998-9F51-035CB7291A6D}</Project>
+      <Name>Deploy.Procedures</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deploy.Utilities\Deploy.Utilities.csproj">
       <Project>{78537912-C586-4A60-8118-8E578FEEE0AD}</Project>
@@ -118,7 +105,10 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Messaging\" />
+    <Folder Include="Procedures\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

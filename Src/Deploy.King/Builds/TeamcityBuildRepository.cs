@@ -6,17 +6,18 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Xml.Linq;
-using Deploy.King.Procedures.Arguments;
+using Deploy.Procedures.Arguments;
+using Deploy.Procedures.Builds;
 using Deploy.Utilities;
 
 namespace Deploy.King.Builds
 {
-    public class BuildRepository : IBuildRepository
+    public class TeamcityBuildRepository : IBuildRepository
     {
         readonly string teamcityUrl;
         readonly WebClient webClient;
 
-        public BuildRepository()
+        public TeamcityBuildRepository()
         {
             webClient = new WebClient();
             webClient.Credentials = new NetworkCredential("larsudengaard", "MetteP83");
@@ -118,7 +119,7 @@ namespace Deploy.King.Builds
             var buildInformation = new BuildInformation
             {
                 Build = GetBuildFromElement(buildDocument.Root),
-                TeamcityLink = buildDocument.Root.Attribute("webUrl").Value
+                Link = buildDocument.Root.Attribute("webUrl").Value
             };
             foreach (XElement changeReferenceDocument in changesDocument.Root.Elements())
             {
