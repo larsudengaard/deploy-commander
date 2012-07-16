@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Deploy.King.Builds;
+using Deploy.King.Executor;
 using Deploy.King.Host.Models.Project;
 using Deploy.King.Projects;
 using System.Linq;
@@ -52,8 +52,8 @@ namespace Deploy.King.Host.Controllers
 
         ProjectWithBuilds GetModelFromProject(Project project)
         {
-            var procedure = procedureFactory.CreateFor(project.Arguments);
-            var builds = buildRepository.GetBuildsFor(project.Arguments);
+            var procedure = procedureFactory.CreateFor(project);
+            var builds = buildRepository.GetBuildsFor(project);
             var model = new ProjectWithBuilds(project, builds.ToList(), procedure.Name);
             return model;
         }
@@ -67,7 +67,7 @@ namespace Deploy.King.Host.Controllers
         public ActionResult CreateArguments(SelectProcedureType selection)
         {
             var procedureType = typeof (IProcedure).Assembly.GetType(selection.ProcedureType, false, true);
-            var argumentsType = procedureType.GetInterfaces().Single(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof (IProcedure<>)).GetGenericArguments()[0];
+            var argumentsType = procedureType.GetInterfaces().Single(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof (IProcedure)).GetGenericArguments()[0];
             var arguments = Activator.CreateInstance(argumentsType);
             
             return View(arguments);
@@ -76,14 +76,14 @@ namespace Deploy.King.Host.Controllers
         [HttpPost]
         public ActionResult ArgumentsForEnergy10WithoutMigrations(string id, string name, ArgumentsForEnergy10WithoutMigrations arguments)
         {
-            CreateOrEditProject(id, name, arguments);
+            CreateOrEditProject(id, name, null);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult ArgumentsForEnergy10WithMigrations(string id, string name, ArgumentsForEnergy10WithMigrations arguments)
         {
-            CreateOrEditProject(id, name, arguments);
+            CreateOrEditProject(id, name, null);
             return RedirectToAction("Index");
         }
 
@@ -93,13 +93,13 @@ namespace Deploy.King.Host.Controllers
             {
                 if (string.IsNullOrWhiteSpace(id))
                 {
-                    session.Store(new Project(name, arguments));
+                    session.Store(new Project(name));
                 }
                 else
                 {
                     var project = session.Load<Project>(id);
                     project.Name = name;
-                    project.Arguments = arguments;
+                    //project.Arguments = arguments;
                 }
 
                 session.SaveChanges();

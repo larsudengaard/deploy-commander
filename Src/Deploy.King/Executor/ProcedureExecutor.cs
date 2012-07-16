@@ -1,4 +1,4 @@
-﻿namespace Deploy.King
+﻿namespace Deploy.King.Executor
 {
     public class ProcedureExecutor
     {
@@ -9,6 +9,4 @@
     {
         
     }
-
-    public interface 
 }

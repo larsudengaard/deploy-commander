@@ -2,6 +2,7 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Deploy.King.Builds;
+using Deploy.King.Executor;
 using Deploy.King.Infrastructure.Factories;
 using Castle.Facilities.TypedFactory;
 using Deploy.Procedures;

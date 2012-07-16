@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Tasks;
 using Deploy.Procedures.Arguments;
@@ -7,7 +8,7 @@ using Deploy.Procedures.Messaging;
 
 namespace Deploy.Procedures
 {
-    public abstract class Procedure<TArguments> : IProcedure<TArguments> where TArguments : IProcedureArguments
+    public abstract class Procedure<TArguments> : IProcedure where TArguments : new()
     {
         readonly IMessenger messenger;
 
@@ -18,12 +19,22 @@ namespace Deploy.Procedures
 
         public abstract bool Perform(Build build, TArguments arguments);
 
-        public bool Perform(Build build, IProcedureArguments arguments)
+        public bool Perform(Build build, IProcedureArguments procedureArguments)
         {
             try
             {
+                var arguments = new TArguments();
+                foreach (var property in arguments.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    if (!property.CanWrite)
+                        continue;
+
+                    var argument = procedureArguments.GetArgument(property.Name);
+                    property.GetSetMethod().Invoke(arguments, new[] { Convert.ChangeType(argument, property.PropertyType) });
+                }
+
                 Messenger.Publish("Start procedure " + GetType().Name);
-                if (Perform(build, (TArguments) arguments))
+                if (Perform(build, (TArguments) procedureArguments))
                 {
                     Messenger.Publish("Procedure completed successfully " + GetType().Name);
                     return true;

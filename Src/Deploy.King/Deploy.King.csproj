@@ -76,12 +76,12 @@
   <ItemGroup>
     <Compile Include="Builds\TeamcityBuildRepository.cs" />
     <Compile Include="Infrastructure\Installers\MessagingInstaller.cs" />
-    <Compile Include="IProcedureFactory.cs" />
+    <Compile Include="Executor\IProcedureFactory.cs" />
     <Compile Include="Infrastructure\Factories\CreateGenericVersionOfInterfaceByArgumentsTypeSelector.cs" />
     <Compile Include="Infrastructure\Installers\PersistenceInstaller.cs" />
     <Compile Include="Infrastructure\Installers\ProceduresInstaller.cs" />
     <Compile Include="Infrastructure\Installers\WindsorInstaller.cs" />
-    <Compile Include="ProcedureExecutor.cs" />
+    <Compile Include="Executor\ProcedureExecutor.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -105,10 +105,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messaging\" />
-    <Folder Include="Procedures\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

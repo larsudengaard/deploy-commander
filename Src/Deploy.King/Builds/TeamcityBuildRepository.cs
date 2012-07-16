@@ -53,7 +53,7 @@ namespace Deploy.King.Builds
 
         public IEnumerable<Build> GetBuildsFor(IProcedureArguments arguments)
         {
-            XDocument document = Query("/httpAuth/app/rest/buildTypes/id:{1}/builds?status=success", arguments.TeamcityBuildType);
+            XDocument document = Query("/httpAuth/app/rest/buildTypes/id:{1}/builds?status=success", arguments.GetArgument("TeamcityBuildType"));
             if (document == null)
                 return Enumerable.Empty<Build>();
 

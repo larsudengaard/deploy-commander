@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Web.Mvc;
 using Deploy.King.Builds;
+using Deploy.King.Executor;
 using Deploy.King.Host.Infrastructure;
 using Deploy.King.Host.Infrastructure.Poll;
 using Deploy.King.Projects;
@@ -40,7 +41,7 @@ namespace Deploy.King.Host.Controllers
             var buildInformation = buildRepository.GetBuildInformation(buildId);
             return View(new Model
             {
-                Project = new Model.ProjectModel(project, procedureFactory.CreateFor(project.Arguments).Name),
+                Project = new Model.ProjectModel(project, procedureFactory.CreateFor(project).Name),
                 BuildInformation = buildInformation,
             });
         }
@@ -54,13 +55,13 @@ namespace Deploy.King.Host.Controllers
             }
 
             var build = buildRepository.GetBuild(buildId);
-            var procedure = procedureFactory.CreateFor(project.Arguments);
+            var procedure = procedureFactory.CreateFor(project);
 
             listeningToProjectId = projectId;
             listeningToBuildId = buildId;
             messageSubscriber.AddListener(this);
             var stopwatch = Stopwatch.StartNew();
-            var success = procedure.Perform(build, project.Arguments);
+            var success = procedure.Perform(build, project);
             stopwatch.Stop();
             messageSubscriber.RemoveListener(this);
 

@@ -33,11 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arguments\ArgumentsForEnergy10WithMigrations.cs" />
@@ -49,10 +44,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deploy.King\Deploy.King.csproj">
-      <Project>{8C6B8208-B73B-4AF6-A5C9-BA89FD932683}</Project>
-      <Name>Deploy.King</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deploy.Pawn.Api\Deploy.Pawn.Api.csproj">
       <Project>{1BEAE701-EAC5-4599-AB9F-432911E32C64}</Project>
       <Name>Deploy.Pawn.Api</Name>

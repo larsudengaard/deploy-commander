@@ -1,6 +1,5 @@
 using System.IO;
 using System.Threading;
-using Deploy.King.Builds;
 using Deploy.Pawn.Api;
 using Deploy.Pawn.Api.Tasks;
 using Deploy.Procedures.Builds;
@@ -9,7 +8,7 @@ using Deploy.Procedures.Messaging;
 
 namespace Deploy.Procedures.Examples
 {
-    public abstract class Energy10Base<TArguments> : Procedure<TArguments> where TArguments : IEnergy10BaseArguments
+    public abstract class Energy10Base<TArguments> : Procedure<TArguments> where TArguments : IEnergy10BaseArguments, new()
     {
         protected Energy10Base(IMessenger messenger) : base(messenger)
         {
