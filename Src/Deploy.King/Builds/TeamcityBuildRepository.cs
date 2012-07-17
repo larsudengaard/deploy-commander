@@ -66,7 +66,28 @@ namespace Deploy.King.Builds
             return builds.OrderByDescending(x => int.Parse(x.Id));
         }
 
-        public string GetPackage(Build build)
+        public Package GetPackage(Build build, string packageName)
+        {
+            string packagesPath = AppSettings.GetPath("PackagePath") + build.Id;
+            if (!Directory.Exists(packagesPath))
+            {
+                Directory.CreateDirectory(packagesPath);
+                var packageFilename = GetRawPackage(build);
+                Zip.Extract(File.Open(packageFilename, FileMode.Open), packagesPath);
+            }
+
+            string childPackageFilename = packagesPath + "\\" + packageName + ".zip";
+            if (!File.Exists(childPackageFilename))
+                return null;
+
+            return new Package
+            {
+                Name = packageName,
+                Path = childPackageFilename
+            };
+        }
+
+        string GetRawPackage(Build build)
         {
             string packageUrl = string.Format("{0}/downloadArtifacts.html?buildId={1}", teamcityUrl, build.Id);
             WebRequest request = WebRequest.Create(packageUrl);

@@ -1,4 +1,4 @@
-namespace Deploy.Procedures.Messaging
+namespace Deploy.King.Messaging
 {
     public interface IMessageSubscriber
     {

@@ -7,7 +7,7 @@ namespace Deploy.Procedures.Builds
     {
         Build GetBuild(string id);
         IEnumerable<Build> GetBuildsFor(IProcedureArguments arguments);
-        string GetPackage(Build build);
+        Package GetPackage(Build build, string packageName);
         BuildInformation GetBuildInformation(string build);
     }
 }

@@ -1,16 +1,14 @@
 using System;
-using System.IO;
-using Deploy.Utilities;
 
 namespace Deploy.Procedures.Builds
 {
     public class Build
     {
-        private readonly IBuildRepository buildRepository;
+        readonly IBuildRepository repository;
 
-        public Build(IBuildRepository buildRepository)
+        public Build(IBuildRepository repository)
         {
-            this.buildRepository = buildRepository;
+            this.repository = repository;
         }
 
         public string Id { get; set; }
@@ -19,23 +17,7 @@ namespace Deploy.Procedures.Builds
 
         public Package GetPackage(string packageName)
         {
-            string packagesPath = AppSettings.GetPath("PackagePath") + Id;
-            if (!Directory.Exists(packagesPath))
-            {
-                Directory.CreateDirectory(packagesPath);
-                var packageFilename = buildRepository.GetPackage(this);
-                Zip.Extract(File.Open(packageFilename, FileMode.Open), packagesPath);
-            }
-
-            string childPackageFilename = packagesPath + "\\" + packageName + ".zip";
-            if (!File.Exists(childPackageFilename))
-                return null;
-
-            return new Package
-            {
-                Name = packageName,
-                Path = childPackageFilename
-            };
+            return repository.GetPackage(this, packageName);
         }
     }
 }

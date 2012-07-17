@@ -15,7 +15,7 @@ namespace Deploy.Procedures.Examples
 
         public override bool Perform(Build build, ArgumentsForEnergy10WithMigrations arguments)
         {
-            var ravendbClient = new PawnClient(arguments.RavenDBPawnHostname);
+            var ravendbClient = new PawnClient(arguments.RavenDBPawnHostname, "kehi52page", true);
             string migratorExecutablePath;
             var missingMigrations = GetMissingMigrations(ravendbClient, build, arguments, out migratorExecutablePath);
 
@@ -25,10 +25,10 @@ namespace Deploy.Procedures.Examples
                 return false;
             }
 
-            PawnClient web1Client = new PawnClient(arguments.Web1PawnHostname);
+            PawnClient web1Client = new PawnClient(arguments.Web1PawnHostname, "kehi52page", true);
             PawnClient web2Client = null;
             if (arguments.DeployWeb2)
-                web2Client = new PawnClient(arguments.Web2PawnHostname);
+                web2Client = new PawnClient(arguments.Web2PawnHostname, "kehi52page", true);
 
             ExecuteTask(web1Client, new RemoveFromLoadBalancer
             {
@@ -37,11 +37,13 @@ namespace Deploy.Procedures.Examples
             });
 
             if (arguments.DeployWeb2)
+            {
                 ExecuteTask(web2Client, new RemoveFromLoadBalancer
                 {
                     WatchdogFilename = "loadbalancer",
                     WebsiteName = arguments.WebsiteName
                 });
+            }
 
             // Give loadbalancer time to see sites are remove from balancing
             Messenger.Publish("Waiting 3 seconds for loadbalancer to react");

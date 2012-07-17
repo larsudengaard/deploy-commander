@@ -52,8 +52,8 @@ namespace Deploy.King.Host.Controllers
 
         ProjectWithBuilds GetModelFromProject(Project project)
         {
-            var procedure = procedureFactory.CreateFor(project);
-            var builds = buildRepository.GetBuildsFor(project);
+            var procedure = procedureFactory.CreateFor(project.Arguments);
+            var builds = buildRepository.GetBuildsFor(project.Arguments);
             var model = new ProjectWithBuilds(project, builds.ToList(), procedure.Name);
             return model;
         }

@@ -14,17 +14,17 @@ namespace Deploy.Procedures.Examples
         public override bool Perform(Build build, ArgumentsForEnergy10WithoutMigrations arguments)
         {
             string migratorExecutablePath;
-            string missingMigrations = GetMissingMigrations(new PawnClient(arguments.RavenDBPawnHostname), build, arguments, out migratorExecutablePath);
+            string missingMigrations = GetMissingMigrations(new PawnClient(arguments.RavenDBPawnHostname, "kehi52page", true), build, arguments, out migratorExecutablePath);
             if (!missingMigrations.StartsWith("None"))
             {
                 Messenger.Publish(string.Format("Migrations need to be run: {0}. Please run DeployEnerg10WithMigrations procedure instead.", missingMigrations));
                 return false;
             }
 
-            DeployWebServer(new PawnClient(arguments.Web1PawnHostname), build, arguments);
+            DeployWebServer(new PawnClient(arguments.Web1PawnHostname, "kehi52page", true), build, arguments);
             
             if (arguments.DeployWeb2)
-                DeployWebServer(new PawnClient(arguments.Web2PawnHostname), build, arguments);
+                DeployWebServer(new PawnClient(arguments.Web2PawnHostname, "kehi52page", true), build, arguments);
 
             return true;
         }

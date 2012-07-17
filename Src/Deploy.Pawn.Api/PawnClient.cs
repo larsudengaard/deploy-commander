@@ -2,18 +2,21 @@
 using System.Net;
 using System.Text;
 using Deploy.Pawn.Api.Tasks;
-using Deploy.Utilities;
 using Newtonsoft.Json;
 
 namespace Deploy.Pawn.Api
 {
     public class PawnClient
     {
+        readonly string authenticationSecretKey;
+        readonly bool allowNonTrustedPawnCertificate;
         readonly string clientUrl;
         public const string AuthenticationKeyHeaderName = "pawnKey";
 
-        public PawnClient(string clientUrl)
+        public PawnClient(string clientUrl, string authenticationSecretKey, bool allowNonTrustedPawnCertificate = false)
         {
+            this.authenticationSecretKey = authenticationSecretKey;
+            this.allowNonTrustedPawnCertificate = allowNonTrustedPawnCertificate;
             clientUrl = clientUrl.EndsWith("/") ? clientUrl.Remove(clientUrl.Length - 1) : clientUrl;
             this.clientUrl = !clientUrl.EndsWith("/service") ? clientUrl + "/service" : "";
         }
@@ -34,12 +37,12 @@ namespace Deploy.Pawn.Api
             byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());
 
             WebRequest request = WebRequest.Create(ClientUrl);
-            request.Headers.Add(AuthenticationKeyHeaderName, AppSettings.GetString("AuthenticationSecretKey"));
+            request.Headers.Add(AuthenticationKeyHeaderName, authenticationSecretKey);
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
             request.ContentLength = bytes.Length;
             
-            if (AppSettings.GetBoolean("AllowNonTrustedPawnCertificate", false))
+            if (allowNonTrustedPawnCertificate)
                 ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true;
 
             using (Stream requestStream = request.GetRequestStream())

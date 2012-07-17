@@ -33,11 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arguments\IProcedureArguments.cs" />
@@ -47,11 +42,7 @@
     <Compile Include="Builds\IBuildRepository.cs" />
     <Compile Include="Builds\Package.cs" />
     <Compile Include="IProcedure.cs" />
-    <Compile Include="Messaging\IMessageListener.cs" />
-    <Compile Include="Messaging\IMessageSubscriber.cs" />
     <Compile Include="Messaging\IMessenger.cs" />
-    <Compile Include="Messaging\Message.cs" />
-    <Compile Include="Messaging\Messenger.cs" />
     <Compile Include="Procedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,10 +50,6 @@
     <ProjectReference Include="..\Deploy.Pawn.Api\Deploy.Pawn.Api.csproj">
       <Project>{1BEAE701-EAC5-4599-AB9F-432911E32C64}</Project>
       <Name>Deploy.Pawn.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deploy.Utilities\Deploy.Utilities.csproj">
-      <Project>{78537912-C586-4A60-8118-8E578FEEE0AD}</Project>
-      <Name>Deploy.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

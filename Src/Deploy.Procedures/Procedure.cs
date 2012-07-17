@@ -40,15 +40,15 @@ namespace Deploy.Procedures
                     return true;
                 }
             }
-            catch (TaskFailedException)
+            catch (TaskFailedException e)
             {
+                Messenger.Publish(string.Format("Procedure failed {0}, Task {1}", GetType().Name, e.Task.GetType().Name));
             }
             catch(Exception e)
             {
                 Messenger.Publish("Procedure encountered an unhandled error: " + e.Message + "\n" + e.StackTrace);
             }
 
-            Messenger.Publish("Procedure failed " + GetType().Name);
             return false;
         }
 
@@ -70,7 +70,7 @@ namespace Deploy.Procedures
             if (!response.Success)
             {
                 Messenger.Publish(String.Format("Task error: {0}\n{1}", response.ErrorMessage, response.StackTrace));
-                throw new TaskFailedException();
+                throw new TaskFailedException(task);
             }
 
             return response.Result;
@@ -84,6 +84,17 @@ namespace Deploy.Procedures
 
         public class TaskFailedException : Exception
         {
+            readonly ITask task;
+
+            public ITask Task
+            {
+                get { return task; }
+            }
+
+            public TaskFailedException(ITask task)
+            {
+                this.task = task;
+            }
         }
     }
 }

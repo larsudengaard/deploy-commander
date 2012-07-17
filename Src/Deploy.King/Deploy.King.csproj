@@ -82,6 +82,12 @@
     <Compile Include="Infrastructure\Installers\ProceduresInstaller.cs" />
     <Compile Include="Infrastructure\Installers\WindsorInstaller.cs" />
     <Compile Include="Executor\ProcedureExecutor.cs" />
+    <Compile Include="Messaging\IMessageListener.cs" />
+    <Compile Include="Messaging\IMessageSubscriber.cs" />
+    <Compile Include="Messaging\Message.cs" />
+    <Compile Include="Messaging\Messenger.cs" />
+    <Compile Include="Projects\Argument.cs" />
+    <Compile Include="Projects\Arguments.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

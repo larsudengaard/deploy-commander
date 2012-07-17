@@ -1,33 +1,28 @@
 using System.Diagnostics;
 using System.Web.Mvc;
-using Deploy.King.Builds;
 using Deploy.King.Executor;
 using Deploy.King.Host.Infrastructure;
 using Deploy.King.Host.Infrastructure.Poll;
 using Deploy.King.Projects;
 using Deploy.Procedures.Builds;
-using Deploy.Procedures.Messaging;
 using Raven.Client;
-using Message = Deploy.Procedures.Messaging.Message;
 
 namespace Deploy.King.Host.Controllers
 {
     [Authorize]
-    public class BuildController : AsyncController, IMessageListener
+    public class BuildController : AsyncController
     {
         readonly IDocumentStore store;
-        readonly IProcedureFactory procedureFactory;
         readonly IBuildRepository buildRepository;
-        readonly IMessageSubscriber messageSubscriber;
-        string listeningToProjectId;
-        string listeningToBuildId;
+        readonly ProcedureExecutor procedureExecutor;
+        readonly IPollMessengerFactory pollMessengerFactory;
 
-        public BuildController(IDocumentStore store, IProcedureFactory procedureFactory, IBuildRepository buildRepository, IMessageSubscriber messageSubscriber)
+        public BuildController(IDocumentStore store, IBuildRepository buildRepository, ProcedureExecutor procedureExecutor, IPollMessengerFactory pollMessengerFactory)
         {
             this.store = store;
-            this.procedureFactory = procedureFactory;
             this.buildRepository = buildRepository;
-            this.messageSubscriber = messageSubscriber;
+            this.procedureExecutor = procedureExecutor;
+            this.pollMessengerFactory = pollMessengerFactory;
         }
 
         public ActionResult Index(string projectId, string buildId)
@@ -41,7 +36,7 @@ namespace Deploy.King.Host.Controllers
             var buildInformation = buildRepository.GetBuildInformation(buildId);
             return View(new Model
             {
-                Project = new Model.ProjectModel(project, procedureFactory.CreateFor(project).Name),
+                Project = new Model.ProjectModel(project),
                 BuildInformation = buildInformation,
             });
         }
@@ -54,16 +49,16 @@ namespace Deploy.King.Host.Controllers
                 project = session.Load<Project>(projectId);
             }
 
-            var build = buildRepository.GetBuild(buildId);
-            var procedure = procedureFactory.CreateFor(project);
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            listeningToProjectId = projectId;
-            listeningToBuildId = buildId;
-            messageSubscriber.AddListener(this);
-            var stopwatch = Stopwatch.StartNew();
-            var success = procedure.Perform(build, project);
+            bool success;
+            using (pollMessengerFactory.CreateMessenger(projectId, buildId))
+            {
+                success = procedureExecutor.Execute(project, buildId);
+            }
+
             stopwatch.Stop();
-            messageSubscriber.RemoveListener(this);
 
             return new JsonNetResult
             {
@@ -75,11 +70,6 @@ namespace Deploy.King.Host.Controllers
             };
         }
 
-        public void HandleMessage(Message message)
-        {
-            Bus.Publish(new Infrastructure.Poll.Message(listeningToProjectId, listeningToBuildId, message));
-        }
-
         public class Model
         {
             public BuildInformation BuildInformation { get; set; }
@@ -87,11 +77,10 @@ namespace Deploy.King.Host.Controllers
 
             public class ProjectModel
             {
-                public ProjectModel(Project project, string procedureType)
+                public ProjectModel(Project project)
                 {
                     Id = project.Id;
                     Name = project.Name;
-                    ProcedureType = procedureType;
                 }
 
                 public string Id { get; set; }
