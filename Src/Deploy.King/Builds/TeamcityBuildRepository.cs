@@ -14,16 +14,20 @@ namespace Deploy.King.Builds
 {
     public class TeamcityBuildRepository : IBuildRepository
     {
+        public const string TeamcityBuildTypeId = "TeamcityBuildTypeId";
+
         readonly string teamcityUrl;
+        readonly string packagePath;
         readonly WebClient webClient;
 
-        public TeamcityBuildRepository()
+        public TeamcityBuildRepository(string teamcityUrl, string packagePath)
         {
             webClient = new WebClient();
             webClient.Credentials = new NetworkCredential("larsudengaard", "MetteP83");
 
-            teamcityUrl = AppSettings.GetString("TeamcityUrl");
-            teamcityUrl = teamcityUrl.Last() == '/' ? teamcityUrl.Substring(0, teamcityUrl.Length-1) : teamcityUrl;
+            this.teamcityUrl = teamcityUrl;
+            this.packagePath = packagePath;
+            this.teamcityUrl = teamcityUrl.Last() == '/' ? teamcityUrl.Substring(0, teamcityUrl.Length-1) : teamcityUrl;
         }
 
         public Build GetBuild(string id)
@@ -46,14 +50,14 @@ namespace Deploy.King.Builds
             return new Build(this)
             {
                 Id = element.Attribute("id").Value,
-                Number = int.Parse(element.Attribute("number").Value),
+                Number = element.Attribute("number").Value,
                 StartDate = Date(startDate),
             };
         }
 
         public IEnumerable<Build> GetBuildsFor(IProcedureArguments arguments)
         {
-            XDocument document = Query("/httpAuth/app/rest/buildTypes/id:{1}/builds?status=success", arguments.GetArgument("TeamcityBuildType"));
+            XDocument document = Query("/httpAuth/app/rest/buildTypes/id:{1}/builds?status=success", arguments.GetArgument(TeamcityBuildTypeId));
             if (document == null)
                 return Enumerable.Empty<Build>();
 
@@ -68,7 +72,7 @@ namespace Deploy.King.Builds
 
         public Package GetPackage(Build build, string packageName)
         {
-            string packagesPath = AppSettings.GetPath("PackagePath") + build.Id;
+            string packagesPath = packagePath + build.Id;
             if (!Directory.Exists(packagesPath))
             {
                 Directory.CreateDirectory(packagesPath);
@@ -111,7 +115,7 @@ namespace Deploy.King.Builds
             if (response.ContentLength == 0 || responseStream == null)
                 return null;
 
-            string fileName = AppSettings.GetPath("PackagePath") + build.Id + ".zip";
+            string fileName = packagePath + build.Id + ".zip";
             using (FileStream outputFileStream = File.Open(fileName, FileMode.CreateNew))
             using (responseStream)
             {

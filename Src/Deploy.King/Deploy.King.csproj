@@ -31,56 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AsyncCtpLibrary">
-      <HintPath>..\packages\RavenDB.1.0.616\lib\net40\AsyncCtpLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.0.5.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\RavenDB\Client\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\RavenDB\Client\Raven.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Debug, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\RavenDB\Client\Raven.Client.Debug.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\RavenDB\Client\Raven.Client.Lightweight.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.MvcIntegration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\RavenDB\Client\Raven.Client.MvcIntegration.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builds\TeamcityBuildRepository.cs" />
-    <Compile Include="Infrastructure\Installers\MessagingInstaller.cs" />
-    <Compile Include="Executor\IProcedureFactory.cs" />
-    <Compile Include="Infrastructure\Factories\CreateGenericVersionOfInterfaceByArgumentsTypeSelector.cs" />
-    <Compile Include="Infrastructure\Installers\PersistenceInstaller.cs" />
-    <Compile Include="Infrastructure\Installers\ProceduresInstaller.cs" />
-    <Compile Include="Infrastructure\Installers\WindsorInstaller.cs" />
     <Compile Include="Executor\ProcedureExecutor.cs" />
     <Compile Include="Messaging\IMessageListener.cs" />
     <Compile Include="Messaging\IMessageSubscriber.cs" />
@@ -92,10 +49,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deploy.Pawn.Api\Deploy.Pawn.Api.csproj">
-      <Project>{1BEAE701-EAC5-4599-AB9F-432911E32C64}</Project>
-      <Name>Deploy.Pawn.Api</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deploy.Procedures\Deploy.Procedures.csproj">
       <Project>{9F0E3B8A-8E1A-4998-9F51-035CB7291A6D}</Project>
       <Name>Deploy.Procedures</Name>

@@ -12,3 +12,4 @@ ReSharper.*
 
 Libs/RavenDB/Server/Data/*
 Libs/RavenDB/Server/Raven.Server.log.*
+Src/packages/RavenDB.Server.1.0.960/Data/

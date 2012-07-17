@@ -2,24 +2,15 @@
 {
     public class Project
     {
-        readonly Arguments arguments;
-        
         public Project()
         {
+            Arguments = new Arguments(this);
         }
 
-        public Project(string name)
-        {
-            Name = name;
-            arguments = new Arguments(this);
-        }
-
-        public string Id { get; set; }
+        public string Id { get; private set; }
+        public Arguments Arguments { get; private set; }
+        
         public string Name { get; set; }
-
-        public Arguments Arguments
-        {
-            get { return arguments; }
-        }
+        public string ProcedureName { get; set; }
     }
 }

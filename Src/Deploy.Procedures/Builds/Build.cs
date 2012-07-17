@@ -12,7 +12,7 @@ namespace Deploy.Procedures.Builds
         }
 
         public string Id { get; set; }
-        public int Number { get; set; }
+        public string Number { get; set; }
         public DateTime StartDate { get; set; }
 
         public Package GetPackage(string packageName)

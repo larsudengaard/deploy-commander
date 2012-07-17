@@ -1,0 +1,50 @@
+﻿@model Deploy.King.Host.Models.Projects.ProjectWithBuildsModel
+@{
+    ViewBag.Title = "Home Page";
+}
+<table class="project">
+    <tr>
+        <th colspan="2">@Html.ActionLink(Model.Project.Name, "Edit", new { Model.Project.Id })</th>
+    </tr>
+    <tr>
+        <td width="100">Procedure type</td>
+        <td>@Model.ProcedureType</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table width="100%">
+                <tr>
+                    <th>Argument</th>
+                    <th>Value</th>
+                </tr>
+                @foreach(var argument in Model.Project.Arguments.All())
+                {
+                    <tr>
+                        <td>@Html.ActionLink(argument.Name, "Edit", "Arguments", new { projectId = Model.Project.Id, argumentName = argument.Name }, null)</td>
+                        <td>@argument.Value</td>
+                    </tr>
+                }
+            </table>
+        </td>
+        <td colspan="2">
+            @Html.ActionLink("Add argument", "Edit", "Arguments", new { projectId = Model.Project.Id }, null)
+        </td>
+        <td colspan="2">
+            <table width="100%">
+                <tr>
+                    <th>Build</th>
+                    <th>Id</th>
+                    <th>Date</th>
+                </tr>
+                @foreach(var build in Model.Builds.Take(4))
+                {
+                    <tr>
+                        <td>@Html.ActionLink("#" + @build.Number, "Index", "Builds", new { projectId = Model.Project.Id, buildId = build.Id }, null)</td>
+                        <td>@build.Id</td>
+                        <td>@build.StartDate</td>
+                    </tr>
+                }
+            </table>
+        </td>
+    </tr>
+</table>

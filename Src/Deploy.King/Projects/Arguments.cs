@@ -1,45 +1,45 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Deploy.Procedures.Arguments;
 
 namespace Deploy.King.Projects
 {
-    public class Arguments : IEnumerable<Argument>, IProcedureArguments
+    public class Arguments : IProcedureArguments
     {
+        readonly List<Argument> arguments;
         readonly Project project;
-        readonly Dictionary<string, string> arguments;
 
         public Arguments(Project project)
         {
             this.project = project;
-            arguments = new Dictionary<string, string>();
+            arguments = new List<Argument>();
         }
 
         public void ConfigureArgument(string argumentName, string value)
         {
-            arguments[argumentName] = value;
+            var argument = arguments.SingleOrDefault(x => x.Name == argumentName);
+            if (argument == null)
+            {
+                argument = new Argument(argumentName);
+                arguments.Add(argument);
+            }
+            argument.Value = value;
         }
 
         public string GetArgument(string name)
         {
-            string value;
-            if (!arguments.TryGetValue(name, out value))
+            var argument = arguments.SingleOrDefault(x => x.Name == name);
+            if (argument == null)
             {
                 throw new MissingProcedureArgumentException(string.Format("Project configuration for project '{0}' is missing the argument named '{1}'", project.Name, name));
             }
 
-            return value;
+            return argument.Value;
         }
 
-        public IEnumerator<Argument> GetEnumerator()
+        public IEnumerable<Argument> All
         {
-            return arguments.Select(x => new Argument(x.Key, x.Value)).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            get { return arguments; }
         }
     }
 }

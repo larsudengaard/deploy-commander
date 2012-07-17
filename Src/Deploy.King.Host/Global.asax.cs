@@ -4,7 +4,6 @@ using Castle.Facilities.TypedFactory;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Deploy.King.Host.Infrastructure;
-using Deploy.King.Infrastructure.Installers;
 
 namespace Deploy.King.Host
 {
@@ -40,7 +39,7 @@ namespace Deploy.King.Host
 
             container = new WindsorContainer();
             container.AddFacility<TypedFactoryFacility>();
-            container.Install(FromAssembly.This(), FromAssembly.Containing<PersistenceInstaller>());
+            container.Install(FromAssembly.This());
 
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
             DependencyResolver.SetResolver(container.Resolve, x => (object[])container.ResolveAll(x));

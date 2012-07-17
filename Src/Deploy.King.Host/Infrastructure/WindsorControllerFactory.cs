@@ -16,6 +16,9 @@ namespace Deploy.King.Host.Infrastructure
 
         protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
         {
+            if (controllerType == null)
+                return base.GetControllerInstance(requestContext, controllerType);
+
             return windsorContainer.Resolve(controllerType) as IController;
         }
 

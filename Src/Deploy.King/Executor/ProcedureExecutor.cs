@@ -10,13 +10,11 @@ namespace Deploy.King.Executor
 {
     public class ProcedureExecutor
     {
-        readonly IProcedureFactory procedureFactory;
         readonly IBuildRepository buildRepository;
         readonly IMessenger messenger;
 
-        public ProcedureExecutor(IProcedureFactory procedureFactory, IBuildRepository buildRepository, IMessenger messenger)
+        public ProcedureExecutor(IBuildRepository buildRepository, IMessenger messenger)
         {
-            this.procedureFactory = procedureFactory;
             this.buildRepository = buildRepository;
             this.messenger = messenger;
         }
@@ -40,7 +38,7 @@ namespace Deploy.King.Executor
                 return false;
             }
 
-            var procedures = assembly.GetTypes().Where(x => x.IsAssignableFrom(typeof (IProcedure))).ToList();
+            var procedures = assembly.GetTypes().Where(x => x.IsAssignableFrom(typeof (IProcedure)) && x.Name == project.ProcedureName).ToList();
             if (!procedures.Any())
             {
                 messenger.Publish(string.Format("Could not find any procedure in deploy package named {0}", packageName));
