@@ -15,6 +15,7 @@ namespace Deploy.King.Projects
         public List<Argument> Arguments { get; private set; }
         
         public string Name { get; set; }
+        public string DeployPackageName { get; set; }
         public string ProcedureName { get; set; }
 
         public void RemoveArgument(string argumentName)

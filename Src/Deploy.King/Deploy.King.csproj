@@ -48,6 +48,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deploy.Pawn.Api\Deploy.Pawn.Api.csproj">
+      <Project>{1BEAE701-EAC5-4599-AB9F-432911E32C64}</Project>
+      <Name>Deploy.Pawn.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deploy.Procedures\Deploy.Procedures.csproj">
       <Project>{9F0E3B8A-8E1A-4998-9F51-035CB7291A6D}</Project>
       <Name>Deploy.Procedures</Name>

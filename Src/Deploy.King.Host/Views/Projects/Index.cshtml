@@ -10,7 +10,11 @@
             <th colspan="2">@Html.ActionLink(projectWithBuilds.Project.Name, "Open", new { projectWithBuilds.Project.Id })</th>
         </tr>
         <tr>
-            <td width="100">Procedure type</td>
+            <td width="100">Package name</td>
+            <td>@projectWithBuilds.Project.DeployPackageName</td>
+        </tr>
+        <tr>
+            <td width="100">Procedure</td>
             <td>@projectWithBuilds.Project.ProcedureName</td>
         </tr>
         <tr>

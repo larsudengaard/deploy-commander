@@ -3,23 +3,23 @@ using Deploy.King.Messaging;
 
 namespace Deploy.King.Host.Infrastructure.Poll
 {
-    public class PollMessenger : IMessageListener, IDisposable
+    public class PollChannel : IMessageListener, IDisposable
     {
         readonly IMessageSubscriber messageSubscriber;
-        readonly string projectId;
-        readonly string buildId;
+        readonly string channel;
+        readonly string group;
 
-        public PollMessenger(IMessageSubscriber messageSubscriber, string projectId, string buildId)
+        public PollChannel(IMessageSubscriber messageSubscriber, string channel, string @group)
         {
             this.messageSubscriber = messageSubscriber;
-            this.projectId = projectId;
-            this.buildId = buildId;
             messageSubscriber.AddListener(this);
+            this.channel = channel;
+            this.group = group;
         }
 
         public void HandleMessage(Messaging.Message message)
         {
-            Bus.Publish(new Message(projectId, buildId, message));
+            Bus.Publish(new Message(channel, group, message));
         }
 
         public void Dispose()

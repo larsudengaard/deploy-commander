@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Deploy.King.Host.Models.Projects
 {
@@ -9,6 +8,9 @@ namespace Deploy.King.Host.Models.Projects
 
         [Required(ErrorMessage = "Project Name is required")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Name of deploypackage is required")]
+        public string DeployPackageName { get; set; }
 
         [Required(ErrorMessage = "Procedure Name is required")]
         public string ProcedureName { get; set; }

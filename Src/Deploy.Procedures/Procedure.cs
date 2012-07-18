@@ -63,7 +63,7 @@ namespace Deploy.Procedures
         }
 
         // TODO: Make DI pawnclient factory, and make pawnclient print for it self, removeing the need for this method:
-        protected TResult ExecuteTask<TResult>(PawnClient client, ITask<TResult> task) where TResult : IResult
+        public TResult ExecuteTask<TResult>(PawnClient client, ITask<TResult> task) where TResult : IResult
         {
             Messenger.Publish(String.Format("{0}: Task {1}", client.ClientUrl, task.GetType().Name));
             var response = client.ExecuteTask(task);
@@ -80,21 +80,6 @@ namespace Deploy.Procedures
         {
             Messenger.Publish("Retrieving package " + packageName);
             return build.GetPackage(packageName);
-        }
-
-        public class TaskFailedException : Exception
-        {
-            readonly ITask task;
-
-            public ITask Task
-            {
-                get { return task; }
-            }
-
-            public TaskFailedException(ITask task)
-            {
-                this.task = task;
-            }
         }
     }
 }

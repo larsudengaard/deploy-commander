@@ -20,6 +20,7 @@ namespace Deploy.King.Messaging
 
         public void AddListener(IMessageListener listener)
         {
+
             if (listeners.Contains(listener))
                 throw new ArgumentException("Listener already registered", "listener");
 

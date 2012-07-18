@@ -67,8 +67,7 @@
     <Compile Include="Controllers\ArgumentsController.cs" />
     <Compile Include="Controllers\BuildsController.cs" />
     <Compile Include="Controllers\PollController.cs" />
-    <Compile Include="Infrastructure\Poll\IPollMessengerFactory.cs" />
-    <Compile Include="Infrastructure\Poll\PollMessenger.cs" />
+    <Compile Include="Infrastructure\Poll\PollChannel.cs" />
     <Compile Include="Models\Arguments\ArgumentsModel.cs" />
     <Compile Include="Models\Builds\ProjectWithBuildInformationModel.cs" />
     <Compile Include="Infrastructure\Installers\DeployKingInstaller.cs" />

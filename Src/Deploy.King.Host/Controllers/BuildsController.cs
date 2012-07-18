@@ -4,6 +4,7 @@ using Deploy.King.Executor;
 using Deploy.King.Host.Infrastructure;
 using Deploy.King.Host.Infrastructure.Poll;
 using Deploy.King.Host.Models.Builds;
+using Deploy.King.Messaging;
 using Deploy.King.Projects;
 using Deploy.Procedures.Builds;
 using Raven.Client;
@@ -16,14 +17,14 @@ namespace Deploy.King.Host.Controllers
         readonly IDocumentStore store;
         readonly IBuildRepository buildRepository;
         readonly ProcedureExecutor procedureExecutor;
-        readonly IPollMessengerFactory pollMessengerFactory;
+        readonly IMessageSubscriber messageSubscriber;
 
-        public BuildsController(IDocumentStore store, IBuildRepository buildRepository, ProcedureExecutor procedureExecutor, IPollMessengerFactory pollMessengerFactory)
+        public BuildsController(IDocumentStore store, IBuildRepository buildRepository, ProcedureExecutor procedureExecutor, IMessageSubscriber messageSubscriber)
         {
             this.store = store;
             this.buildRepository = buildRepository;
             this.procedureExecutor = procedureExecutor;
-            this.pollMessengerFactory = pollMessengerFactory;
+            this.messageSubscriber = messageSubscriber;
         }
 
         public ActionResult Index(string projectId, string buildId)
@@ -54,7 +55,7 @@ namespace Deploy.King.Host.Controllers
             stopwatch.Start();
 
             bool success;
-            using (pollMessengerFactory.CreateMessenger(projectId, buildId))
+            using (new PollChannel(messageSubscriber, projectId, buildId))
             {
                 success = procedureExecutor.Execute(project, buildId);
             }

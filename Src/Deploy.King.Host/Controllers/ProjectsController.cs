@@ -80,6 +80,7 @@ namespace Deploy.King.Host.Controllers
                 {
                     Id = project.Id,
                     Name = project.Name,
+                    DeployPackageName = project.DeployPackageName,
                     ProcedureName = project.ProcedureName,
                     TeamcityBuildTypeId = teamcityBuildTypeId
                 });
@@ -97,6 +98,7 @@ namespace Deploy.King.Host.Controllers
                     {
                         var project = session.Load<Project>(model.Id);
                         project.Name = model.Name;
+                        project.DeployPackageName = model.DeployPackageName;
                         project.ProcedureName = model.ProcedureName;
                         project.ConfigureArgument(TeamcityBuildRepository.TeamcityBuildTypeId, model.TeamcityBuildTypeId);
                     }
@@ -104,7 +106,9 @@ namespace Deploy.King.Host.Controllers
                     {
                         var project = new Project
                         {
-                            Name = model.Name, ProcedureName = model.ProcedureName
+                            Name = model.Name,
+                            DeployPackageName = model.DeployPackageName,
+                            ProcedureName = model.ProcedureName
                         };
                         project.ConfigureArgument(TeamcityBuildRepository.TeamcityBuildTypeId, model.TeamcityBuildTypeId);
                         session.Store(project);

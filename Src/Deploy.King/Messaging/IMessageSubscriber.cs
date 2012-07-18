@@ -1,3 +1,5 @@
+using System;
+
 namespace Deploy.King.Messaging
 {
     public interface IMessageSubscriber

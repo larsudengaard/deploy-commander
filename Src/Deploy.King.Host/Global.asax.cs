@@ -4,6 +4,7 @@ using Castle.Facilities.TypedFactory;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Deploy.King.Host.Infrastructure;
+using Deploy.King.Host.Infrastructure.Poll;
 
 namespace Deploy.King.Host
 {
