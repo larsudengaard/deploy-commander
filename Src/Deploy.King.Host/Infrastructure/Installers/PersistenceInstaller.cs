@@ -24,6 +24,7 @@ namespace Deploy.King.Host.Infrastructure.Installers
             {
                 serializer.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
                 serializer.TypeNameHandling = TypeNameHandling.All;
+                serializer.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
             };
             store.Initialize();
             return store;

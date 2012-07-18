@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Deploy.King.Builds;
 using Deploy.King.Host.Models.Projects;
 using Deploy.King.Projects;
 using System.Linq;
+using Deploy.Procedures.Arguments;
 using Deploy.Procedures.Builds;
 using Raven.Client;
 
@@ -46,8 +48,17 @@ namespace Deploy.King.Host.Controllers
 
         ProjectWithBuildsModel GetModelFromProject(Project project)
         {
-            var builds = buildRepository.GetBuildsFor(project.Arguments);
-            var model = new ProjectWithBuildsModel(project, builds.ToList());
+            ProjectWithBuildsModel model;
+            try
+            {
+                var builds = buildRepository.GetBuildsFor(project);
+                model = new ProjectWithBuildsModel(project, builds.ToList());
+            }
+            catch (MissingProcedureArgumentException e)
+            {
+                model = new ProjectWithBuildsModel(project, new List<Build>(), e.Message);
+            }
+
             return model;
         }
 
@@ -61,11 +72,16 @@ namespace Deploy.King.Host.Controllers
             using (var session = store.OpenSession())
             {
                 var project = session.Load<Project>(id);
+                
+                string teamcityBuildTypeId;
+                project.TryGetArgument(TeamcityBuildRepository.TeamcityBuildTypeId, out teamcityBuildTypeId);
+                
                 return View(new ProjectModel
                 {
                     Id = project.Id,
                     Name = project.Name,
-                    ProcedureName = project.ProcedureName
+                    ProcedureName = project.ProcedureName,
+                    TeamcityBuildTypeId = teamcityBuildTypeId
                 });
             }
         }
@@ -82,7 +98,7 @@ namespace Deploy.King.Host.Controllers
                         var project = session.Load<Project>(model.Id);
                         project.Name = model.Name;
                         project.ProcedureName = model.ProcedureName;
-                        project.Arguments.ConfigureArgument(TeamcityBuildRepository.TeamcityBuildTypeId, model.TeamcityBuildTypeId);
+                        project.ConfigureArgument(TeamcityBuildRepository.TeamcityBuildTypeId, model.TeamcityBuildTypeId);
                     }
                     else
                     {
@@ -90,7 +106,7 @@ namespace Deploy.King.Host.Controllers
                         {
                             Name = model.Name, ProcedureName = model.ProcedureName
                         };
-                        project.Arguments.ConfigureArgument(TeamcityBuildRepository.TeamcityBuildTypeId, model.TeamcityBuildTypeId);
+                        project.ConfigureArgument(TeamcityBuildRepository.TeamcityBuildTypeId, model.TeamcityBuildTypeId);
                         session.Store(project);
                     }
                     session.SaveChanges();

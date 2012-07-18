@@ -21,6 +21,12 @@
                         <th>Id</th>
                         <th>Date</th>
                     </tr>
+                    @if (projectWithBuilds.Error != null)
+                    {
+                        <tr>
+                            <td colspan="3">@projectWithBuilds.Error</td>
+                        </tr>
+                    }
                     @foreach(var build in projectWithBuilds.Builds.Take(4))
                     {
                         <tr>

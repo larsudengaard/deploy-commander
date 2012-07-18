@@ -22,7 +22,7 @@ namespace Deploy.King.Executor
         public bool Execute(Project project, string buildId)
         {
             Build build = buildRepository.GetBuild(buildId);
-            var packageName = "Deploy";
+            var packageName = project.ProcedureName;
             
             var package = build.GetPackage(packageName);
             if (package == null)
@@ -60,7 +60,7 @@ namespace Deploy.King.Executor
                 return false;
             }
 
-            return procedure.Perform(build, project.Arguments);
+            return procedure.Perform(build, project);
         }
 
         IProcedure CreateProcedure(Type procedureType)

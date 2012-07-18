@@ -5,7 +5,7 @@ namespace Deploy.Procedures
 {
     public interface IProcedure
     {
-        bool Perform(Build build, IProcedureArguments procedureArguments);
+        bool Perform(Build build, IProject project);
         string Name { get; }
     }
 }

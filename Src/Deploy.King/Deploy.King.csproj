@@ -44,7 +44,6 @@
     <Compile Include="Messaging\Message.cs" />
     <Compile Include="Messaging\Messenger.cs" />
     <Compile Include="Projects\Argument.cs" />
-    <Compile Include="Projects\Arguments.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -35,7 +35,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arguments\IProcedureArguments.cs" />
+    <Compile Include="Arguments\IProject.cs" />
     <Compile Include="Arguments\MissingProcedureArgumentException.cs" />
     <Compile Include="Builds\Build.cs" />
     <Compile Include="Builds\BuildInformation.cs" />

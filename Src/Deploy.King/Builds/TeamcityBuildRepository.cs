@@ -55,9 +55,10 @@ namespace Deploy.King.Builds
             };
         }
 
-        public IEnumerable<Build> GetBuildsFor(IProcedureArguments arguments)
+        public IEnumerable<Build> GetBuildsFor(IProject arguments)
         {
-            XDocument document = Query("/httpAuth/app/rest/buildTypes/id:{1}/builds?status=success", arguments.GetArgument(TeamcityBuildTypeId));
+            var teamcityBuildTypeId = arguments.GetArgument(TeamcityBuildTypeId);
+            XDocument document = Query("/httpAuth/app/rest/buildTypes/id:{1}/builds?status=success", teamcityBuildTypeId);
             if (document == null)
                 return Enumerable.Empty<Build>();
 

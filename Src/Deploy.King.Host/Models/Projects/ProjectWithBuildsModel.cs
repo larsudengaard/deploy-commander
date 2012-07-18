@@ -8,11 +8,23 @@ namespace Deploy.King.Host.Models.Projects
     {
         readonly Project project;
         readonly List<Build> builds;
+        readonly string error;
 
-        public ProjectWithBuildsModel(Project project, List<Build> builds)
+        public ProjectWithBuildsModel(Project project, List<Build> builds, string error)
         {
+            this.error = error;
             this.project = project;
             this.builds = builds;
+        }
+
+        public ProjectWithBuildsModel(Project project, List<Build> builds)
+            : this(project, builds, null)
+        {
+        }
+
+        public string Error
+        {
+            get { return error; }
         }
 
         public Project Project

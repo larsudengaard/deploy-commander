@@ -19,7 +19,7 @@ namespace Deploy.Procedures
 
         public abstract bool Perform(Build build, TArguments arguments);
 
-        public bool Perform(Build build, IProcedureArguments procedureArguments)
+        public bool Perform(Build build, IProject project)
         {
             try
             {
@@ -29,12 +29,12 @@ namespace Deploy.Procedures
                     if (!property.CanWrite)
                         continue;
 
-                    var argument = procedureArguments.GetArgument(property.Name);
+                    var argument = project.GetArgument(property.Name);
                     property.GetSetMethod().Invoke(arguments, new[] { Convert.ChangeType(argument, property.PropertyType) });
                 }
 
                 Messenger.Publish("Start procedure " + GetType().Name);
-                if (Perform(build, (TArguments) procedureArguments))
+                if (Perform(build, (TArguments) project))
                 {
                     Messenger.Publish("Procedure completed successfully " + GetType().Name);
                     return true;

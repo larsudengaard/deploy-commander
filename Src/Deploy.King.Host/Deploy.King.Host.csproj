@@ -67,6 +67,9 @@
     <Compile Include="Controllers\ArgumentsController.cs" />
     <Compile Include="Controllers\BuildsController.cs" />
     <Compile Include="Controllers\PollController.cs" />
+    <Compile Include="Infrastructure\Poll\IPollMessengerFactory.cs" />
+    <Compile Include="Infrastructure\Poll\PollMessenger.cs" />
+    <Compile Include="Models\Arguments\ArgumentsModel.cs" />
     <Compile Include="Models\Builds\ProjectWithBuildInformationModel.cs" />
     <Compile Include="Infrastructure\Installers\DeployKingInstaller.cs" />
     <Compile Include="Infrastructure\Installers\MvcInstaller.cs" />
@@ -150,6 +153,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Builds\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Arguments\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Arguments\Create.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

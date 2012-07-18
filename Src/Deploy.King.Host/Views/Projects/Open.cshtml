@@ -8,7 +8,7 @@
     </tr>
     <tr>
         <td width="100">Procedure type</td>
-        <td>@Model.ProcedureType</td>
+        <td>@Model.Project.ProcedureName</td>
     </tr>
     <tr>
         <td colspan="2">
@@ -16,19 +16,21 @@
                 <tr>
                     <th>Argument</th>
                     <th>Value</th>
+                    <th></th>
                 </tr>
-                @foreach(var argument in Model.Project.Arguments.All())
+                @foreach(var argument in Model.Project.Arguments)
                 {
                     <tr>
                         <td>@Html.ActionLink(argument.Name, "Edit", "Arguments", new { projectId = Model.Project.Id, argumentName = argument.Name }, null)</td>
                         <td>@argument.Value</td>
+                        <td>@Html.ActionLink("del", "Delete", "Arguments", new { projectId = Model.Project.Id, argumentName = argument.Name }, null)</td>
                     </tr>
                 }
             </table>
+            @Html.ActionLink("Add argument", "Create", "Arguments", new { projectId = Model.Project.Id }, null)
         </td>
-        <td colspan="2">
-            @Html.ActionLink("Add argument", "Edit", "Arguments", new { projectId = Model.Project.Id }, null)
-        </td>
+    </tr>
+    <tr>
         <td colspan="2">
             <table width="100%">
                 <tr>
@@ -36,6 +38,12 @@
                     <th>Id</th>
                     <th>Date</th>
                 </tr>
+                @if (Model.Error != null)
+                {
+                    <tr>
+                        <td colspan="3">@Model.Error</td>
+                    </tr>
+                }
                 @foreach(var build in Model.Builds.Take(4))
                 {
                     <tr>
