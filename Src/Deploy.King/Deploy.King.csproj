@@ -37,6 +37,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assemblies\ProcedureLoader.cs" />
     <Compile Include="Builds\TeamcityBuildRepository.cs" />
     <Compile Include="Executor\ProcedureExecutor.cs" />
     <Compile Include="Messaging\IMessageListener.cs" />

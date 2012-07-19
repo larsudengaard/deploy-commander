@@ -1,6 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Web.Mvc;
+using Deploy.King.Assemblies;
 using Deploy.King.Host.Models.Arguments;
 using Deploy.King.Projects;
+using Deploy.Procedures;
+using Deploy.Procedures.Builds;
 using Raven.Client;
 using System.Linq;
 
@@ -9,10 +15,14 @@ namespace Deploy.King.Host.Controllers
     public class ArgumentsController : Controller
     {
         readonly IDocumentStore store;
+        readonly IBuildRepository buildRepository;
+        readonly ProcedureLoader procedureLoader;
 
-        public ArgumentsController(IDocumentStore store)
+        public ArgumentsController(IDocumentStore store, IBuildRepository buildRepository, ProcedureLoader procedureLoader)
         {
             this.store = store;
+            this.buildRepository = buildRepository;
+            this.procedureLoader = procedureLoader;
         }
 
         public ActionResult Create(string projectId)
@@ -21,6 +31,43 @@ namespace Deploy.King.Host.Controllers
             {
                 ProjectId = projectId            
             });
+        }
+
+        public ActionResult GenerateArgumentsFromBuild(string projectId, string buildId)
+        {
+            var build = buildRepository.GetBuild(buildId);
+            Project project;
+            using (var session = store.OpenSession())
+            {
+                project = session.Load<Project>(projectId);
+            }
+
+            var procedure = procedureLoader.GetProcedure(project, build);
+            var procedureType = procedure.GetType();
+            var arguments = new List<ArgumentModel>();
+            while (procedureType != typeof(object))
+            {
+                if (procedureType.IsGenericType && procedureType.GetGenericTypeDefinition() == typeof(Procedure<>))
+                {
+                    var argumentType = procedureType.GetGenericArguments()[0];
+                    foreach (var property in argumentType.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.CanWrite && x.CanRead))
+                    {
+                        string existingValue;
+                        project.TryGetArgument(property.Name, out existingValue);
+                        arguments.Add(new ArgumentModel
+                        {
+                            ProjectId = projectId,
+                            Name = property.Name,
+                            Value = existingValue
+                        });
+                    }
+                    break;
+                }
+
+                procedureType = procedureType.BaseType;
+            }
+
+            return View(arguments);
         }
 
         public ActionResult Edit(string projectId, string argumentName)

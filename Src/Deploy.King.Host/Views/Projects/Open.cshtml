@@ -37,6 +37,7 @@
                     <th>Build</th>
                     <th>Id</th>
                     <th>Date</th>
+                    <th></th>
                 </tr>
                 @if (Model.Error != null)
                 {
@@ -50,6 +51,9 @@
                         <td>@Html.ActionLink("#" + @build.Number, "Index", "Builds", new { projectId = Model.Project.Id, buildId = build.Id }, null)</td>
                         <td>@build.Id</td>
                         <td>@build.StartDate</td>
+                        <td>
+                            @Html.ActionLink("Generate arguments", "GenerateArgumentsFromBuild", "Arguments", new { projectId = Model.Project.Id, buildId = build.Id }, null)
+                        </td>
                     </tr>
                 }
             </table>
