@@ -25,7 +25,7 @@ namespace Deploy.Pawn.Host
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Service", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Index", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
         }
 

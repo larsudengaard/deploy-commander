@@ -62,7 +62,6 @@ namespace Deploy.Procedures
             get { return messenger; }
         }
 
-        // TODO: Make DI pawnclient factory, and make pawnclient print for it self, removeing the need for this method:
         public TResult ExecuteTask<TResult>(PawnClient client, ITask<TResult> task) where TResult : IResult
         {
             Messenger.Publish(String.Format("{0}: Task {1}", client.ClientUrl, task.GetType().Name));
