@@ -34,7 +34,7 @@ namespace Deploy.Procedures
                 }
 
                 Messenger.Publish("Start procedure " + GetType().Name);
-                if (Perform(build, (TArguments) project))
+                if (Perform(build, arguments))
                 {
                     Messenger.Publish("Procedure completed successfully " + GetType().Name);
                     return true;

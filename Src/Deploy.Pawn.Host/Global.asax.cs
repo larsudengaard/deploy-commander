@@ -4,7 +4,6 @@ using Castle.Facilities.TypedFactory;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Deploy.Pawn.Host.Infrastructure;
-using Deploy.Pawn.Host.Infrastructure.Installers;
 
 namespace Deploy.Pawn.Host
 {
@@ -14,7 +13,6 @@ namespace Deploy.Pawn.Host
     public class MvcApplication : System.Web.HttpApplication
     {
         WindsorContainer container;
-
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
