@@ -8,7 +8,7 @@ namespace Deploy.Pawn.Host.Infrastructure
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var key = filterContext.HttpContext.Request.Headers[PawnClient.AuthenticationKeyHeaderName];
+            var key = filterContext.HttpContext.Request.Headers["pawnKey"];
             if (key != AppSettings.GetString("AuthenticationSecretKey"))
             {
                 var res = filterContext.HttpContext.Response;

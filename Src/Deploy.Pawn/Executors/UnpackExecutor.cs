@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using Deploy.Pawn.Api.Tasks;
 using Deploy.Pawn.Infrastructure;
@@ -10,8 +9,12 @@ namespace Deploy.Pawn.Executors
     {
         protected override Unpack.Result Execute(Unpack task)
         {
-            var packagePath = string.Format(@"C:\temp\packages\{0}\", task.PackageName);
-            
+            var packagePath = AppSettings.GetPath("UnpackDirectory") + task.PackageName + "\\";
+            if (Directory.Exists(packagePath))
+            {
+                Directory.Delete(packagePath, true);
+            }
+
             using (var memoryStream = new MemoryStream(task.FileData))
             {
                 Zip.Extract(memoryStream, packagePath);

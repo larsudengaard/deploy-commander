@@ -38,6 +38,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPawnClient.cs" />
+    <Compile Include="IPawnFactory.cs" />
     <Compile Include="IResponse.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="Tasks\ChangePhysicalPathOnWebsite.cs" />
@@ -49,7 +51,6 @@
     <Compile Include="Tasks\RunExecutable.cs" />
     <Compile Include="Tasks\ITask.cs" />
     <Compile Include="Tasks\ManageWebsiteTask.cs" />
-    <Compile Include="PawnClient.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Tasks\StartWebsite.cs" />
     <Compile Include="Tasks\StopWebsite.cs" />

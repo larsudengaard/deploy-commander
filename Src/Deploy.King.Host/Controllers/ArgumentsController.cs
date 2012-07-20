@@ -67,6 +67,29 @@ namespace Deploy.King.Host.Controllers
                 procedureType = procedureType.BaseType;
             }
 
+            ViewBag.ProjectId = projectId;
+            return View(arguments);
+        }
+
+        [HttpPost]
+        public ActionResult GenerateArgumentsFromBuild(string projectId, List<ArgumentModel> arguments)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var session = store.OpenSession())
+                {
+                    var project = session.Load<Project>(projectId);
+                    foreach (var argument in arguments)
+                    {
+                        project.ConfigureArgument(argument.Name, argument.Value);
+                    }
+
+                    session.SaveChanges();
+                    return RedirectToAction("Open", "Projects", new { id = projectId });
+                }
+            }
+
+            ViewBag.ProjectId = projectId;
             return View(arguments);
         }
 
@@ -77,6 +100,7 @@ namespace Deploy.King.Host.Controllers
                 var project = session.Load<Project>(projectId);
                 string argumentValue;
                 project.TryGetArgument(argumentName, out argumentValue);
+
                 return View(new ArgumentModel
                 {
                     ProjectId = project.Id,

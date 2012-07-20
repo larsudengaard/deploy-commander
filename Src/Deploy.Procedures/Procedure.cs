@@ -1,7 +1,5 @@
 using System;
 using System.Reflection;
-using Deploy.Pawn.Api;
-using Deploy.Pawn.Api.Tasks;
 using Deploy.Procedures.Arguments;
 using Deploy.Procedures.Builds;
 using Deploy.Procedures.Messaging;
@@ -62,18 +60,27 @@ namespace Deploy.Procedures
             get { return messenger; }
         }
 
-        public TResult ExecuteTask<TResult>(PawnClient client, ITask<TResult> task) where TResult : IResult
-        {
-            Messenger.Publish(String.Format("{0}: Task {1}", client.ClientUrl, task.GetType().Name));
-            var response = client.ExecuteTask(task);
-            if (!response.Success)
-            {
-                Messenger.Publish(String.Format("Task error: {0}\n{1}", response.ErrorMessage, response.StackTrace));
-                throw new TaskFailedException(task);
-            }
+        //public TResult ExecuteTask<TResult>(PawnClient client, ITask<TResult> task) where TResult : IResult
+        //{
+        //    var message = string.Format("{0}: Task {1}", client.ClientUrl, task.GetType().Name);
 
-            return response.Result;
-        }
+        //    var properties = task.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty);
+        //    foreach (var property in properties)
+        //    {
+        //        message += string.Format("\n{0}: {1}", property.Name, property.GetValue(task, null));
+        //    }
+
+        //    Messenger.Publish(message);
+
+        //    var response = client.ExecuteTask(task);
+        //    if (!response.Success)
+        //    {
+        //        Messenger.Publish(string.Format("Task error: {0}\n{1}", response.ErrorMessage, response.StackTrace));
+        //        throw new TaskFailedException(task);
+        //    }
+
+        //    return response.Result;
+        //}
 
         protected Package GetPackage(Build build, string packageName)
         {

@@ -1,7 +1,7 @@
 ﻿@model List<Deploy.King.Host.Models.Arguments.ArgumentModel>
 
 
-@using (Html.BeginForm("Edit", "Arguments"))
+@using (Html.BeginForm("GenerateArgumentsFromBuild", "Arguments", new { projectId = ViewBag.ProjectId }))
 {
     <fieldset>
     <legend>Arguments</legend>
