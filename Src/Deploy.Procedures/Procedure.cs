@@ -3,21 +3,29 @@ using System.Reflection;
 using Deploy.Procedures.Arguments;
 using Deploy.Procedures.Builds;
 using Deploy.Procedures.Messaging;
+using Deploy.Tasks;
 
 namespace Deploy.Procedures
 {
     public abstract class Procedure<TArguments> : IProcedure where TArguments : new()
     {
         readonly IMessenger messenger;
+        readonly ISoldierFactory soldierFactory;
 
-        protected Procedure(IMessenger messenger)
+        protected Procedure(IMessenger messenger, ISoldierFactory soldierFactory)
         {
             this.messenger = messenger;
+            this.soldierFactory = soldierFactory;
         }
 
         public string Name
         {
             get { return GetType().Name; }
+        }
+
+        protected ISoldierFactory SoldierFactory
+        {
+            get { return soldierFactory; }
         }
 
         protected IMessenger Messenger

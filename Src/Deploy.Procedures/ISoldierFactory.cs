@@ -1,4 +1,6 @@
-namespace Deploy.Tasks
+using Deploy.Tasks;
+
+namespace Deploy.Procedures
 {
     public interface ISoldierFactory
     {

@@ -52,8 +52,8 @@
     <Compile Include="Infrastructure\ITaskExecuterFactory.cs" />
     <Compile Include="Infrastructure\ITaskExecutor.cs" />
     <Compile Include="Infrastructure\TaskExecuterFactory.cs" />
-    <Compile Include="IPawnService.cs" />
-    <Compile Include="PawnService.cs" />
+    <Compile Include="ISoldierService.cs" />
+    <Compile Include="SoldierService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

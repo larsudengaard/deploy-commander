@@ -42,6 +42,7 @@
     <Compile Include="Builds\IBuildRepository.cs" />
     <Compile Include="Builds\Package.cs" />
     <Compile Include="IProcedure.cs" />
+    <Compile Include="ISoldierFactory.cs" />
     <Compile Include="Messaging\IMessenger.cs" />
     <Compile Include="Procedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

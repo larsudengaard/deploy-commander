@@ -10,11 +10,11 @@ namespace Deploy.Soldier.Controllers
 {
     public class ServiceController : Controller
     {
-        readonly IPawnService pawnService;
+        readonly ISoldierService soldierService;
 
-        public ServiceController(IPawnService pawnService)
+        public ServiceController(ISoldierService soldierService)
         {
-            this.pawnService = pawnService;
+            this.soldierService = soldierService;
         }
 
         [AuthorizeWithSecretKey]
@@ -24,7 +24,7 @@ namespace Deploy.Soldier.Controllers
             serializer.TypeNameHandling = TypeNameHandling.All;
             var task = serializer.Deserialize<ITask>(new JsonTextReader(new StreamReader(Request.InputStream)));
 
-            var response = pawnService.Execute(task);
+            var response = soldierService.Execute(task);
 
             var sb = new StringBuilder();
             serializer.Serialize(new StringWriter(sb), response);

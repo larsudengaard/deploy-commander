@@ -6,11 +6,11 @@ using Deploy.Soldier.Application.Infrastructure;
 
 namespace Deploy.Soldier.Infrastructure.Installers
 {
-    public class PawnServiceInstaller : IWindsorInstaller
+    public class SoldierInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IPawnService>().ImplementedBy<PawnService>().LifeStyle.Transient);
+            container.Register(Component.For<ISoldierService>().ImplementedBy<SoldierService>().LifeStyle.Transient);
             container.Register(Component.For<ITaskExecuterFactory>().ImplementedBy<TaskExecuterFactory>().LifeStyle.Transient);
         }
     }

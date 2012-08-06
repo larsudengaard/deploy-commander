@@ -2,7 +2,7 @@ using Deploy.Tasks;
 
 namespace Deploy.Soldier.Application
 {
-    public interface IPawnService
+    public interface ISoldierService
     {
         IResponse Execute(ITask task);
     }

@@ -70,7 +70,7 @@
     <Compile Include="Infrastructure\Poll\PollChannel.cs" />
     <Compile Include="Models\Arguments\ArgumentsModel.cs" />
     <Compile Include="Models\Builds\ProjectWithBuildInformationModel.cs" />
-    <Compile Include="Infrastructure\Installers\DeployKingInstaller.cs" />
+    <Compile Include="Infrastructure\Installers\CommanderInstaller.cs" />
     <Compile Include="Infrastructure\Installers\MvcInstaller.cs" />
     <Compile Include="Infrastructure\Installers\PersistenceInstaller.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
@@ -127,6 +127,10 @@
     <ProjectReference Include="..\Deploy.Procedures\Deploy.Procedures.csproj">
       <Project>{9F0E3B8A-8E1A-4998-9F51-035CB7291A6D}</Project>
       <Name>Deploy.Procedures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deploy.Tasks\Deploy.Tasks.csproj">
+      <Project>{1BEAE701-EAC5-4599-AB9F-432911E32C64}</Project>
+      <Name>Deploy.Tasks</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deploy.Utilities\Deploy.Utilities.csproj">
       <Project>{78537912-C586-4A60-8118-8E578FEEE0AD}</Project>

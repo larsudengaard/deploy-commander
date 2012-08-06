@@ -6,6 +6,7 @@ using Deploy.Commander.Application.Projects;
 using Deploy.Procedures;
 using Deploy.Procedures.Builds;
 using Deploy.Procedures.Messaging;
+using Deploy.Tasks;
 using Deploy.Utilities;
 
 namespace Deploy.Commander.Application.Assemblies
@@ -13,10 +14,12 @@ namespace Deploy.Commander.Application.Assemblies
     public class ProcedureLoader
     {
         readonly IMessenger messenger;
+        readonly ISoldierFactory soldierFactory;
 
-        public ProcedureLoader(IMessenger messenger)
+        public ProcedureLoader(IMessenger messenger, ISoldierFactory soldierFactory)
         {
             this.messenger = messenger;
+            this.soldierFactory = soldierFactory;
         }
 
         public IProcedure GetProcedure(Project project, Build build)
@@ -76,10 +79,10 @@ namespace Deploy.Commander.Application.Assemblies
         public IProcedure CreateProcedure(Type procedureType)
         {
             IProcedure procedure;
-            var constructor = procedureType.GetConstructor(new[] { typeof(IMessenger) });
+            var constructor = procedureType.GetConstructor(new[] { typeof(IMessenger), typeof(ISoldierFactory) });
             if (constructor != null)
             {
-                procedure = (IProcedure)constructor.Invoke(new object[] { messenger });
+                procedure = (IProcedure)constructor.Invoke(new object[] { messenger, soldierFactory });
             }
             else
             {

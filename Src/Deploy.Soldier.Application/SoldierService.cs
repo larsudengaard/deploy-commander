@@ -6,11 +6,11 @@ using Deploy.Tasks;
 
 namespace Deploy.Soldier.Application
 {
-    public class PawnService : IPawnService
+    public class SoldierService : ISoldierService
     {
         private readonly ITaskExecuterFactory taskExecuterFactory;
 
-        public PawnService(ITaskExecuterFactory taskExecuterFactory)
+        public SoldierService(ITaskExecuterFactory taskExecuterFactory)
         {
             this.taskExecuterFactory = taskExecuterFactory;
         }
