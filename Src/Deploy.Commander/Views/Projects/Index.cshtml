@@ -1,0 +1,47 @@
+﻿@model List<Deploy.Commander.Models.Projects.ProjectWithBuildsModel>
+
+<p>
+    @Html.ActionLink("Create", "Create")
+</p>
+@foreach(var projectWithBuilds in Model)
+{
+    <table class="project">
+        <tr>
+            <th colspan="2">@Html.ActionLink(projectWithBuilds.Project.Name, "Open", new { projectWithBuilds.Project.Id })</th>
+        </tr>
+        <tr>
+            <td width="100">Package name</td>
+            <td>@projectWithBuilds.Project.DeployPackageName</td>
+        </tr>
+        <tr>
+            <td width="100">Procedure</td>
+            <td>@projectWithBuilds.Project.ProcedureName</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table width="100%">
+                    <tr>
+                        <th>Build</th>
+                        <th>Id</th>
+                        <th>Date</th>
+                    </tr>
+                    @if (projectWithBuilds.Error != null)
+                    {
+                        <tr>
+                            <td colspan="3">@projectWithBuilds.Error</td>
+                        </tr>
+                    }
+                    @foreach(var build in projectWithBuilds.Builds.Take(4))
+                    {
+                        <tr>
+                            <td>@Html.ActionLink("#" + @build.Number, "Index", "Builds", new { projectId = projectWithBuilds.Project.Id, buildId = build.Id }, null)</td>
+                            <td>@build.Id</td>
+                            <td>@build.StartDate</td>
+                        </tr>
+                    }
+                </table>
+            </td>
+        </tr>
+    </table>
+}
+    

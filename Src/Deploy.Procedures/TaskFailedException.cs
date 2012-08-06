@@ -1,5 +1,5 @@
 using System;
-using Deploy.Pawn.Api.Tasks;
+using Deploy.Tasks;
 
 namespace Deploy.Procedures
 {
