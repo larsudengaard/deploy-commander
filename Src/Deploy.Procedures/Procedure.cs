@@ -15,9 +15,19 @@ namespace Deploy.Procedures
             this.messenger = messenger;
         }
 
+        public string Name
+        {
+            get { return GetType().Name; }
+        }
+
+        protected IMessenger Messenger
+        {
+            get { return messenger; }
+        }
+
         public abstract bool Perform(Build build, TArguments arguments);
 
-        public bool Perform(Build build, IProject project)
+        public bool Perform(IProject project, Build build)
         {
             try
             {
@@ -49,38 +59,6 @@ namespace Deploy.Procedures
 
             return false;
         }
-
-        public string Name
-        {
-            get { return GetType().Name; }
-        }
-
-        protected IMessenger Messenger
-        {
-            get { return messenger; }
-        }
-
-        //public TResult ExecuteTask<TResult>(PawnClient client, ITask<TResult> task) where TResult : IResult
-        //{
-        //    var message = string.Format("{0}: Task {1}", client.ClientUrl, task.GetType().Name);
-
-        //    var properties = task.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetProperty);
-        //    foreach (var property in properties)
-        //    {
-        //        message += string.Format("\n{0}: {1}", property.Name, property.GetValue(task, null));
-        //    }
-
-        //    Messenger.Publish(message);
-
-        //    var response = client.ExecuteTask(task);
-        //    if (!response.Success)
-        //    {
-        //        Messenger.Publish(string.Format("Task error: {0}\n{1}", response.ErrorMessage, response.StackTrace));
-        //        throw new TaskFailedException(task);
-        //    }
-
-        //    return response.Result;
-        //}
 
         protected Package GetPackage(Build build, string packageName)
         {

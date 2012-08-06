@@ -36,7 +36,7 @@ namespace Deploy.King.Executor
                 return false;
             }
 
-            return procedure.Perform(build, project);
+            return procedure.Perform(project, build);
         }
     }
 }

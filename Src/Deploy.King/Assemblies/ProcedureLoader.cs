@@ -73,7 +73,7 @@ namespace Deploy.King.Assemblies
             return assembly;
         }
 
-        IProcedure CreateProcedure(Type procedureType)
+        public IProcedure CreateProcedure(Type procedureType)
         {
             IProcedure procedure;
             var constructor = procedureType.GetConstructor(new[] { typeof(IMessenger) });
