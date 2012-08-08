@@ -45,7 +45,9 @@
     <Compile Include="Executors\DeleteFolderExecutor.cs" />
     <Compile Include="Executors\RemoveFromLoadBalancerExecutor.cs" />
     <Compile Include="Executors\RunExecutableExecutor.cs" />
+    <Compile Include="Executors\StartProcessExecutor.cs" />
     <Compile Include="Executors\StartWebsiteExecutor.cs" />
+    <Compile Include="Executors\StopProcessExecutor.cs" />
     <Compile Include="Executors\StopWebsiteExecutor.cs" />
     <Compile Include="Executors\UnpackExecutor.cs" />
     <Compile Include="Infrastructure\Executers\ManageWebsiteExecutor.cs" />

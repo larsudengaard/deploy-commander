@@ -3,7 +3,6 @@ using System.Reflection;
 using Deploy.Procedures.Arguments;
 using Deploy.Procedures.Builds;
 using Deploy.Procedures.Messaging;
-using Deploy.Tasks;
 
 namespace Deploy.Procedures
 {
@@ -46,7 +45,11 @@ namespace Deploy.Procedures
                         continue;
 
                     var argument = project.GetArgument(property.Name);
-                    property.GetSetMethod().Invoke(arguments, new[] { Convert.ChangeType(argument, property.PropertyType) });
+                    
+                    if (property.PropertyType == typeof(Path))
+                        property.SetValue(arguments, new Path(argument), null);
+                    else
+                        property.SetValue(arguments, Convert.ChangeType(argument, property.PropertyType), null);
                 }
 
                 Messenger.Publish("Start procedure " + GetType().Name);

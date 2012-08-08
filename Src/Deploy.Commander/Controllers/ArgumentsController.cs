@@ -78,6 +78,7 @@ namespace Deploy.Commander.Controllers
                 using (var session = store.OpenSession())
                 {
                     var project = session.Load<Project>(projectId);
+                    project.Arguments.Clear();
                     foreach (var argument in arguments)
                     {
                         project.ConfigureArgument(argument.Name, argument.Value);

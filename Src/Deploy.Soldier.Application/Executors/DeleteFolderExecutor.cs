@@ -15,7 +15,11 @@ namespace Deploy.Soldier.Application.Executors
             if (task.Path.ToLower().Contains("Windows"))
                 throw new InvalidOperationException("WTF?! Trying to delete windows installation?");
 
-            Directory.Delete(task.Path, true);
+            if (Directory.Exists(task.Path))
+            {
+                Directory.Delete(task.Path, true);
+            }
+            
             return new DeleteFolder.Result();
         }
     }

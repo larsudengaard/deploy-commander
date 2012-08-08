@@ -38,6 +38,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Executables\StartProcess.cs" />
+    <Compile Include="Executables\StopProcess.cs" />
     <Compile Include="ISoldier.cs" />
     <Compile Include="IResponse.cs" />
     <Compile Include="IResult.cs" />

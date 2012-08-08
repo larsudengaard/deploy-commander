@@ -8,7 +8,6 @@ namespace Deploy.Soldier.Application.Executors
     {
         protected override RunExecutable.Result Execute(RunExecutable task)
         {
-
             var process = new Process();
             process.StartInfo.Arguments = task.Arguments;
             process.StartInfo.FileName = task.ExecutablePath;
