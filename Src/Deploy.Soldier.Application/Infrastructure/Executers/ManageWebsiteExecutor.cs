@@ -18,7 +18,7 @@ namespace Deploy.Soldier.Application.Infrastructure.Executers
             {
                 throw new MissingWebsiteException(string.Format("Website '{0}' does not exist on this server.", task.WebsiteName));
             }
-
+            
             TResult result = ManageWebsite(task, website);
             serverManager.CommitChanges();
 
