@@ -51,7 +51,7 @@ namespace Deploy.Commander
         protected void Application_Error()
         {
             Exception exception = Server.GetLastError();
-            logger.LogException(LogLevel.Error, exception.Message, exception);
+            logger.ErrorException("Application_Error", exception);
         }
 
         protected void Application_End()
