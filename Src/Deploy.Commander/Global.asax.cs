@@ -47,7 +47,6 @@ namespace Deploy.Commander
             DependencyResolver.SetResolver(container.Resolve, x => (object[])container.ResolveAll(x));
         }
 
-
         protected void Application_Error()
         {
             Exception exception = Server.GetLastError();

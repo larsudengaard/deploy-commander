@@ -1,9 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.Facilities.TypedFactory;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Deploy.Soldier.Infrastructure;
+using NLog;
 
 namespace Deploy.Soldier
 {
@@ -12,6 +14,8 @@ namespace Deploy.Soldier
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
         WindsorContainer container;
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -42,6 +46,12 @@ namespace Deploy.Soldier
 
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
             DependencyResolver.SetResolver(container.Resolve, x => (object[])container.ResolveAll(x));
+        }
+
+        protected void Application_Error()
+        {
+            Exception exception = Server.GetLastError();
+            logger.ErrorException("Application_Error", exception);
         }
     }
 }
