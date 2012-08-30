@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E248765E-A75D-4829-B149-36E3B34BE830}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Deploy.Soldier.Application</RootNamespace>
+    <AssemblyName>Deploy.Soldier.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>True</SpecificVersion>
+      <HintPath>..\..\Libs\Microsoft.Web.Administration.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Executors\AddToLoadBalancerExecutor.cs" />
+    <Compile Include="Executors\ChangePhysicalPathOnWebsiteExecutor.cs" />
+    <Compile Include="Executors\CopyFolderExecutor.cs" />
+    <Compile Include="Executors\DeleteFolderExecutor.cs" />
+    <Compile Include="Executors\RemoveFromLoadBalancerExecutor.cs" />
+    <Compile Include="Executors\RunExecutableExecutor.cs" />
+    <Compile Include="Executors\StartProcessExecutor.cs" />
+    <Compile Include="Executors\StartWebsiteExecutor.cs" />
+    <Compile Include="Executors\StopProcessExecutor.cs" />
+    <Compile Include="Executors\StopWebsiteExecutor.cs" />
+    <Compile Include="Executors\UnpackExecutor.cs" />
+    <Compile Include="Infrastructure\Executers\ManageWebsiteExecutor.cs" />
+    <Compile Include="Infrastructure\ITaskExecuterFactory.cs" />
+    <Compile Include="Infrastructure\ITaskExecutor.cs" />
+    <Compile Include="Infrastructure\TaskExecuterFactory.cs" />
+    <Compile Include="ISoldierService.cs" />
+    <Compile Include="SoldierService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Deploy.Tasks\Deploy.Tasks.csproj">
+      <Project>{1BEAE701-EAC5-4599-AB9F-432911E32C64}</Project>
+      <Name>Deploy.Tasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deploy.Utilities\Deploy.Utilities.csproj">
+      <Project>{78537912-C586-4A60-8118-8E578FEEE0AD}</Project>
+      <Name>Deploy.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,6 @@
+command: Send migrations til DB
+command: Hent manglende migrationsnumre
+ - tjek manglende migrationsnumre er 0
+command: send pakke til web1
+command: flyt physicalPath på web1 website
+command: slet tidligere website mappe

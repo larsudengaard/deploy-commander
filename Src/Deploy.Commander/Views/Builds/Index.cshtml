@@ -1,0 +1,139 @@
+﻿@model Deploy.Commander.Models.Builds.ProjectWithBuildInformationModel
+
+@section head
+{
+    <script src="@Url.Content("~/Scripts/pollr.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        function formatDate(d, format) {
+            var p;
+            if (format == null) format = 'datetime';
+            p = function (number) {
+                if (number < 10) {
+                    return "0" + number;
+                } else {
+                    return number;
+                }
+            };
+            switch (format.toLowerCase()) {
+                case 'date':
+                    return "" + (p(d.getDate())) + "-" + (p(d.getMonth() + 1)) + "-" + (d.getFullYear());
+                case 'time':
+                    return "" + (p(d.getHours())) + ":" + (p(d.getMinutes())) + ":" + (p(d.getSeconds()));
+                case 'datetime':
+                    return formatDate(d, 'date') + ' ' + formatDate(d, 'time');
+                default:
+                    throw new Error("Uknown date format '" + format + "'");
+            }
+        };
+
+        function parseJsonDate(jsonDate) {
+            var match, myregexp;
+            myregexp = /\/Date\((-?\d+)(\+\d{4})?\)\//i;
+            match = myregexp.exec(jsonDate);
+            if (match != null) {
+                return new Date(parseInt(match[1]));
+            } else {
+                return jsonDate;
+            }
+        }
+
+        function succesfull() {
+            var status = $('#status');
+            status[0].innerHTML = "Succesfull";
+            status.css('color', 'green');
+            status.css('display', 'inline');
+        }
+        
+        function failure() {
+            var status = $('#status');
+            status[0].innerHTML = "Failure";
+            status.css('color', 'red');
+            status.css('display', 'inline');
+        }
+
+        $(document).ready(function () {
+
+            $('#deployButton').click(function () {
+                $('#deployButton').css('visibility', 'hidden');
+                $('#messagesContainer').css('visibility', 'visible');
+
+                $.endpoint.start();
+                $.endpoint.subscribe('@Model.Project.Id', '@Model.BuildInformation.Build.Id', function (message) {
+                    var date = parseJsonDate(message.data.Time);
+                    var dateStr = formatDate(date);
+
+                    var trClass = '';
+                    if (message.data.Data.toLowerCase().indexOf('error') != -1 || message.data.Data.toLowerCase().indexOf('fail') != -1)
+                        trClass = ' class="failure"';
+
+                    $('#messagesContainer > tbody:last').append('<tr'+trClass+'><td class="date">' + dateStr + '</td><td>' + message.data.Data + '</td></tr>');
+                });
+
+                $.ajax('@Url.Action("Deploy", "Builds")',
+                    {
+                        type: "POST",
+                        data: {
+                            projectId: '@Model.Project.Id',
+                            buildId: '@Model.BuildInformation.Build.Id'
+                        },
+                        success: function (message) {
+                            if (message.Success)
+                                succesfull();
+                            else
+                                failure();
+                        },
+                        error: function () {
+                            $('#messagesContainer > tbody:last').append('<tr><td style="color: red;" colspan="2">Error connecting to service.</td></tr>');
+                            failure();
+                        }
+                    });
+            });
+        });
+    </script>
+}
+
+<table class="project">
+    <tr>
+        <th colspan="2">
+            <span>Build: #@Model.BuildInformation.Build.Number - @Model.Project.Name</span>
+            <span style="float: right">
+                <a id="deployButton" href="#">Deploy</a>
+                <span id="status" style="display: none;"></span>
+            </span>
+        </th>
+    </tr>
+    <tr>
+        <td width="100">Procedure</td>
+        <td>@Model.Project.ProcedureName</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            @if(Model.BuildInformation.Changes.Count > 0)
+            {
+                <table width="100%">
+                    <tr>
+                        <th width="200">Username</th>
+                        <th>Comment</th>
+                    </tr>
+                    @foreach (var change in Model.BuildInformation.Changes)
+                    {
+                        <tr>
+                            <td width="200">@change.Username</td>
+                            <td>@change.Comment</td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>No changes in build.</p>
+            }
+            <table id="messagesContainer" style="visibility: hidden" width="100%">
+                <tr>
+                    <th class="date">Messages</th>
+                    <th></th>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

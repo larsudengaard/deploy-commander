@@ -1,0 +1,48 @@
+﻿@model Deploy.Commander.Models.Projects.ProjectModel
+
+@using (Html.BeginForm("Edit", "Projects"))
+{
+    <fieldset>
+        <legend>Project</legend>
+        
+        @Html.HiddenFor(x => x.Id)
+        
+        <div class="editor-label">
+            @Html.LabelFor(x => x.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(x => x.Name)
+            @Html.ValidationMessageFor(x => x.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(x => x.DeployPackageName, "Name of deploypackage")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(x => x.DeployPackageName)
+            @Html.ValidationMessageFor(x => x.DeployPackageName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(x => x.ProcedureName, "Procedure name (in package)")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(x => x.ProcedureName)
+            @Html.ValidationMessageFor(x => x.ProcedureName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(x => x.TeamcityBuildTypeId, "Teamcity buildtype id (e.g. btXX)")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(x => x.TeamcityBuildTypeId)
+            @Html.ValidationMessageFor(x => x.TeamcityBuildTypeId)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+
+    </fieldset>
+        
+}

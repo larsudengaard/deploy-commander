@@ -1,0 +1,24 @@
+﻿.project 
+{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.project table {
+    table-layout: fixed;
+}
+
+.project table td {
+    overflow: hidden;
+}
+
+.date {
+    width: 150px;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+.failure {
+    color: white;
+    background-color: red;
+}

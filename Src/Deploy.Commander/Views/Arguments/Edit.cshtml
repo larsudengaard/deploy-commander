@@ -1,0 +1,30 @@
+﻿@model Deploy.Commander.Models.Arguments.ArgumentModel
+
+@using (Html.BeginForm("Edit", "Arguments"))
+{
+    <fieldset>
+        <legend>Argument</legend>
+        
+        <div class="editor-label">
+            @Html.LabelFor(x => x.Name)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(x => x.ProjectId)
+            @Html.HiddenFor(x => x.Name)
+            @Model.Name
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(x => x.Value)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(x => x.Value)
+            @Html.ValidationMessageFor(x => x.Value)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+
+    </fieldset>
+}
