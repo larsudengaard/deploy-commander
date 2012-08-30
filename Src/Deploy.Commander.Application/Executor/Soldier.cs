@@ -60,8 +60,11 @@ namespace Deploy.Commander.Application.Executor
                 TypeNameHandling = TypeNameHandling.All
             };
             var sb = new StringBuilder();
+            //byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());
             serializer.Serialize(new StringWriter(sb), task);
-            byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());
+
+            var str = sb.ToString();
+            byte[] bytes = Encoding.ASCII.GetBytes(str);
 
             WebRequest request = WebRequest.Create(ClientUrl);
             request.Timeout = (int) TimeSpan.FromMinutes(30).TotalMilliseconds;
@@ -69,7 +72,7 @@ namespace Deploy.Commander.Application.Executor
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
             request.ContentLength = bytes.Length;
-            
+
             if (allowNonTrustedPawnCertificate)
             {
                 ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true;

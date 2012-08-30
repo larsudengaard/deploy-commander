@@ -19,7 +19,6 @@ namespace Deploy.Soldier
         WindsorContainer container;
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
         }
 
         public static void RegisterRoutes(RouteCollection routes)

@@ -77,19 +77,8 @@ namespace Deploy.Commander.Application.Builds
             if (!Directory.Exists(packagesPath))
             {
                 Directory.CreateDirectory(packagesPath);
-                var fileResponseStream = GetRawPackage(build);
-                string fileName = packagePath + build.Id + ".zip";
-                using (FileStream outputFileStream = File.Open(fileName, FileMode.CreateNew))
-                using (fileResponseStream)
-                {
-                    var buffer = new byte[1024];
-                    int bytesRead;
-                    do
-                    {
-                        bytesRead = fileResponseStream.Read(buffer, 0, 1024);
-                        outputFileStream.Write(buffer, 0, bytesRead);
-                    } while (bytesRead > 0);
-                }
+                var packageFilename = GetRawPackage(build);
+                Zip.Extract(File.Open(packageFilename, FileMode.Open), packagesPath);
             }
 
             string childPackageFilename = packagesPath + "\\" + packageName + ".zip";
@@ -103,15 +92,14 @@ namespace Deploy.Commander.Application.Builds
             };
         }
 
-        Stream GetRawPackage(Build build)
+        string GetRawPackage(Build build)
         {
             string packageUrl = string.Format("{0}/downloadArtifacts.html?buildId={1}", teamcityUrl, build.Id);
             WebRequest request = WebRequest.Create(packageUrl);
-            
             string authInfo = "larsudengaard:MetteP83";
             authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
-            
             request.Headers["Authorization"] = "Basic " + authInfo;
+
             request.Credentials = new NetworkCredential("larsudengaard", "MetteP83");
 
             WebResponse response;
@@ -128,22 +116,20 @@ namespace Deploy.Commander.Application.Builds
             if (response.ContentLength == 0 || responseStream == null)
                 return null;
 
-            return responseStream;
+            string fileName = packagePath + build.Id + ".zip";
+            using (FileStream outputFileStream = File.Open(fileName, FileMode.CreateNew))
+            using (responseStream)
+            {
+                var buffer = new byte[1024];
+                int bytesRead;
+                do
+                {
+                    bytesRead = responseStream.Read(buffer, 0, 1024);
+                    outputFileStream.Write(buffer, 0, bytesRead);
+                } while (bytesRead > 0);
+            }
 
-            //string fileName = packagePath + build.Id + ".zip";
-            //using (FileStream outputFileStream = File.Open(fileName, FileMode.CreateNew))
-            //using (responseStream)
-            //{
-            //    var buffer = new byte[1024];
-            //    int bytesRead;
-            //    do
-            //    {
-            //        bytesRead = responseStream.Read(buffer, 0, 1024);
-            //        outputFileStream.Write(buffer, 0, bytesRead);
-            //    } while (bytesRead > 0);
-            //}
-
-            //return fileName;
+            return fileName;
         }
 
         public BuildInformation GetBuildInformation(string buildId)

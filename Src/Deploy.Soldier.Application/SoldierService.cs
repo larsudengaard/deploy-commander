@@ -3,11 +3,14 @@ using System.Diagnostics;
 using System.Linq;
 using Deploy.Soldier.Application.Infrastructure;
 using Deploy.Tasks;
+using NLog;
 
 namespace Deploy.Soldier.Application
 {
     public class SoldierService : ISoldierService
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
         private readonly ITaskExecuterFactory taskExecuterFactory;
 
         public SoldierService(ITaskExecuterFactory taskExecuterFactory)
@@ -33,6 +36,7 @@ namespace Deploy.Soldier.Application
                 Debug.WriteLine(string.Format("{0}: Error in {1}, {2} ({3})", DateTime.Now, task.GetType().Name, e.GetType().Name, e.Message));
                 successful = false;
                 exception = e;
+                logger.LogException(LogLevel.Debug, "Exception when executing task: " + task.GetType().Name, e);
             }
 
             var resultType = task.GetType().GetInterfaces().Single(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof (ITask<>)).GetGenericArguments()[0];
